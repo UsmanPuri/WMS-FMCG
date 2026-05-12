@@ -1,0 +1,318 @@
+<section class="content-header">
+  <h1>
+    ASN MOVING TO WAREHOUSE LISTING
+    <!-- <small>
+      <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+    </small> -->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_MOVING_WAREHOUSE_LISTING]">Shipment Note</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <form name="formGroup" [formGroup]="formGroup" novalidate>
+
+   
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                  formControlName="CustomerId" (onSelect)="customerChange($event)">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+        
+           
+          </div>
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                      background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.shipmentNoteList, 'asn-moving-to-warehouse-list.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('asn-moving-to-warehouse-list.xlsx', 'tbl', 'ASN Moving To Warehouse List')" style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('asn-moving-to-warehouse-list.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                          width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                        <a class="dropdown-item" (click)="HideShow('0')" data-column="0" style="color: white;">
+                          Sr #
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('1')" data-column="1" style="color: white;">
+                          Customer Name
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="1" style="color: white;">
+                          ASN No
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('3')" data-column="2" style="color: white;">
+                          Warehouse
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="3"
+                          style="color: white; text-align: center">
+                          ASN Ref No
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('5')" data-column="0" style="color: white;">
+                          ASN Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('6')" data-column="1" style="color: white;">
+                          Delivery No
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('7')" data-column="1" style="color: white;">
+                          Receiving Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('8')" data-column="2" style="color: white;">
+                          Status
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('9')" data-column="0" style="color: white;">
+                          System ID
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('10')" data-column="3"
+                          style="color: white; text-align: center">
+                          Action
+                        </a>
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th *ngIf="!hideShowList[0].status">Sr#</th>
+                      <th *ngIf="!hideShowList[1].status">Customer Name</th>
+                      <th *ngIf="!hideShowList[2].status">ASN No</th>
+                      <th *ngIf="!hideShowList[3].status">Warehouse</th>
+                      <th *ngIf="!hideShowList[4].status">ASN Ref No</th>
+                      <th *ngIf="!hideShowList[5].status">ASN Date</th>
+                      <th *ngIf="!hideShowList[6].status">Delivery No</th> 
+                      <th *ngIf="!hideShowList[7].status">Receiving Date</th>
+                      <th *ngIf="!hideShowList[8].status">Status</th> 
+                      <th *ngIf="!hideShowList[9].status">System ID</th>
+                      <th *ngIf="!hideShowList[10].status">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let godwom of shipmentNoteList index as i">
+                      <!-- <td *ngIf="!hideShowList[0].status">{{godwom.ShipmentNoteId}}</td> -->
+                      <td *ngIf="!hideShowList[0].status">{{i+1}}</td>
+                      <td *ngIf="!hideShowList[1].status">{{godwom.Name}}</td>
+                      <td *ngIf="!hideShowList[2].status">{{godwom.ASNNo}}</td>
+                      <td *ngIf="!hideShowList[3].status">{{godwom.WarehouseName}}</td>
+                      <td *ngIf="!hideShowList[4].status">{{godwom.ShipmentNoteNo}}</td>
+                      <td *ngIf="!hideShowList[5].status">{{godwom.ASNDate | date}}</td>
+                      <td *ngIf="!hideShowList[6].status">{{godwom.DeliveryNo}}</td>
+                      <td *ngIf="!hideShowList[7].status">{{godwom.ReceivingDate | date}}</td>
+                      <td *ngIf="!hideShowList[8].status">
+                        <span *ngIf="godwom.WHStatus == true; else inactive_span" class="label label-success">Received</span>
+                        <ng-template #inactive_span>  <span class="bg-red label">Pending</span></ng-template>
+                      </td> 
+                      <td *ngIf="!hideShowList[9].status">{{godwom.ShipmentNoteId}}</td>
+                      <td *ngIf="!hideShowList[10].status">
+                        <button type="button" *ngIf="godwom.WHStatus != true" class="btn-warining editBtn" (click)="Details(godwom.ShipmentNoteId)">
+                            <i class="fa fa-info"></i>
+                        </button>
+                        <button type="button" id="report" title="Print Shipment Receiving" class="editBtn btn-warining"
+                              (click)="reportmodal(godwom.ShipmentNoteId)">
+                              <i style="font-size:14px !important" class="fa fa-file"></i>
+                            </button>
+                            <button type="button" id="update"
+                            class="editBtn btn-danger" data-toggle="tooltip" data-placement="bottom"
+                            title="Delete Shipment Note" (click)="delete(godwom.ShipmentNoteId)"><i
+                            style="font-size:14px !important" class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngx-ui-loader></ngx-ui-loader>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    </form>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+<div class="modal" id="shipModal">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 900px;">
+      <form name="formGroup" [formGroup]="formGroup" novalidate>
+        <div class="modal-body" id="print">
+          <div class="row col-sm-12" >
+            <div class="row">
+              <div class="col col-sm-3" style="text-align: center;">
+                <img id="logo" src={{LogoPath}} height="70" width="160" style="background-color: white;">
+              </div>
+              <div class="col col-sm-8 pull-left" style="margin-top: 10px;">
+                <address>
+                  <strong>{{CompanyName}}</strong> <br>
+                  {{CompanyAddress}}
+                </address>
+              </div>
+            </div>
+            <div class="row col-sm-12" style="text-align: center; padding-top: 30px;">
+              <h4><u>SHIPMENT RECEIVING INTO WAREHOUSE</u></h4>
+            </div>
+          </div>
+          
+          <div class="row col col-sm-12" style="min-height: 150px;">
+            <div class="row">
+              <div class="col-sm-4" style="text-align: left;">
+                <div class="col-sm-12">
+                  <b>ASN ID</b><a class="pull-right">{{rep_ANSID}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Shipment Note No</b><a class="pull-right">{{rep_ShipmentNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>ASN No.</b><a class="pull-right">{{rep_ASNno}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>ASN Date</b><a class="pull-right">{{rep_ASNDate | date}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Vehicle Rece. Date-TM</b><a class="pull-right">{{rep_Vehicle_Rece_DateTM | date:'short'}}</a>
+                </div>
+              </div>
+
+              <div class="col-sm-4" style="text-align: left;">
+                <div class="col-sm-12">
+                  <b>Cargo Status</b><a class="pull-right">{{rep_Cargo_Status}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Temperature In</b><a class="pull-right">{{rep_TempIn}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Temperature Out</b><a class="pull-right">{{rep_Temp_Out}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Off-Load Start Date-TM</b><a class="pull-right">{{rep_OffLoad_Start_DateTM | date:'short'}}</a>
+                </div>
+                <div class="col-sm-12">
+                      <b>Off-Load END Date-TM</b><a class="pull-right">{{rep_OffLoad_End_DateTM | date:'short'}}</a>
+                </div>
+              </div>
+
+              <div class="col-sm-4" style="text-align: left;">
+                <div class="col-sm-12">
+                  <b>Delivery No</b><a class="pull-right">{{rep_DeliveryNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Driver Name.</b><a class="pull-right">{{rep_DriverName}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Vehicle No.</b><a class="pull-right">{{rep_VehicleNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Mobile No.</b><a class="pull-right">{{rep_MobileNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>CNIC No.</b><a class="pull-right">{{rep_CNICNo}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-body">
+            <div class="col-sm-12">
+              <table class="table dataTable">
+                  <thead>
+                    <tr role="row">
+                      <th style="border: 1px solid black;">#</th>
+                      <th style="border: 1px solid black;">SKU</th>
+                      <th style="border: 1px solid black;">Batch / Serial</th>
+                      <th style="border: 1px solid black;">Status</th>
+                      <!-- <th>SN #</th> -->
+                      <th style="border: 1px solid black;">Mfg Date</th> 
+                      <th style="border: 1px solid black;">Expiry Date</th>
+                      <th style="border: 1px solid black;">Rec.Qty</th>
+                      <!-- <th>Pallet#</th>
+                      <th>Location</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of asnListToPost index as i">
+                      <td style="border: 1px solid black;">{{i+1}}</td>
+                      <td style="border: 1px solid black;">{{item.ItemName}}</td>
+                      <td style="border: 1px solid black;">{{item.Batch}}</td>
+                      <td style="border: 1px solid black;">{{item.Status}}</td>
+                      <!-- <td>{{item.SNno}}</td> -->
+                      <td style="border: 1px solid black;">{{item.MfgDate | date}}</td>
+                      <td style="border: 1px solid black;">{{item.ExpiryDate | date}}</td>
+                      <td style="border: 1px solid black;">{{item.MoveQuantity}}</td>
+                      <!-- <td>{{item.PalletNo}}</td>
+                      <td>{{item.Location}}</td> -->
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5"></td>
+                      <td>Total Qty</td>
+                      <td>{{TotalQtyReceived}}</td>
+                    </tr>
+                  </tfoot>
+              </table>
+            </div>
+              
+            
+          </div>
+
+        </div>
+        <!-- //calculator Modal  End-->
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="col-sm-6">
+            <button class="pull-left" [printStyle]="{table : {'font-size': '10px'},body : {'font-size': '10px'}}"
+              class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true" ngxPrint
+              printSectionId="print">
+              <span aria-hidden="true"><i class="fa fa-print"></i>
+              </span></button>
+              <button type="submit" (click)="CloseModal()" class="btn btn-success">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

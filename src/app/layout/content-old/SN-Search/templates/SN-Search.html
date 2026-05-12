@@ -1,0 +1,412 @@
+<section class="content">
+  <section class="content-header">
+    <h1>SEARCH PENAL</h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Search Panel</li>
+    </ol>
+  </section>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+
+          <form name="formGroup" [formGroup]="form" novalidate (ngSubmit)="getSearchAvailablestock(formGroup.value)">
+            <div class="col-md-4">
+              <div class="form-group row">
+                <label>Search Keyword</label>
+                <input type="text" formControlName="searchPanel" class="form-control rounded" placeholder="Type Some words to search">
+                <span class="help-block">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label>Search Field</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="fieldKeyPair"
+                  [settings]="fieldDropdownSettings" formControlName="fieldId" 
+                  (onSelect)="onSelect($event,'selectedfield')" (onDeSelect)="onDeSelect('selectedfield')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedfieldId || !this.selectedfieldId['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group row">
+                <label>Record Type</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="RecordTypePair"
+                  [settings]="recordfieldDropdownSettings" formControlName="RecordTypeId" 
+                  (onSelect)="onSelect($event,'selectedRecordType')" (onDeSelect)="onDeSelect('selectedRecordType')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedRecordTypeId || !this.selectedRecordTypeId['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <div class="form-group">
+                <!-- <label>Search</label> -->
+                <button [disabled]="formGroup.invalid || selectedfieldId === undefined || selectedRecordTypeId === undefined" style="margin-top: 25px;" type="button" class="btn btn-wms" (click)="getSearchAvailablestock()">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- /.box-header -->
+        <div class="box-body">
+
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable" style="overflow-x: auto">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                        background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.listAvailableStock, 'available-stock.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('available-stock.xlsx', 'tbl', 'Available Stock')" style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('available-stock.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                            width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                        <a class="dropdown-item" (click)="HideShow('0')" data-column="0" style="color: white;">
+                          Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('1')" data-column="1" style="color: white;">
+                          Aging
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="1" style="color: white;">
+                          Warehouse
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('3')" data-column="2" style="color: white;">
+                          Location
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="3"
+                          style="color: white; text-align: center">
+                          Status
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('5')" data-column="4"
+                          style="color: white; text-align: center">
+                          Customer SKU
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('6')" data-column="5"
+                          style="color: white; text-align: center">
+                          Name
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('7')" data-column="0" style="color: white;">
+                          SNno
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('8')" data-column="1" style="color: white;">
+                          Customer
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('9')" data-column="2" style="color: white;">
+                          Batch Code
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('10')" data-column="3"
+                          style="color: white; text-align: center">
+                          Pallet No
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('11')" data-column="4"
+                          style="color: white; text-align: center">
+                          Avl.Stock
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('12')" data-column="5"
+                          style="color: white; text-align: center">
+                          InTran.Stock
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('13')" data-column="0" style="color: white;">
+                          Balance.Stock
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('14')" data-column="1" style="color: white;">
+                          Pool
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('15')" data-column="2" style="color: white;">
+                          Inbound Pool
+                        </a>
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+
+
+                <table class="table table-bordered table-hover dataTable" role="grid" style="width:100%" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th class="col-sm-1" *ngIf="!hideShowList[0].status">
+                        Date
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[1].status">
+                        Aging
+                      </th>
+                      <th class="col-sm-2" *ngIf="!hideShowList[2].status">
+                        Warehouse
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[3].status">
+                        Location
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[4].status">
+                        Status
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[5].status">
+                        Customer SKU
+                      </th>
+
+                      <th class="col-sm-2" *ngIf="!hideShowList[6].status">
+                        Name
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[7].status">
+                        SNno
+                      </th>
+                      <!-- <th class="col-sm-1">
+                        Balance 
+                      </th> -->
+                      <th class="col-sm-1" *ngIf="!hideShowList[8].status">
+                        Customer
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[9].status">
+                        Batch Code
+                      </th>
+                      <th class="col-sm-2" *ngIf="!hideShowList[10].status">
+                        Pallet No
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[11].status">
+                        Avl.Stock
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[12].status">
+                        InTran.Stock
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[13].status">
+                        Balance
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[14].status">
+                        StockIn
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[15].status">
+                        StockOut
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[16].status">
+                        Pool
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[17].status">
+                        Inbound Pool
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let Item of listAvailableStock">
+                      <td *ngIf="!hideShowList[0].status">{{Item.TransctionDate | date}}</td>
+                      <td *ngIf="!hideShowList[1].status">{{Item.Aging}}</td>
+                      <td *ngIf="!hideShowList[2].status">{{Item.Warehouse}}</td>
+                      <td *ngIf="!hideShowList[3].status">{{Item.Location}}</td>
+                      <td *ngIf="!hideShowList[4].status">{{Item.Status}}</td>
+                      <td *ngIf="!hideShowList[5].status">{{Item.Description}}</td>
+                      <td *ngIf="!hideShowList[6].status">{{Item.Name}}</td>
+                      <td *ngIf="!hideShowList[7].status">{{Item.SNno}}</td>
+                      <td *ngIf="!hideShowList[8].status">{{Item.CustomerName}}</td>
+                      <td *ngIf="!hideShowList[9].status">{{Item.BatchCode}}</td>
+                      <td *ngIf="!hideShowList[10].status">{{Item.PalletNo}}</td>
+                      <td *ngIf="!hideShowList[11].status">{{Item.Balance}}</td>
+                      <td *ngIf="!hideShowList[12].status">{{Item.TransitQuantity}}</td>
+                      <td *ngIf="!hideShowList[13].status">{{Item.Balance - Item.TransitQuantity}}</td>
+                      <td *ngIf="!hideShowList[14].status">{{Item.Debit}}</td>
+                      <td *ngIf="!hideShowList[15].status">{{Item.Credit}}</td>
+                      <td *ngIf="!hideShowList[16].status">{{Item.Pool}}</td>
+                      <td *ngIf="!hideShowList[17].status">{{Item.InboundPool}}</td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </table>
+              </div>
+            </div>
+            <!-- <div class="row">
+              <div class="col-md-1">
+                <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export</button>
+              </div>
+              <div class="col-md-2">
+                <button [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                  class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true" ngxPrint
+                  printSectionId="myTable">
+                  <span aria-hidden="true"><i class="fa fa-print"></i>
+                  </span></button>
+              </div>
+            </div> -->
+
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+
+<modal #AllModal>
+  <modal-header>
+
+  </modal-header>
+
+  <modal-content style="padding:20px;">
+    <div class="box box-primary" id="print-section">
+      <section class="invoice">
+        <!-- title row -->
+
+        <!-- info row -->
+        <div class="col col-lg-12">
+          <div class="col-sm-6 invoice-col">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <img id="logo" src={{LogoPath}} height="70" width="160" style="background-color: white;">
+              </h2>
+            </div>
+          </div>
+          <div class=" col-sm-6 invoice-col">
+            <div class="col-sm-12 pull-right" id="invoice-col">
+              <address>
+                <strong>{{CompanyName}}</strong>
+                {{CompanyAddress}}
+              </address>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- /.row -->
+
+        <!-- info row -->
+
+        <!-- /.row -->
+
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-xs-12 table-responsive">
+            <table class="table table-bordered table-hover dataTable" role="grid" style="width:100%" id="tbl">
+              <thead>
+                <tr role="row">
+                  <th class="col-sm-1" *ngIf="!hideShowList[0].status">
+                    Date
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[1].status">
+                    Aging
+                  </th>
+                  <th class="col-sm-2" *ngIf="!hideShowList[2].status">
+                    Warehouse
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[3].status">
+                    Location
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[4].status">
+                    Status
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[5].status">
+                    Customer SKU
+                  </th>
+
+                  <th class="col-sm-2" *ngIf="!hideShowList[6].status">
+                    Name
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[7].status">
+                    SNno
+                  </th>
+                  <!-- <th class="col-sm-1">
+                    Balance 
+                  </th> -->
+                  <th class="col-sm-1" *ngIf="!hideShowList[8].status">
+                    Customer
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[9].status">
+                    Batch Code
+                  </th>
+                  <th class="col-sm-2" *ngIf="!hideShowList[10].status">
+                    Pallet No
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[11].status">
+                    Avl.Stock
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[12].status">
+                    InTran.Stock
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[13].status">
+                    Balance.Stock
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[14].status">
+                    Pool
+                  </th>
+                  <th class="col-sm-1" *ngIf="!hideShowList[15].status">
+                    Inbound Pool
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <tr role="row" *ngFor="let Item of listAvailableStock">
+                  <td *ngIf="!hideShowList[0].status">{{Item.TransctionDate | date}}</td>
+                  <td *ngIf="!hideShowList[1].status">{{Item.Aging}}</td>
+                  <td *ngIf="!hideShowList[2].status">{{Item.Warehouse}}</td>
+                  <td *ngIf="!hideShowList[3].status">{{Item.Location}}</td>
+                  <td *ngIf="!hideShowList[4].status">{{Item.Status}}</td>
+                  <td *ngIf="!hideShowList[5].status">{{Item.Description}}</td>
+                  <td *ngIf="!hideShowList[6].status">{{Item.Name}}</td>
+                  <td *ngIf="!hideShowList[7].status">{{Item.SNno}}</td>
+                  <td *ngIf="!hideShowList[8].status">{{Item.CustomerName}}</td>
+                  <td *ngIf="!hideShowList[9].status">{{Item.BatchCode}}</td>
+                  <td *ngIf="!hideShowList[10].status">{{Item.PalletNo}}</td>
+                  <td *ngIf="!hideShowList[11].status">{{Item.Balance}}</td>
+                  <td *ngIf="!hideShowList[12].status">{{Item.TransitQuantity}}</td>
+                  <td *ngIf="!hideShowList[13].status">{{Item.Balance - Item.TransitQuantity}}</td>
+                  <td *ngIf="!hideShowList[14].status">{{Item.Pool}}</td>
+                  <td *ngIf="!hideShowList[15].status">{{Item.InboundPool}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <td colspan="2">
+                  <tr style="float: right;">TotalQty: {{TotalQty}}</tr>
+                </td>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+
+
+      </section>
+    </div>
+  </modal-content>
+
+  <modal-footer>
+    <div class="row no-print" id="printButton">
+      <div class="col-xs-12">
+        <!-- <a  (click)="print()" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+        <button [printStyle]="{table : {'font-size': '10px'},body : {'padding': '10px','font-size': '10px'}}"
+          class="btn-wms hidden-print print-btn" printTitle="Available Stock Report" [useExistingCss]="false" ngxPrint
+          printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-footer>
+</modal>

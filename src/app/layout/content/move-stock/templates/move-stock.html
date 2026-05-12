@@ -1,0 +1,239 @@
+<section class="content-header">
+  <h1>
+    MOVE STOCK
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createShipmentNote(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <!-- <button type="button" (click)="redirectToShipmentNoteList()" class="btn-wms">Shipment Note Listing</button> -->
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                  formControlName="CustomerId" (onSelect)="onSelect($event,'selectedCustomer')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Forward Warehouse</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                  [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                  formControlName="WarehouseId" 
+                  (onSelect)="onSelect($event,'selectedWarehouse')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Move Stock Date</label>
+                <input type="date" formControlName="ASNDate" class="form-control" placeholder="Enter ASN Date">
+                <span class="help-block" *ngIf="formGroup.controls.ASNDate.invalid">
+                  {{getErrorMessage('ASNDate')}}
+                </span>
+              </div>
+             
+            </div>
+          </div>
+
+        
+
+          
+        </div>
+       
+      </div>
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group">
+              <h3 class="box-title detail-title">SKUs</h3>
+          </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <ng-multiselect-dropdown [placeholder]="'Select One SKU'" [data]="itemKeyPair"
+                          [settings]="itemDropdownSettings" formControlName="ItemId"
+                           (onDeSelect)="onDeSelect('selectedItem')"
+                          (onSelect)="onSelect($event,'selectedItem')">
+                        </ng-multiselect-dropdown>
+                        <span class="help-block" *ngIf="!this.selectedItem || !this.selectedItem['Id']">
+                          Required
+                        </span>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group shipment-item-add">
+                        <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemLocation()">
+                          New Location
+                        </button>
+                      </div>
+                   
+                </div>
+                <div class="col-md-4">
+                  
+                </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="row">
+                      <div class="col-sm-12 table-responsive">
+                        <table class="table table-bordered table-hover dataTable" role="grid">
+                          <thead>
+                            <tr role="row">
+                              <th>
+                                SKU Id
+                              </th>
+                              <th>
+                               SKU Name
+                              </th>
+                              <th>
+                                Pallet No
+                              </th>
+                              <th>
+                                Batch
+                              </th>
+                              <th>
+                                Status
+                              </th>
+                              <th>
+                                Quantity
+                              </th>
+                              <th>
+                                No Of Boxes
+                              </th>
+                              <th>
+                                Location
+                              </th>
+                              <th>
+                                Mfg Date
+                              </th>
+                              <th>
+                                Expiry Date
+                              </th>
+                             
+                         
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr role="row" *ngFor="let shipment of shipmentListToPost">
+                              <td>{{shipment.ItemInformationId}}</td>
+                              <td>{{shipment.Name}}</td>
+                              <td>{{shipment.PalletNo}}</td>
+                              <td><input type="text" class="form-control" value="{{shipment.Batch}}" (blur)="addShipmentTextField($event,'Batch',shipment.Location,shipment.PalletNo)"></td>
+                              <td><input type="text" class="form-control" value="{{shipment.Status}}" (blur)="addShipmentTextField($event,'Status',shipment.Location,shipment.PalletNo)"></td>
+                              <td>{{shipment.Quantity}}</td>
+                              <td>{{shipment.NoOfBoxes}}</td>
+                              <td>{{shipment.Location}}</td>
+                              <td><input type="date" class="form-control" (blur)="addShipmentTextField($event,'MfgDate',shipment.Location,shipment.PalletNo)"></td>
+                              <td><input type="date" class="form-control" (blur)="addShipmentTextField($event,'ExpiryDate',shipment.Location,shipment.PalletNo)"></td>
+                            
+                            </tr>
+                          </tbody>  
+                        </table>
+                      </div>
+                    </div>
+              </div>
+             
+        </div>
+        <div class="box-footer">
+            <button type="submit" [disabled]="formGroup.invalid || shipmentListToPost.length <=0" class="btn btn-success pull-right">Move Stock</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<modal #modalItemLocation>
+  <modal-header>
+      <div class="box-header">
+          <div class="form-group">
+              <h3 class="box-title detail-title">
+                {{this.selectedWarehouse.Name}}
+              </h3>
+          </div>
+        </div>
+  </modal-header>
+  
+  <modal-content>
+      <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-bordered table-hover dataTable" role="grid">
+              <thead>
+                <tr role="row">
+                  <th>
+                    Chamber Aisle
+                  </th>
+                  <th>
+                    Chamber Rack
+                  </th>
+                  <th>
+                    Chamber Bay
+                  </th>
+                  <th>
+                    Location
+                  </th>
+                  <th>
+                    Vacant Quantity
+                  </th>
+                  
+                  <th>
+                    Quantity
+                  </th>
+                  <th class="pallets-dropdown">
+                      Pallet
+                    </th>
+                    <th>
+                        No Of Boxes
+                      </th>
+                    <th>
+                        No Of Pallets
+                      </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" *ngFor="let godwom of shelfListForShipment">
+                  <td>{{godwom.godownRow.Name}} | {{godwom.godownRow.Alias}}</td>
+                  <td>{{godwom.godownRack.Name}} | {{godwom.godownRack.Alias}}</td>
+                  <td>{{godwom.godownShelf.Name}} | {{godwom.godownShelf.Alias}}</td>
+                  <td>{{godwom.Location}}</td>
+                  <td>{{godwom.vacantQuantity}}</td>
+                  <td><input (blur)="QuantityChange($event,godwom.vacantQuantity,godwom.Location)" value="{{godwom.Quantity}}" type="text" class="form-control"></td>
+                  <td>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="palletKeyPair" [settings]="palletDropdownSettings"
+                        (onDeSelect)="palletDeSelect(godwom.Location)"
+                      (onSelect)="palletSelect($event,godwom.Location,0)">
+                    </ng-multiselect-dropdown>
+                  </td>
+                  <td>{{godwom.NoOfBoxes}}</td>
+                  <td>{{godwom.NoOfPallets}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  </modal-content>
+  
+  <modal-footer>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="cancelItemLocationModal()">Cancel</button>
+          <button type="button" class="btn btn-wms" (click)="addShipmentItem()">Save</button>
+        </div>
+  </modal-footer>
+  </modal>

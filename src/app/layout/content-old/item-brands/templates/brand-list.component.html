@@ -1,0 +1,93 @@
+  <section class="content">
+      <section class="content-header">
+          <h1>
+            SKU BRAND LISTING
+            <small>
+              <button class="btn-wms" (click)="redirectToCreateBrand()"><i class="fa fa-plus-circle"></i> </button>
+            </small>
+            
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a routerLink="[this.routesList.ITEM_BRAND_LISTING]">SKU Brand</a></li>
+            <li class="active">Listing</li>
+          </ol>
+        </section>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-solid">
+          <div class="box-header">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <ng-multiselect-dropdown  
+                        [placeholder]="'Select one'"
+                        [data]="customerKeyPair"
+                        [settings]="customerDropdownSettings"
+                        (onSelect)="customerChange($event)">
+                      </ng-multiselect-dropdown>
+                      </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="pull-right">
+                      <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+                    </div>
+                    </div>
+                    
+            </div>
+          
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>
+                          Sr.
+                        </th>
+                          <th>
+                              Brand Id
+                            </th>
+                        <th>
+                          Name
+                        </th>
+                        <th>
+                          Description
+                        </th>
+                        <th>
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let brand of brandList; let i = index">
+                        <td>{{i+1}}</td> 
+                        <td>{{brand.ItemId}}</td>
+                        <td>{{brand.Name}}</td>
+                        <td>{{brand.Description}}</td>
+                        <td>
+                          <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(brand.ItemId)"><i
+                              class="fa fa-edit"></i></button>
+                              <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger" (click)="Delete(brand.ItemId)"><i class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>

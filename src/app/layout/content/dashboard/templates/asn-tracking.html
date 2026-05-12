@@ -1,0 +1,147 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          ASN TRACKING
+         
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                        background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.asnTrackingList, 'asn-tracking.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('asn-tracking.xlsx', 'tbl', 'ASN TRACKING')" style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('asn-tracking.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                            width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+
+                        <a class="dropdown-item ml-3" (click)="HideShow('0')" data-column="1" style="color: white;">
+                          Customer
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('1')" data-column="4"
+                          style="color: white; text-align: center">
+                          System Code
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="1" style="color: white;">
+                          Name
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('3')" data-column="2" style="color: white;">
+                          Batch Code
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="3"
+                          style="color: white; text-align: center">
+                          ASN No
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('5')" data-column="5"
+                          style="color: white; text-align: center">
+                          Location
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('6')" data-column="0" style="color: white;">
+                          Stock
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('7')" data-column="1" style="color: white;">
+                          Mfg Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('8')" data-column="1" style="color: white;">
+                          Expiry Date
+                        </a>
+
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                  <tr role="row">
+                    <th class="col-sm-2" *ngIf="!hideShowList[0].status">
+                      Customer
+                     </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[1].status">
+                        System Code
+                      </th>
+                      <th class="col-sm-2" *ngIf="!hideShowList[2].status">
+                          Name
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[3].status">
+                          Batch Code
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[4].status">
+                          ASN No
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[5].status">
+                          Location
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[6].status">
+                          Stock
+                      </th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[7].status">
+                        Mfg Date
+                    </th>
+                    <th class="col-sm-1" *ngIf="!hideShowList[8].status">
+                        Expiry Date 
+                    </th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let Item of asnTrackingList">
+                      <td *ngIf="!hideShowList[0].status">{{Item.CustomerName}}</td>
+                      <td *ngIf="!hideShowList[1].status">{{Item.ItemInformationId}}</td>
+                      <td *ngIf="!hideShowList[2].status">{{Item.Name}}</td>
+                      <td *ngIf="!hideShowList[3].status">{{Item.Batch}}</td>
+                      <td *ngIf="!hideShowList[4].status">{{Item.ASNNo}}</td>
+                      <td *ngIf="!hideShowList[5].status">{{Item.ParkingName}}</td>
+                      <td *ngIf="!hideShowList[6].status">{{Item.Balance}}</td>
+                      <td *ngIf="!hideShowList[7].status">{{Item.MfgDate | date}}</td>
+                      <td *ngIf="!hideShowList[8].status">{{Item.ExpiryDate | date}}</td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

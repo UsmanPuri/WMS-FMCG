@@ -1,0 +1,78 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          LOCATION SUMMARY
+         
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                  <tr role="row">
+                    <th class="col-sm-1">
+                      SR No.
+                    </th>
+                    <th class="col-sm-1">
+                      Location
+                    </th>
+                      <th class="col-sm-1">
+                        Total CBM
+                      </th>
+                      <th class="col-sm-2">
+                        Occupied CBM
+                      </th>
+                      <th class="col-sm-1">
+                        Empty CBM
+                      </th>
+                     
+                     
+                  </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let Item of locationTrackingList,index as i">
+                      <td>{{i+1}}</td>
+                      <td>{{Item.Location}}</td>
+                      <td>{{Item.CBM | number : '1.2-2'}}</td>
+                      <td>{{Item.UsedCBM - Item.FreeCBM | number : '1.2-2'}}</td>
+                      <td>{{Item.CBM-(Item.UsedCBM - Item.FreeCBM) | number : '1.2-2'}}</td>
+                                        
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                  <tfoot>
+                    <tr>
+                      <td colspan="2" align="center"><b>Total</b></td>
+                      <td><b>{{CMBTotal | number : '1.2-2'}}</b></td>
+                      <td><b>{{OCPTotal | number : '1.2-2'}}</b></td>
+                      <td><b>{{EMPTotal | number : '1.2-2'}}</b></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

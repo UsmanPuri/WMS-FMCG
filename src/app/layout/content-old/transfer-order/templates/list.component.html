@@ -1,0 +1,122 @@
+<section class="content-header">
+    <h1>
+      TRANSFER ORDER LISTING
+      <small>
+        <button class="btn-wms" (click)="redirectToCreateTransferOrder()"><i class="fa fa-plus"></i> New</button>
+      </small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.PICKUP_ORDER_LISTING]">Customer Order</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header">
+            <!-- <h3 class="box-title">Hover Data Table</h3> -->
+          </div>
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col-md-12">
+              <form name="formGroup" [formGroup]="formGroup" novalidate >
+  
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Customer</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                    [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                    formControlName="CustomerId" (onSelect)="customerChange($event)">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                    Required
+                  </span>
+                </div>
+              </div> 
+              </form>       
+            </div>
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>
+                          Customer
+                        </th>
+                        <th>
+                          Warehouse
+                        </th>
+                        <th>
+                          ContactPerson
+                        </th>
+                        
+                        <th>
+                          Waybill/DN
+                        </th>
+                        <th>
+                          Customer Order No
+                        </th> 
+                        <th>
+                         PickUp Method
+                        </th>
+                        <th>
+                          Order Date
+                        </th>
+                        <th>
+                          Loaded Date
+                        </th>
+  
+                        <!-- <th>
+                          PCR No
+                        </th>
+                        <th>
+                          Plant
+                        </th> -->
+                        <th>
+                          Address
+                        </th>
+                        <th>
+                          Action
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let pickupOrder of pickupOrderList">
+                        <td>{{pickupOrder.Name}}</td>
+                        <td>{{pickupOrder.OriginWarehouse}}</td>
+                        <td>{{pickupOrder.ContactPerson}}</td>
+                        <!-- <td>{{pickupOrder.Consignee}}</td> -->
+                        <td>{{pickupOrder.waybill}}</td>
+                        <td>{{pickupOrder.CustomerOrderNo}}</td>
+                        <td>{{pickupOrder.Method}}</td>
+                        <td>{{pickupOrder.OrderDate | date}}</td>
+                        <td>{{pickupOrder.LoadingDate | date}}</td>
+                        <!-- <td>{{pickupOrder.PCRNo}}</td>
+                        <td>{{pickupOrder.Plant}}</td> -->
+                        <td>{{pickupOrder.Address}}</td>
+                          <td>
+                            <button type="button" id="update" class="editBtn btn-warning" (click)="Detail(pickupOrder.PickupOrderId)"><i
+                              class="fa fa-info"></i></button>
+                            <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(pickupOrder.PickupOrderId)"><i
+                                class="fa fa-edit"></i></button>
+                          </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>

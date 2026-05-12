@@ -1,0 +1,121 @@
+<section class="content-header">
+  <h1>
+    Stock Movement Listing
+    <small>
+      <button class="btn-wms" (click)="redirectToCreateNewForm()"><i class="fa fa-plus"></i> New</button>
+    </small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.STOCK_MOVEMENT_LISTING]">Stock Movement</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header">
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <form name="formGroup" [formGroup]="formGroup" novalidate >
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Transaction Date From</label>
+                <input type="date" formControlName="DateFrom" class="form-control" placeholder="Select Date">
+                <span class="help-block" *ngIf="formGroup.controls.DateFrom.invalid">
+                  {{getErrorMessage('DateFrom')}}
+                </span>
+              </div>
+            </div> 
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Transaction Date To</label>
+                <input type="date" formControlName="DateTo" class="form-control" placeholder="Select Date">
+                <span class="help-block" *ngIf="formGroup.controls.DateTo.invalid">
+                  {{getErrorMessage('DateTo')}}
+                </span>
+              </div>
+            </div> 
+            </form>       
+          </div>
+
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Transaction Date
+                      </th>
+                      <th>
+                        Warehouse Name
+                      </th>
+                      <th>
+                        Location From
+                      </th> 
+                      <th>
+                        Location To
+                      </th>
+                      <th>
+                        SKU Code
+                      </th> 
+                      <th>
+                       SKU Name
+                      </th>
+                      <th>
+                        Status
+                      </th>
+                      <th>
+                        SN No.
+                      </th>
+                      <th>
+                        Batch
+                      </th>
+                      <th>
+                        Quantity Move
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let pickupOrder of pickupOrderList">
+                      <td>{{pickupOrder.Name}}</td>
+                      <td>{{pickupOrder.OriginWarehouse}}</td>
+                      <td>{{pickupOrder.ContactPerson}}</td>
+                      <!-- <td>{{pickupOrder.Consignee}}</td> -->
+                      <td>{{pickupOrder.waybill}}</td>
+                      <td>{{pickupOrder.CustomerOrderNo}}</td>
+                      <td>{{pickupOrder.Method}}</td>
+                      <td>{{pickupOrder.OrderDate | date}}</td>
+                      <td>{{pickupOrder.LoadingDate | date}}</td>
+                      <!-- <td>{{pickupOrder.PCRNo}}</td>
+                      <td>{{pickupOrder.Plant}}</td> -->
+                      <td>{{pickupOrder.Address}}</td>
+                      <td>{{pickupOrder.FormType}}</td>
+                        <td>
+                          <button type="button" id="update" class="editBtn btn-warning" (click)="Detail(pickupOrder.PickupOrderId)"><i
+                            class="fa fa-info"></i></button>
+                          <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(pickupOrder.PickupOrderId)"><i
+                              class="fa fa-edit"></i></button>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

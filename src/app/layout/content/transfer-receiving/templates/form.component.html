@@ -1,0 +1,440 @@
+<style>
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  tr.border_bottom td {
+    border-bottom: 1px solid red;
+  }
+</style>
+
+<section class="content-header">
+  <h1>
+    {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} ORDER RECEIVING CREATE
+
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.DISPATCH_COMPLETE_LISTING]">Completed dispatches</a></li>
+    <li class="active">Create</li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createTransferReceived(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToDispatchList()" class="btn-wms">Transfer Order Receiving</button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Customer</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.AML_Customers.Name}}" readonly>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Agent</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.Agent}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Supervisor Name</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.SupervisorName}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Origin Warehouse</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.AML_Warehouse.Name}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Order Date</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.AML_PickupOrder.OrderDate}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Dispatch Date</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.DispatchDate}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>GatePass #</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.GatePassNo}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Vehicle No</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.VehicleNo}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Driver Name</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.DriverName}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Driver Contact</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.PhoneNumber}}" readonly>
+                </div>
+              </div>
+            </div>
+          </div>
+          <ngx-ui-loader></ngx-ui-loader>
+          <div class="col-md-12">
+            <div class="col-md-8">
+              <div class="form-group">
+                <label>Remarks/Instructions</label>
+                <input class="form-control" value=" {{dispatch.Remarks}}" readonly>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Receiving Date</label>
+                <input type="date" formControlName="ReceiveDate" class="form-control" placeholder="Enter Receive Date">
+                <span class="help-block" *ngIf="formGroup.controls.ReceiveDate.invalid">
+                  {{getErrorMessage('ReceiveDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <label>Receiver Handler</label>
+              <input type="text" class="form-control" placeholder="Enter Receiver Handler"
+                formControlName="ReceiverHandler">
+              <span class="help-block" *ngIf="formGroup.controls.ReceiverHandler.invalid">
+                {{getErrorMessage('ReceiverHandler')}}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group">
+              <h3 class="box-title detail-title">Transfer SKU Detail</h3>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="row">
+                <div style="height: 350px; width: 100%;" class="col-md-12 table-responsive" style="width:100%; overflow-x: auto">
+                  <table style="height: 350px; width: 100%;" class="table table-bordered table-hover dataTable"
+                    role="grid" style="width:100%; overflow-x: auto">
+                    <thead>
+                      <tr role="row">
+                        <th style="width:3%">Sr#</th>
+                        <th style="width:8%">SKU ID</th>
+                        <th style="width:20%">SKU Name</th>
+                        <th style="width:6%">Status</th>
+                        <th style="width:6%">Trans. Qty</th>
+                        <th style="width:6%">Already Rec.</th>
+                        <th style="width:3%">Rece. Qty</th>
+                        <th style="width:10%">Location</th>
+                        <th style="width:8%">Batch/Serial</th>
+                        <th style="width:6%">Pallet No</th>
+                        <th style="width:8%">SN No</th>
+                        <th style="width:6%">PR No</th>
+                        <th style="width:6%">InboundPool(OUT)</th>
+                        <th style="width:6%">InboundPool(IN)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of PickupOrderItemList; let i = index">
+                        <td>{{i+1}}</td>
+                        <td>{{item.ItemInformationId}}</td>
+                        <td>{{item.Description}} | {{item.ItemName}}</td>
+                        <td>{{item.Status}}</td>
+                        <td>{{item.FwdQty}}</td>
+                        <td>{{item.AlreadyReceived}}</td>
+                        <td> 
+                          <!-- <span *ngIf="{{item.Quantity - item.AlreadyReceived}} === 0; else inactive_span">NULL</span> -->
+                          <input style="width: 60px;" type="number" [disabled]="item.is_disable" value="{{item.FwdQty - item.AlreadyReceived}}" (blur)="OnQtyChange($event,i)"></td>
+                        <td style="min-width: 150px;">
+                          <ng-multiselect-dropdown  [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                            [settings]="warehouseDropdownSettings2"
+                            (onDeSelect)="onLocationDeSelect('selectedWarehouse',i)"
+                            (onSelect)="onLocationSelect($event,i)" [disabled]="item.is_disable">
+                          </ng-multiselect-dropdown>
+                        </td>
+                        <td>{{item.BatchNo}}</td>
+                        <td><input style="width: 60px;" type="text" [disabled]="item.is_disable" value="{{item.PalletNo}}" (blur)="OnPalletChange($event,i)"></td>
+                        <td>{{item.SNno}}</td>
+                        <td>{{item.PRno}}</td>
+                        <td>{{item.InboundPool}}</td>
+                        <td><input type="input" formControlName="InboundPoolIn" (blur)="InboundPoolIn($event,i)" [disabled]="item.is_disable"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1">
+            <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> <i class="fa fa-file-excel-o"> </i></button>
+          </div>
+
+          <div class="col-md-1">
+            <input type="file" id="servicePicked" #servicePicked (click)="message='Upload File'"
+              (change)="onServicePicked(servicePicked)">
+          </div>
+
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="row">
+                <div style="height: 350px; width: 100%;" class="col-md-12 table-responsive">
+                  <table style="height: 350px; width: 100%;" class="table table-bordered table-hover dataTable"
+                    role="grid" style="width:100%; overflow-x: auto">
+                    <thead>
+                      <tr role="row">
+                        <th style="width:3%">Sr#</th>
+                        <th style="width:8%">SKU ID</th>
+                        <th style="width:20%">SKU Name</th>
+                        <th style="width:6%">Status</th>
+                        <th style="width:6%">Trans. Qty</th>
+                        <th style="width:6%">Already Rec.</th>
+                        <th style="width:3%">Rece. Qty</th>
+                        <th style="width:10%">Location</th>
+                        <th style="width:8%">Batch/Serial</th>
+                        <th style="width:6%">Pallet No</th>
+                        <th style="width:8%">SN No</th>
+                        <th style="width:6%">PR No</th>
+                        <th style="width:6%">InboundPool(OUT)</th>
+                        <th style="width:6%">InboundPool(IN)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of PickupOrderItemList; let i = index" >
+                        <td>{{i+1}}</td>
+                        <td>{{item.ItemInformationId}}</td>
+                        <td>{{item.Description}} | {{item.ItemName}}</td>
+                        <td>{{item.Status}}</td>
+                        <td>{{item.FwdQty}}</td>
+                        <td>{{item.AlreadyReceived}}</td>
+                        <td>{{this.PickupOrderItemList[i]["Quantity"]}}</td>
+                        <td>{{this.PickupOrderItemList[i]["ForwardLocation"]}}</td> 
+                        <td>{{item.BatchNo}}</td>
+                        <td>{{item.PalletNo}}</td>
+                        <td>{{item.SNno}}</td>
+                        <td>{{item.PRno}}</td>
+                        <td>{{item.InboundPool}}</td>
+                        <td>{{this.PickupOrderItemList[i]["InboundPoolIn"]}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="box-footer">
+          <button type="submit" [disabled]="formGroup.invalid || this.FlagDispatch=='True'"
+            class="btn btn-success pull-right">Transfer Order Received</button>
+          <!-- <button   class="btn btn-success pull-right" (click)="openModal()">Test modal</button> -->
+
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<modal #AllModal>
+  <modal-header>
+
+
+  </modal-header>
+
+  <modal-content style="padding:20px">
+    <div class="box box-primary" id="print-section">
+      
+      <section class="invoice">
+        
+        <div class="col col-lg-12">
+          <div class="col-lg-6 invoice-col">
+            <div class="col-lg-12">
+              <h2 class="page-header">
+                <img id="logo" src={{LogoPath}} height="70" width="160" style="background-color: white;">
+              </h2>
+            </div>
+          </div>
+          <div class=" col-lg-6 row invoice-info">
+            <div class="col-lg-12 invoice-col pull-right" id="invoice-col">
+              <address>
+                <strong>{{CompanyName}}</strong>
+                {{CompanyAddress}}
+              </address>
+            </div>
+
+          </div>
+        </div>
+
+        
+          <div class="row">
+            <div class="col-lg-12" style="text-align: center;">
+              <h4><u>TRANSFER ORDER RECEIVING</u></h4>
+            </div>
+          </div>
+
+        <div class="col col-lg-12">
+          <!-- info row -->
+          <div class="row invoice-info">
+            <div class="col-lg-6 invoice-col" id="invoice-col" style="padding-right: 0; padding-left: 0;">
+              <div class="col-lg-12 table-responsive" style="min-height: 150px; padding-right: 0; padding-left: 0;">
+                <table class="table table-responsive">
+                  <tr>
+                    <td><b>Customer Name :</b></td>
+                    <td>{{dispatch.AML_Customers.Name}}</td>
+                  </tr>
+
+                  <tr>
+                    <td><b>Delivery Date :</b></td>
+                    <td>{{DispatchDate | date}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Driver Name :</b></td>
+                    <td>{{DriverName}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Driver Number :</b></td>
+                    <td>{{PhoneNumber}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Vehicle No :</b></td>
+                    <td>{{VehicleNo}}</td>
+                  </tr>
+
+                </table>
+              </div>
+            </div>
+            <div class="col-lg-6 invoice-col" id="invoice-col">
+              <div class="col-lg-12 table-responsive" style="min-height: 150px;">
+                <table class="table">
+                  <tr>
+                    <td><b>Pickup No :</b></td>
+                    <td>Pickup-{{dispatch.PickupOrderId}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>GatePass</b></td>
+                    <td>{{dispatch.GatePassNo}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Agent :</b></td>
+                    <td>{{Agent}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Supervisor Name :</b></td>
+                    <td>{{SupervisorName}}</td>
+                  </tr>
+                  <tr>
+                    <td><b>Manual GP :</b></td>
+                    <td>{{Address}}</td>
+                  </tr>
+
+                </table>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+        </div>
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr role="row">
+                  <th>Sr.</th>
+                  <th>Required Quantity</th>
+                  <th>Quantity</th>
+                  <th>Location</th>
+                  <th>Batch/Serial</th>
+                  <th>Status</th>
+                  <th>Pallet No</th>
+                  <th>SN No</th>
+                  <th>PR No</th>
+                  <th>SR No</th>
+                  <th>InboundPool</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let item of PickupOrderItemList; index as i">
+                <tr>
+                  <td colspan="11" align="center"><b>{{item.ItemInformationId}} | {{item.Description}} |
+                      {{item.ItemName}}</b></td>
+                </tr>
+                <tr>
+                  <td> {{i+1}}</td>
+                  <td>{{item.FwdQty}}</td>
+                  <td>{{item.Quantity}}</td>
+                  <td>{{item.ForwardLocation}}</td>
+                  <td>{{item.BatchNo}}</td>
+                  <td>{{item.Status}}</td>
+                  <td>{{item.PalletNo}}</td>
+                  <td>{{item.SNno}}</td>
+                  <td>{{item.PRno}}</td>
+                  <td>{{item.SRno}}</td>
+                  <td>{{item.InboundPoolIn}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <td colspan="2">
+                  <tr>TotalQty: {{TotalQty}}</tr>
+                </td>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+      </section>
+    </div>
+  </modal-content>
+
+  <modal-footer>
+    <div class="row no-print" id="printButton">
+      <div class="col-xs-12">
+        <!-- <a  (click)="print()" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+        <button [printStyle]="{table : {'font-size': '10px'},body : {'padding': '5px','font-size': '10px'}}"
+          class="btn-wms hidden-print print-btn" printTitle="Transfer Receiving" [useExistingCss]="true" ngxPrint
+          printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-footer>
+</modal>

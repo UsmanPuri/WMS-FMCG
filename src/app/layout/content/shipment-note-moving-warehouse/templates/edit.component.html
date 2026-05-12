@@ -1,0 +1,386 @@
+<style>
+  #tbl1 {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  table.mytbl tr.border_bottom td {
+    border-bottom: 1px solid red;
+  }
+</style>
+<section class="content-header">
+  <h1>
+    Inbound Receiving into Warehouse
+    <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_MOVING_WAREHOUSE_LISTING]">ASN Moving Warehouse</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToListShipmentNote()" class="btn-wms">ASN Moving Listing</button>
+          </div>
+          <h3>Inbound Receiving into Warehouse</h3>
+        </div>
+
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="moveASN()">
+
+
+          <!-- /.box-header -->
+          <div class="box-body">
+
+            <div class="col-md-4">
+              <div class="box-body box-profile">
+                <ul class="list-group list-group-unbordered">
+                  <li class="list-group-item">
+                    <b>ASN ID</b><a class="pull-right">{{shipmentNote.ShipmentNoteId}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Shipment Note No</b><a class="pull-right">{{shipmentNote.ShipmentNoteNo}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>ASN No.</b><a class="pull-right">{{shipmentNote.ASNNo}}</a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="box-body box-profile">
+                <ul class="list-group list-group-unbordered">
+                  <li class="list-group-item">
+                    <b>ASN Date</b><a class="pull-right">{{shipmentNote.ASNDate | date}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Delivery No</b><a class="pull-right">{{shipmentNote.DeliveryNo}}</a>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Cargo Status</b><a class="pull-right">{{shipmentNote.CargoStatus}}</a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <div class="box-body box-profile">
+                <ul class="list-group list-group-unbordered">
+                  <li class="list-group-item list-group-unbordered">
+                    <b>Driver Name</b><a class="pull-right">{{shipmentNote.DriverName}}</a>
+                  </li>
+                  <li class="list-group-item list-group-unbordered">
+                    <b>Vehicle No</b><a class="pull-right">{{shipmentNote.VehicleNo}}</a>
+                  </li>
+                  <li class="list-group-item list-group-unbordered">
+                    <b>CNIC No</b><a class="pull-right">{{shipmentNote.CNICNo}}</a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+            
+            <div class="col-md-12">
+              <!-- <div class="col-md-3">
+                <div class="form-group">
+                  <label>Moved From</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="parkingStageKeyPair"
+                    [settings]="parkingStageDropdownSettings" (onDeSelect)="onDeSelect('selectedParkingStage')"
+                    formControlName="ParkingStageIdFrom" (onSelect)="parkingStageChange($event)">
+                  </ng-multiselect-dropdown>
+
+                </div>
+              </div> -->
+              <!-- <div class="col-md-4"> -->
+                <!-- <div class="form-group">
+                  <label>Location</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                    [settings]="warehouseDropdownSettings2" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                    formControlName="WarehouseId" 
+                    (onSelect)="onSelect($event)">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                    Required
+                  </span>
+                </div>-->
+              <!-- </div> -->
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Receiving Date</label>
+                  <input type="date" formControlName="ReceiveDate" class="form-control"
+                    placeholder="Enter Receive Date">
+                  <span class="help-block" *ngIf="formGroup.controls.ReceiveDate.invalid">
+                    {{getErrorMessage('ReceiveDate')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Total CBM</label>
+                  <p>{{locationSpaceInfo.CBM | number:'1.2-2'}}</p>
+
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Occupied CBM</label>
+                  <p>{{locationSpaceInfo.UsedCBM - locationSpaceInfo.FreeCBM | number:'1.2-2'}}</p>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Empty CBM</label>
+                  <p>{{locationSpaceInfo.CBM-(locationSpaceInfo.UsedCBM - locationSpaceInfo.FreeCBM) | number:'1.2-2'}}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+            <!-- <div class="row">
+              
+              <div class="col-md-1">
+                <button type="button" id="add" class="btn btn-sm btn-genx  pull-right"
+                  (click)="AllCheckBoxBehaviour('selectAll')">Select All</button>
+
+              </div>
+              <div class="col-md-1">
+                <button type="button" id="add" class="btn btn-sm btn-genx"
+                  (click)="AllCheckBoxBehaviour('deSelectAll')">De Select All</button>
+              </div>
+              <div class="col-md-10">
+
+              </div>
+            </div> -->
+            
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable mytbl" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>#</th>
+                        <th>Customer SKU</th>
+                        <th>SKU Name</th>
+                        <th>Batch / Serial</th>
+                        <th>Status</th>
+                        <th [hidden]="true">SN #</th>
+                        <th [hidden]="true">PR #</th>
+                        <th [hidden]="false">Mfg Date</th>
+                        <th [hidden]="false">Expiry Date</th>
+                        <th>Move Quantity</th>
+                        <th [hidden]="false">Pallet No</th>
+                        <th>Location</th>
+                        <th>InboundPool</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of asnListToPost index as i"
+                        [ngClass]="{ 'border_bottom': item.unvalid }">
+                        <td>{{i+1}}</td>
+                        <td>{{item.Description}} </td>
+                        <td>{{item.Name}} </td>
+                        <td>{{item.Batch}}</td>
+                        <td>{{item.Status}}</td>
+                        <td [hidden]="true">{{item.SNno}}</td>
+                        <td [hidden]="true">{{item.PRno}}</td>
+                        <td [hidden]="false">{{item.MfgDate | date}}
+                          <!-- <span *ngIf="item.MfgDate=='3020-03-12T00:00:00'; else inactive_span">Null</span>
+                          <ng-template #inactive_span> <span>{{item.MfgDate | date}}</span></ng-template> -->
+                        </td>
+                        <td [hidden]="false">{{item.ExpiryDate | date}}
+                          <!-- <span *ngIf="item.ExpiryDate=='3020-03-12T00:00:00'; else inactive_span">Null</span>
+                          <ng-template #inactive_span> <span> {{item.ExpiryDate | date}}</span></ng-template> -->
+                        </td>
+                        <!-- <td>{{item.MoveQuantity}}</td> -->
+                        <td><input type="number" value="{{item.MoveQuantity}}" (change)="addItemRelOrd($event,item.ItemInformationId,item.Batch)"></td>
+                        <td [hidden]="false">{{item.PalletNo}}</td>
+                        <td>{{item.Location}}</td>
+                        <td>{{item.InboundPool}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="box-footer">
+            <div class="col-md-2">
+              <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export Format</button>
+            </div>
+            <div class="col-md-2">
+              <input type="file" id="servicePicked" #servicePicked (click)="message=''"
+                (change)="onServicePicked(servicePicked)">
+            </div>
+            <!-- [disabled]="formGroup.invalid || asnListToPost.length<=0" -->
+            <button type="submit" class="btn btn-wms pull-right"
+              [disabled]=" this.shipmentNote.Flag || asnListToPost.length == 0 ">
+              S U B M I T
+            </button>
+            <!-- <a href="#" (click)="OpenModal();" data-toggle="control-sidebar"><i class="fa fa-plus"></i></a> -->
+          </div>
+        </form>
+      </div>
+      <!-- /.box -->
+    </div>
+    <ngx-ui-loader></ngx-ui-loader>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+<div class="col-md-2">
+
+</div>
+<div class="modal" id="shipModal">
+  <div class="modal-dialog">
+    <div class="modal-content" style="width: 900px;">
+      <form name="formGroup" [formGroup]="formGroup" novalidate>
+        <div class="modal-body" id="print">
+          <div class="row col-sm-12" >
+            <div class="row">
+              <div class="col col-sm-3" style="text-align: left;">
+                <img id="logo" src={{LogoPath}} height="50" width="160" style="background-color: white;">
+              </div>
+              <div class="col col-sm-8 pull-left" style="margin-top: 10px; text-align: left;">
+                <address>
+                  <strong>{{CompanyName}}</strong> <br>
+                  {{CompanyAddress}}
+                </address>
+              </div>
+            </div>
+            <div class="row col-sm-12" style="text-align: center; padding-top: 30px;">
+              <h4><b><u>SHIPMENT NOTE RECEIVING WAREHOUSE</u></b></h4>
+            </div>
+          </div>
+          
+          <div class="row col col-sm-12" style="min-height: 150px;">
+            <div class="row">
+              <div class="col-sm-4" style="text-align: left;">
+                <div class="col-sm-12">
+                  <b>ASN ID</b><a class="pull-right">{{shipmentNote.ShipmentNoteId}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Shipment Note No</b><a class="pull-right">{{shipmentNote.ShipmentNoteNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>ASN No.</b><a class="pull-right">{{shipmentNote.ASNNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>ASN Date</b><a class="pull-right">{{shipmentNote.ASNDate | date}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Vehicle Rece. Date-TM</b><a class="pull-right">{{shipmentNote.ReceivingDate | date:'short'}}</a>
+                </div>
+              </div>
+
+              <div class="col-sm-4" style="text-align: left;">
+                <div class="col-sm-12">
+                  <b>Cargo Status</b><a class="pull-right">{{shipmentNote.CargoStatus}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Temperature In</b><a class="pull-right">{{shipmentNote.TempIn}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Temperature Out</b><a class="pull-right">{{shipmentNote.TempOut}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Off-Load Start Date-TM</b><a class="pull-right">{{shipmentNote.OffLoadingStartTime | date:'short'}}</a>
+                </div>
+                <div class="col-sm-12">
+                      <b>Off-Load END Date-TM</b><a class="pull-right">{{shipmentNote.OffLoadingEndTime | date:'short'}}</a>
+                </div>
+              </div>
+
+              <div class="col-sm-4" style="text-align: left;">
+                <div class="col-sm-12">
+                  <b>Delivery No</b><a class="pull-right">{{shipmentNote.DeliveryNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Driver Name.</b><a class="pull-right">{{shipmentNote.DriverName}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Vehicle No.</b><a class="pull-right">{{shipmentNote.VehicleNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>Mobile No.</b><a class="pull-right">{{shipmentNote.MobileNo}}</a>
+                </div>
+                <div class="col-sm-12">
+                  <b>CNIC No.</b><a class="pull-right">{{shipmentNote.CNICNo}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-body">
+            <div class="row">
+              <div class="col-sm-12">
+                <table class="table dataTable">
+                    <thead>
+                      <tr role="row">
+                        <th style="border: 1px solid black;">#</th>
+                        <th style="border: 1px solid black;">SKU</th>
+                        <th style="border: 1px solid black;">Batch / Serial</th>
+                        <!-- <th style="border: 1px solid black;">Status</th>
+                        <th style="border: 1px solid black;">SN #</th> -->
+                        <th style="border: 1px solid black;">Mfg Date</th> 
+                        <th style="border: 1px solid black;">Expiry Date</th>
+                        <th style="border: 1px solid black;">Rec.Qty</th>
+
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of asnListToPost index as i" [ngClass]="{ 'border_bottom': true }">
+                        <td style="border: 1px solid black;">{{i+1}}</td>
+                        <td style="border: 1px solid black;">{{item.Description}} | {{item.Name}}</td>
+                        <td style="border: 1px solid black;">{{item.Batch}}</td>
+                        <!-- <td style="border: 1px solid black;">{{item.Status}}</td>
+                        <td style="border: 1px solid black;">{{item.SNno}}</td> -->
+                        <td style="border: 1px solid black;">{{item.MfgDate | date}}</td>
+                        <td style="border: 1px solid black;">{{item.ExpiryDate | date}}</td>
+                        <td style="border: 1px solid black;">{{item.MoveQuantity}}</td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="4"></td>
+                        <td>Total Qty</td>
+                        <td>{{TotalQtyReceived}}</td>
+                      </tr>
+                    </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- //calculator Modal  End-->
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="col-sm-12">
+            <button [printStyle]="{table : {'font-size': '10px'},body : {'font-size': '10px'}}"
+              class="btn-genx hidden-print print-btn" printTitle="ShipmentNote Receiving" [useExistingCss]="true" ngxPrint
+              printSectionId="print">
+              <span aria-hidden="true"><i class="fa fa-print"></i>
+              </span></button>
+          </div>
+          <div class="col-sm-2">
+            <button type="submit" (click)="CloseModal()" class="btn btn-success">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

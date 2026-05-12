@@ -1,0 +1,319 @@
+<section class="content-header">
+  <h1>
+    OPENING STOCK MANUAL
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <!-- <li><a routerLink="[this.routesList.SHIPMENT_NOTE_LISTING]">Shipment note</a></li>
+    <li class="active">Create</li> -->
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createShipmentNote(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <!-- <button type="button" (click)="redirectToShipmentNoteList()" class="btn-wms">Shipment Note Listing</button> -->
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                  formControlName="CustomerId" (onSelect)="onSelect($event,'selectedCustomer')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Warehouse</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                  [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                  formControlName="WarehouseId" 
+                  (onSelect)="onSelect($event,'selectedWarehouse')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Opening Stock Date</label>
+                <input type="date" formControlName="ASNDate" class="form-control" placeholder="Enter ASN Date">
+                <span class="help-block" *ngIf="formGroup.controls.ASNDate.invalid">
+                  {{getErrorMessage('ASNDate')}}
+                </span>
+              </div>
+             
+            </div>
+          </div>
+
+        
+
+          
+        </div>
+       
+      </div>
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group">
+              <h3 class="box-title detail-title">SKUs</h3>
+          </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>SKU</label>
+                        <ng-multiselect-dropdown [placeholder]="'Select One SKU'" [data]="itemKeyPair"
+                          [settings]="itemDropdownSettings" formControlName="ItemId"
+                           (onDeSelect)="onDeSelect('selectedItem')"
+                          (onSelect)="onSelect($event,'selectedItem')">
+                        </ng-multiselect-dropdown>
+                        <span class="help-block" *ngIf="!this.selectedItem || !this.selectedItem['Id']">
+                          Required
+                        </span>
+                      </div>
+                </div>
+                <div class="col-md-2">
+                  
+                    <div class="form-group">
+                      <label>Item CBM</label>
+                      <input class="form-control" placeholder="CBM" formControlName="CBM" type="number" disabled>
+                      <span class="help-block" *ngIf="formGroup.controls.CBM.invalid">
+                        {{getErrorMessage('CBM')}}
+                      </span>
+                    </div>
+                     
+                   
+                    <!-- <div class="form-group shipment-item-add">
+                        <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemLocation()">
+                          Add Location
+                        </button>
+                      </div> -->
+                    <!-- <div class="form-group">
+                        <label>Godown</label>
+                        <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="godownKeyPair"
+                          [settings]="godownDropdownSettings" formControlName="GodownId"
+                          (onDeSelect)="onDeSelect('selectedGodown')" (onSelect)="onSelect($event,'selectedGodown')">
+                        </ng-multiselect-dropdown>
+                        <span class="help-block" *ngIf="!this.selectedGodown || !this.selectedGodown['Id']">
+                          Required
+                        </span>
+                      </div> -->
+                   
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Location</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="locationKeyPair"
+                      [settings]="locationDropdownSettings" (onDeSelect)="onDeSelect('selectedLocation')"
+                      formControlName="LocationId" 
+                      (onSelect)="getLocationInfo($event)">
+                    </ng-multiselect-dropdown>
+                    <span class="help-block" *ngIf="!this.selectedLocation || !this.selectedLocation['Id']">
+                      Required
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label>Total CBM</label>
+                    <p>{{locationSpaceInfo.CBM | number : '1.2-2'}}</p>
+                    
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label>Occupied CBM</label>
+                    <p>{{locationSpaceInfo.UsedCBM - locationSpaceInfo.FreeCBM | number : '1.2-2'}}</p>
+                  </div>
+                </div>
+                <div class="col-md-1">
+                  <div class="form-group">
+                    <label>Empty CBM</label>
+                    <p>{{locationSpaceInfo.CBM-(locationSpaceInfo.UsedCBM - locationSpaceInfo.FreeCBM) | number : '1.2-2'}}</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12">
+               
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>Quantity</label>
+                    <input class="form-control" placeholder="Qty" formControlName="Quantity" type="number">
+                    <span class="help-block" *ngIf="formGroup.controls.Quantity.invalid">
+                      {{getErrorMessage('Quantity')}}
+                    </span>
+                  </div>
+                   
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>No. Of Box</label>
+                    <input class="form-control" placeholder="Enter No. Of Box" formControlName="BoxQuantity" type="number">
+                    <span class="help-block" *ngIf="formGroup.controls.BoxQuantity.invalid">
+                      {{getErrorMessage('BoxQuantity')}}
+                    </span>
+                  </div>
+                </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Batch/Serial</label>
+                <input type="text" formControlName="Batch" class="form-control" placeholder="Enter Batch">
+                <span class="help-block" *ngIf="formGroup.controls.Batch.invalid">
+                  {{getErrorMessage('Batch')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Pallet No</label>
+                <input type="text" formControlName="PalletNo" class="form-control" placeholder="Enter PalletNo">
+                <span class="help-block" *ngIf="formGroup.controls.PalletNo.invalid">
+                  {{getErrorMessage('PalletNo')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Mfg Date</label>
+                <input type="date" formControlName="MFGDate" class="form-control" placeholder="Enter MFG Date">
+                <span class="help-block" *ngIf="formGroup.controls.MFGDate.invalid">
+                  {{getErrorMessage('MFGDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="date" formControlName="EXPDate" class="form-control" placeholder="Enter Expiry Date" (blur)="CheckDate()">
+                <span class="help-block" *ngIf="formGroup.controls.EXPDate.invalid">
+                  {{getErrorMessage('EXPDate')}}
+                </span>
+              </div>
+              <div>
+                
+              </div>
+            </div>                           
+            </div>
+
+
+              <div class="col-md-12">
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>PR No</label>
+                    <input type="text" formControlName="PRno" class="form-control" placeholder="Enter PR No">
+                    <span class="help-block" *ngIf="formGroup.controls.PRno.invalid">
+                      {{getErrorMessage('PRno')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-2">
+                  <div class="form-group">
+                    <label>SN No</label>
+                    <input type="text" formControlName="SNno" class="form-control" placeholder="Enter SN No">
+                    <span class="help-block" *ngIf="formGroup.controls.SNno.invalid">
+                      {{getErrorMessage('SNno')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group shipment-item-add pull-right">
+                  <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addShipmentItemManualy()">
+                    Add
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="row">
+                      <div class="col-sm-12 table-responsive">
+                        <table class="table table-bordered table-hover dataTable" role="grid">
+                          <thead>
+                            <tr role="row">
+                              <th>
+                                SKU Id
+                              </th>
+                              <th>
+                               SKU Name
+                              </th>
+                              <th>
+                                Pallet No
+                              </th>
+                              <th>
+                                Batch
+                              </th>
+                              <!-- <th>
+                                Status
+                              </th> -->
+                              <th>
+                                Quantity
+                              </th>
+                              <th>
+                                No Of Boxes
+                              </th>
+                              <th>
+                                Location
+                              </th>
+                              <th>
+                                Total CBM
+                              </th>
+                              <th>
+                                Mfg Date
+                              </th>
+                              <th>
+                                Expiry Date
+                              </th>
+                              <th>
+                                PR #
+                              </th>
+                              <th>
+                                SN #
+                              </th>
+                              <!-- <th>
+                                Price
+                              </th>
+                              <th>
+                                  Actions
+                                </th> -->
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr role="row" *ngFor="let shipment of shipmentListToPost">
+                              <td>{{shipment.ItemInformationId}}</td>
+                              <td>{{shipment.Name}}</td>
+                              <td>{{shipment.PalletNo}}</td>
+                              <td>{{shipment.Batch}}</td>
+                              <!-- <td>{{shipment.Status}}</td> -->
+                              <td>{{shipment.Quantity}}</td>
+                              <td>{{shipment.NoOfBoxes}}</td>
+                              <td>{{shipment.Location}}</td>
+                              <td>{{shipment.TotalCBM}}</td>
+                              <td>{{shipment.MfgDate | date}}</td>
+                              <td>{{shipment.ExpiryDate | date}}</td>
+                              <td>{{shipment.PRno}}</td>
+                              <td>{{shipment.SNno}}</td>
+                            
+                            </tr>
+                          </tbody>  
+                        </table>
+                      </div>
+                    </div>
+              </div>
+             
+        </div>
+        <div class="box-footer">
+            <button type="submit" [disabled]="formGroup.invalid || shipmentListToPost.length <=0" class="btn btn-success pull-right">Add Opening Stock</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

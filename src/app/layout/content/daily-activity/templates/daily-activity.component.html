@@ -1,0 +1,505 @@
+<section class="content-header">
+    <h1>
+        Daily Activity <b>INBOUND</b>
+        <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateDispatch()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a routerLink="#">Daily Activity</a></li>
+        <li class="active">Listing</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-primary">
+                <div class="box-header">
+                    <!-- <h3 class="box-title">Hover Data Table</h3> -->
+                    <div class="col-md-12" style="background-color: whitesmoke;">
+                        <ngx-ui-loader></ngx-ui-loader>
+                        <form name="formGroup" [formGroup]="form" novalidate (ngSubmit)="search(formGroup.value)">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Search By Warehouse</label>
+                                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair "
+                                        [settings]="warehouseDropdownSettings" formControlName="WarehouseId"
+                                        #WarehouseId (onSelect)="selectedWarehouse($event)">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>From Date</label>
+                                    <input type="date" formControlName="FromDate" #fromDate
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>To Date</label>
+                                    <input type="date" formControlname="ToDate" #toDate class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+
+                                <div class="form-group">
+                                    <!-- <label>Search</label> -->
+                                    <button style="margin-top: 15px;" type="button" class="btn btn-success"
+                                        (click)="search(fromDate, toDate)">Search</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#inBound">Inbound Register </a></li>
+                        <!-- <li><a data-toggle="tab" href="#outBound">Outbound Register</a></li> -->
+
+                    </ul>
+
+                    <div class="tab-content">
+                        <div id="inBound" class="tab-pane fade in active">
+                            <h3>Inbound Activity Register</h3>
+                            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                <div class="row">
+                                    <div class="col-sm-12 table-responsive " id="myTable" style="overflow-x: auto; height: 600px;">
+                                        <nav>
+                                            <ol class="breadcrumb" style="font-size: 1.3em; width: 40%;
+                                              background-color: #2a4257;">
+                                                <!-- <li class="breadcrumb-item">
+                                                    <button
+                                                        (click)="downloadCSV(this.dailyActivityInbound, 'Daily-Activity.csv')"
+                                                        style="color: black;">
+                                                        Download CSV</button>
+                                                </li> -->
+                                                <li class="breadcrumb-item">
+                                                    <button
+                                                        (click)="exportExcel('Daily-Activity-Inbound.xlsx', 'tbl', 'Daily Activity Inbound')"
+                                                        style="color: black;">
+                                                        Download Excel</button>
+                                                </li>
+                                                <li class="breadcrumb-item">
+                                                    <button (click)="createPdf('Daily-Activity-Inbound.pdf', '#tbl')"
+                                                        style="color: black;">Download PDF</button>
+                                                </li>
+                                                <!-- <li>
+                                            <button
+                                              [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                                              class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                                              ngxPrint printSectionId="myTable">
+                                              Print
+                                            </button>
+                                          </li> -->
+                                                <li class="breadcrumb-item dropdown">
+                                                    <button href="" class="dropdown-toggle" data-toggle="dropdown"
+                                                        style="color: black;">
+                                                        Column Hidden
+                                                    </button>
+                                                    <div class="dropdown-menu"
+                                                        style="background-color: #007bff;
+                                                        width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('0')"
+                                                            data-column="0" style="color: white;">
+                                                            Sr#
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('1')"
+                                                            data-column="1" style="color: white;">
+                                                            Activity Date.
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('2')"
+                                                            data-column="2" style="color: white;">
+                                                            PO/Material ID
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('3')"
+                                                            data-column="3" style="color: white;">
+                                                            Customer SKU
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('4')"
+                                                            data-column="4" style="color: white;">
+                                                            SKU Name
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('19')"
+                                                            data-column="5" style="color: white; text-align: center">
+                                                            Doc Qty
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('5')"
+                                                            data-column="5" style="color: white; text-align: center">
+                                                            Stock IN
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('20')"
+                                                            data-column="5" style="color: white; text-align: center">
+                                                            Diff Qty
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('6')"
+                                                            data-column="6" style="color: white;">
+                                                            Weight
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('7')"
+                                                            data-column="7" style="color: white;">
+                                                            Vehicle No
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('8')"
+                                                            data-column="8" style="color: white;">
+                                                            Seal No
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('9')"
+                                                            data-column="9" style="color: white;">
+                                                            Transporter
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('10')"
+                                                            data-column="10" style="color: white;">
+                                                            Vehicle Size
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('11')"
+                                                            data-column="11" style="color: white;">
+                                                            Reporting Time
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('12')"
+                                                            data-column="12" style="color: white;">
+                                                            OffLoading Start Time
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('13')"
+                                                            data-column="13" style="color: white;">
+                                                            OffLoading End Time
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('14')"
+                                                            data-column="14" style="color: white;">
+                                                            Receiving Date
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('15')"
+                                                            data-column="15" style="color: white;">
+                                                            Mfg Date
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('16')"
+                                                            data-column="16" style="color: white;">
+                                                            Exp Date
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('17')"
+                                                            data-column="17" style="color: white;">
+                                                            Driver Name
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShow('18')"
+                                                            data-column="18" style="color: white;">
+                                                            Batch
+                                                        </a>
+
+                                                    </div>
+                                                </li>
+                                                <!-- <li>
+                                                    <a (click)="openModal()" style="color: white;">Print</a>
+                                                </li> -->
+                                            </ol>
+                                        </nav>
+
+                                        <table class="table table-bordered table-hover dataTable" role="grid"
+                                            style="width:100%; height: 700px; overflow-x: auto" id="tbl">
+                                            <thead>
+                                                <tr role="row" class="text-centre">
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[0].status"
+                                                        style="min-width: 50px;">Sr#</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[1].status"
+                                                        style="min-width: 100px;">Activity Date.</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[1].status"
+                                                        style="min-width: 100px;">Location</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[2].status"
+                                                        style="min-width: 100px;">PO/Material ID</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[3].status"
+                                                        style="min-width: 85px;">Customer SKU</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[4].status"
+                                                        style="min-width: 200px;">SKU Name</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[19].status"
+                                                        style="min-width: 50px;">Doc Qty</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[5].status"
+                                                        style="min-width: 50px;">Stock IN</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[20].status"
+                                                        style="min-width: 50px;">Diff Qty</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[6].status"
+                                                        style="min-width: 50px;">Weight</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[7].status"
+                                                        style="min-width: 100px;">Vehicle No</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[8].status"
+                                                        style="min-width: 100px;">Seal No</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[9].status"
+                                                        style="min-width: 100px;">Transporter</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[10].status"
+                                                        style="min-width: 100px;">Vehicle Size</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[11].status"
+                                                        style="min-width: 100px;">Reporting Time</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[12].status"
+                                                        style="min-width: 100px;">OffLoading Start Time</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[13].status"
+                                                        style="min-width: 100px;">OffLoading End Time</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[14].status"
+                                                        style="min-width: 100px;">Receiving Date</th>    
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[15].status"
+                                                        style="min-width: 100px;">Mfg Date</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[16].status"
+                                                        style="min-width: 100px;">Expiry Date</th>
+                                                        <th class="col-sm-1" *ngIf="!hideShowList[18].status"
+                                                        style="min-width: 100px;">Batch Code</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowList[17].status"
+                                                        style="min-width: 100px;">Driver Name</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr role="row" class="text-centre"
+                                                    *ngFor="let activities of dailyActivityInbound; let i = index">
+                                                    <td *ngIf="!hideShowList[0].status">{{i+1}}</td>
+                                                    <td *ngIf="!hideShowList[1].status">{{activities.TransctionDate | date }}</td>
+                                                    <td *ngIf="!hideShowList[1].status">3003</td>
+                                                    <td *ngIf="!hideShowList[2].status">{{activities.ASNNo}}</td>
+                                                    <td *ngIf="!hideShowList[3].status">{{activities.Description}}</td>
+                                                    <td *ngIf="!hideShowList[4].status">{{activities.Name}}</td>
+                                                    <td *ngIf="!hideShowList[19].status">{{activities.Quantity}}</td>
+                                                    <td *ngIf="!hideShowList[5].status">{{activities.Debit}}</td>
+                                                    <td *ngIf="!hideShowList[20].status">{{activities.Quantity - activities.Debit}}</td>
+                                                    <td *ngIf="!hideShowList[6].status">{{activities.Weight * activities.Debit | number:'1.2-2'}}</td>
+                                                    <td *ngIf="!hideShowList[7].status">{{activities.VehicleNo}}</td>
+                                                    <td *ngIf="!hideShowList[8].status">{{activities.SealNo}}</td>
+                                                    <td *ngIf="!hideShowList[9].status">{{activities.Transporter}}</td>
+                                                    <td *ngIf="!hideShowList[10].status">{{activities.VehicleSize}}</td>
+                                                    <td *ngIf="!hideShowList[11].status">{{activities.ReportingTime | date:'dd/MMM/yy - hh:mm:ss'}}</td>
+                                                    <td *ngIf="!hideShowList[12].status">{{activities.OffLoadingStartTime | date:'dd/MMM/yy - hh:mm:ss'}}</td>
+                                                    <td *ngIf="!hideShowList[13].status">{{activities.OffLoadingEndTime | date:'dd/MMM/yy - hh:mm:ss'}}</td>
+                                                    <td *ngIf="!hideShowList[14].status">{{activities.ReceivingDate | date:'short'}}</td>
+                                                    <td *ngIf="!hideShowList[15].status">{{activities.MfgDate | date }}</td>
+                                                    <td *ngIf="!hideShowList[16].status">{{activities.ExpDate | date }}</td>
+                                                    <td *ngIf="!hideShowList[18].status">{{activities.BatchCode}}</td>
+                                                    <td *ngIf="!hideShowList[17].status">{{activities.DriverName}}</td>
+                                                    
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="5"></td>
+                                                    <td>TOTAL</td>
+                                                    <td>{{TotalQtyInbound | number : '1.2-2'}}</td>
+                                                    <td>{{TotalWeightInbound | number : '1.2-2'}}</td>
+                                                    <td colspan="7"></td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="outBound" class="tab-pane fade">
+                            <h3>Outbound Activity Register</h3>
+                            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                                <div class="row">
+                                    <div class="col-sm-12 table-responsive " id="myTable" style="overflow-x: auto; height: 600px;">
+                                        <nav>
+                                            <ol class="breadcrumb" style="font-size: 1.3em; width: 40%;
+                                          background-color: #2a4257;">
+                                                <li class="breadcrumb-item">
+                                                    <button
+                                                        (click)="downloadCSV(this.dailyActivityOutbound, 'Daily-Activity.csv')"
+                                                        style="color: black;">
+                                                        Download CSV</button>
+                                                </li>
+                                                <li class="breadcrumb-item">
+                                                    <button
+                                                        (click)="exportExcel('Daily-Activity.xlsx', 'tbl1', 'Daily Activity')"
+                                                        style="color: black;">
+                                                        Download Excel</button>
+                                                </li>
+                                                <!-- <li class="breadcrumb-item">
+                                                <button (click)="createPdf('Daily-Activity.pdf', '#tbl')"
+                                                    style="color: black;">Export To PDF</button>
+                                            </li> -->
+                                                <!-- <li>
+                                        <button
+                                          [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                                          class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                                          ngxPrint printSectionId="myTable">
+                                          Print
+                                        </button>
+                                      </li> -->
+                                                <li class="breadcrumb-item dropdown">
+                                                    <button href="" class="dropdown-toggle" data-toggle="dropdown" style="color: black;">
+                                                        Column Hidden
+                                                    </button>
+                                                    <div class="dropdown-menu" style="background-color: #007bff;
+                                                    width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('0')" data-column="0" style="color: white;">
+                                                            Sr#
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('1')"
+                                                            data-column="1" style="color: white;">
+                                                            Activity Date.
+                                                        </a>
+
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('2')"
+                                                            data-column="3" style="color: white;">
+                                                            Dispatch ID
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('3')"
+                                                            data-column="4" style="color: white; text-align: center">
+                                                            GP Manual
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('4')"
+                                                            data-column="5" style="color: white; text-align: center">
+                                                            Order #
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('5')"
+                                                            data-column="6" style="color: white; text-align: center">
+                                                            Location
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('6')"
+                                                            data-column="7" style="color: white;">
+                                                            System Code
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('7')"
+                                                            data-column="8" style="color: white;">
+                                                            Customer SKU
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('8')"
+                                                            data-column="9" style="color: white;">
+                                                            SKU Name
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('9')"
+                                                            data-column="10" style="color: white; text-align: center">
+                                                            Batch Code
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('10')"
+                                                            data-column="11" style="color: white; text-align: center">
+                                                            Trans. Date
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('11')"
+                                                            data-column="12" style="color: white; text-align: center">
+                                                            Status
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('12')"
+                                                            data-column="13" style="color: white;">
+                                                            Price
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('13')"
+                                                            data-column="14" style="color: white;">
+                                                            Stock Out
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('14')"
+                                                            data-column="15" style="color: white;">
+                                                            Weight
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('15')"
+                                                            data-column="16" style="color: white;">
+                                                            Trans. Ref
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('16')"
+                                                            data-column="17" style="color: white;">
+                                                            Mfg Date
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('17')"
+                                                            data-column="18" style="color: white;">
+                                                            Expiry Date
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('18')"
+                                                            data-column="19" style="color: white;">
+                                                            SN#
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('19')"
+                                                            data-column="20" style="color: white;">
+                                                            PR No.
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('20')"
+                                                            data-column="21" style="color: white;">
+                                                            Inbound Pool
+                                                        </a>
+                                                        <a class="dropdown-item ml-3" (click)="HideShowOut('21')"
+                                                            data-column="22" style="color: white;">
+                                                            Type
+                                                        </a>
+                                                    </div>
+                                                </li>
+                                                <!-- <li>
+                                                <a (click)="openModal()" style="color: white;">Print</a>
+                                            </li> -->
+                                            </ol>
+                                        </nav>
+                                        <table class="table table-bordered table-hover dataTable" role="grid"
+                                        style="width:100%; height: 500px; overflow-y: auto; overflow-x: auto" id="tbl1">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[0].status" style="min-width: 50px;">Sr#</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[1].status" style="min-width: 100px;">Activity Date.</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[1].status" style="min-width: 100px;">Delivery Plant</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[2].status" style="min-width: 100px;">Delivery No</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[3].status" style="min-width: 100px;">Sold to NO</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[3].status" style="min-width: 100px;">Sold to Name</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[3].status" style="min-width: 100px;">Ship to Address</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[7].status" style="min-width: 85px;">Customer SKU</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[8].status" style="min-width: 200px;">SKU Name</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[9].status" style="min-width: 100px;">Batch Code</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[13].status" style="min-width: 50px;">Stock Out</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[14].status" style="min-width: 50px;">Weight</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[15].status" style="min-width: 150px;">Trans. Ref</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[16].status" style="min-width: 100px;">Mfg Date</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[17].status" style="min-width: 100px;">Expiry Date</th>
+                                                    <!-- <th class="col-sm-1" *ngIf="!hideShowListOut[18].status" style="min-width: 150px;">SN#</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[19].status" style="min-width: 100px;">PR No.</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[20].status" style="min-width: 100px;">Inbound Pool</th>
+                                                    <th class="col-sm-1" *ngIf="!hideShowListOut[21].status" style="min-width: 100px;">Type</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr role="row"
+                                                    *ngFor="let activities of dailyActivityOutbound; let i = index">
+                                                    <td *ngIf="!hideShowListOut[0].status">{{i+1}}</td>
+                                                    <td *ngIf="!hideShowListOut[1].status">{{activities.TransctionDate | date}}</td>
+                                                    <td *ngIf="!hideShowListOut[2].status">{{activities.DispatchId}}</td>
+                                                    <td *ngIf="!hideShowListOut[3].status">{{activities.Address}}</td>
+                                                    <td *ngIf="!hideShowListOut[4].status">{{activities.CustomerOrderNo}}</td>
+                                                    <td *ngIf="!hideShowListOut[5].status">{{activities.Location}}</td>
+                                                    <td *ngIf="!hideShowListOut[6].status">{{activities.ItemId}}</td>
+                                                    <td *ngIf="!hideShowListOut[7].status">{{activities.Description}}</td>
+                                                    <td *ngIf="!hideShowListOut[8].status">{{activities.Name}}</td>
+                                                    <td *ngIf="!hideShowListOut[9].status">{{activities.BatchCode}}</td>
+                                                    <td *ngIf="!hideShowListOut[10].status">{{activities.TransctionDate | date}}</td>
+                                                    <td *ngIf="!hideShowListOut[11].status">{{activities.Status}}</td>
+                                                    <td *ngIf="!hideShowListOut[12].status">{{activities.Price}}</td>
+                                                    <td *ngIf="!hideShowListOut[13].status">{{activities.Credit}}</td>
+                                                    <td *ngIf="!hideShowListOut[14].status">{{activities.Weight * activities.Credit | number:'1.2-2'}}</td>
+                                                    <td *ngIf="!hideShowListOut[15].status">{{activities.RecordReference}}</td>
+                                                    <td *ngIf="!hideShowListOut[16].status">{{activities.MfgDate | date}}</td>
+                                                    <td *ngIf="!hideShowListOut[17].status">{{activities.ExpDate | date}}</td>
+                                                    <!-- <td *ngIf="!hideShowListOut[18].status">{{activities.SNno}}</td>
+                                                    <td *ngIf="!hideShowListOut[19].status">{{activities.PRno}}</td>
+                                                    <td *ngIf="!hideShowListOut[20].status">{{activities.InboundPool}}</td>
+                                                    <td *ngIf="!hideShowListOut[21].status">{{activities.Formtype}}</td> -->
+                                                </tr>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12"></td>
+                                                    <td>TOTAL</td>
+                                                    <td>{{TotalQtyOutbound | number:'1.2-2'}}</td>
+                                                    <td>{{TotalWeightOutbound | number:'1.2-2'}}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+            <ngx-ui-loader></ngx-ui-loader>
+            <!-- <app-report [dispatchListCompleted]="dispatchListCompleted"></app-report> -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>

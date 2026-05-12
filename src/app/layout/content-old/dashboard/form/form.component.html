@@ -1,0 +1,72 @@
+<section class="content-header">
+  <h1>
+    Form Equity
+    <!-- <small>
+      <button class="btn-wms" (click)="redirectToCreateDispatch()"><i class="fa fa-plus"></i> New</button>
+    </small> -->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.DISPATCH_COMPLETE_LISTING]">Dispatched Pickups</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+          <div class="col-md-12">
+            <form name="formGroup" [formGroup]="formGroup" novalidate>
+              <div class="col-md-3">
+                <!-- <div class="form-group ">
+                &nbsp; <input type="radio"   checked="true" value="customer" (change)="radioChange($event)"  name="formMode">&nbsp;
+                Customer Oder&nbsp; <input type="radio" value="transfer" (change)="radioChange($event)"  name="formMode" >&nbsp; Transfer Order
+              </div > -->
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Customer</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                    [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                    formControlName="CustomerId" (onSelect)="customerChange($event)">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                    Required
+                  </span>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#inBound">In Bound</a></li>
+            <li><a data-toggle="tab" href="#outBound">Out Bound</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="inBound" class="tab-pane fade in active">
+              <h3>In Bound</h3>
+            </div>
+            <div id="outBound" class="tab-pane fade">
+              <h3>Out Bound</h3>
+            </div>
+          </div>
+
+
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+      <ngx-ui-loader></ngx-ui-loader>
+      <!-- <app-report [dispatchListCompleted]="dispatchListCompleted"></app-report> -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

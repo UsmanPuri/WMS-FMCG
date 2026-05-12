@@ -1,0 +1,17 @@
+<button class="open-button" (click)="openForm()">Chat</button>
+
+<div class="chat-popup" id="myForm">
+  <form name="formGroup" [formGroup]="formGroup" (submit)="chatSubmit(formGroup.value);" class="form-container">
+    <h3>Chat Script</h3>
+    <div class="div-chat-script">
+      <p *ngFor="let message of messages">
+        <b>{{ message.UserName }}</b>: {{ message.TextMessage }}
+      </p>
+    </div>
+    
+    <textarea formControlName="textMessage" placeholder="Type message.." name="msg" required></textarea>
+
+    <button type="submit" class="btn">Send</button>
+    <button type="button" class="btn cancel" (click)="closeForm()">Close</button>
+  </form>
+</div>

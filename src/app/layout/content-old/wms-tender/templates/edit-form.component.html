@@ -1,0 +1,390 @@
+
+<section class="content">
+  <section class="content-header">
+    <h1>
+      TENDER UPDATE
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.TENDER_LISTING]">Tenders</a></li>
+      <li class="active">Update</li>
+    </ol>
+  </section>
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateTender(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="pull-left">
+                  <div class="col-md-6 toggle-label ">
+                      <span *ngIf="status == true">
+                        <b>Active</b>
+                      </span>
+                      <span *ngIf="status == false">
+                        <b>InActive</b>
+                      </span>
+                    </div>
+                    <div class="col-md-6">
+                      <ui-switch switchColor="#fcfcfc" [checked]="status == true" (change)="onStatusChange($event)"></ui-switch>
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="pull-right">
+                  <button type="button" (click)="redirectToTenderList()" class="btn-genx">Tender Listing</button>
+
+            
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+           
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Issuance Date</label>
+                  <input type="date" formControlName="IssuanceDate" class="form-control"
+                    placeholder="Enter Issuance Date">
+                  <span class="help-block" *ngIf="formGroup.controls.IssuanceDate.invalid">
+                    {{getErrorMessage('IssuanceDate')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Tender Expiry Date</label>
+                    <input type="date" formControlName="TenderExpiryDate" class="form-control" placeholder="Enter Tender Expiry date">
+                    <span class="help-block" *ngIf="formGroup.controls.TenderExpiryDate.invalid">
+                      {{getErrorMessage('TenderExpiryDate')}}
+                    </span>
+                  </div>
+                </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Tender Reference</label>
+                  <input type="text" formControlName="TenderReference" class="form-control"
+                    placeholder="Enter Tender Reference">
+                  <span class="help-block" *ngIf="formGroup.controls.TenderReference.invalid">
+                    {{getErrorMessage('TenderReference')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Source of Tender</label>
+                  <input type="text" formControlName="TenderSource" class="form-control"
+                    placeholder="Enter Tender Source">
+                  <span class="help-block" *ngIf="formGroup.controls.TenderSource.invalid">
+                    {{getErrorMessage('TenderSource')}}
+                  </span>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Select Customer</label>
+                  <ng-multiselect-dropdown
+                   [placeholder]="'Select one'"
+                   [data]="customerKeyPair"
+                   formControlName="CustomerId"
+                   [settings]="customerDropdownSettings"
+                   [(ngModel)]="selectedCustomerInfo"
+                   (onSelect)="customerChange($event)">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="formGroup.controls.CustomerId.invalid">
+                    {{getErrorMessage('CustomerId')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Tender Code</label>
+                  <input type="text" formControlName="CustomerAbbrivation" class="form-control" placeholder="Enter Tender Term" readonly>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label>Tender Term</label>
+                    <input type="text" formControlName="TenderTerm" class="form-control" placeholder="Enter Tender Term">
+                    <span class="help-block" *ngIf="formGroup.controls.TenderTerm.invalid">
+                      {{getErrorMessage('TenderTerm')}}
+                    </span>
+                </div>
+              </div>
+            </div>
+         
+          </div>
+  
+          <div class="box box-primary">
+              <div class="box-header with-border">
+                  <h3 class="box-title">Taxation</h3>
+                  <div class="form-group  pull-right">
+                   
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                    
+            
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label>GST</label>
+                            <input type="text" formControlName="Gst" class="form-control" placeholder="Enter Gst" >
+                            <span class="help-block" *ngIf="formGroup.controls.Gst.invalid">
+                              {{getErrorMessage('Gst')}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Furthur Tax</label>
+                              <input type="text" formControlName="FurthurTax" class="form-control" placeholder="Enter Furthur Tax">
+                              <span class="help-block" *ngIf="formGroup.controls.FurthurTax.invalid">
+                                {{getErrorMessage('FurthurTax')}}
+                              </span>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>WH Tax</label>
+                                <input type="text" formControlName="WithHoldingTax" class="form-control" placeholder="Enter WithHoldingTax">
+                                <span class="help-block" *ngIf="formGroup.controls.WithHoldingTax.invalid">
+                                  {{getErrorMessage('WithHoldingTax')}}
+                                </span>
+                            </div>
+                          </div>    
+              
+              
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label>Additional Tax</label>
+                              <input type="text" formControlName="AdditionalTax" class="form-control" placeholder="Enter Additional Tax" >
+                              <span class="help-block" *ngIf="formGroup.controls.AdditionalTax.invalid">
+                                {{getErrorMessage('AdditionalTax')}}
+                              </span>
+                            </div>
+                          </div>
+                 
+                      </div>
+                </div>
+         
+          </div>
+
+      </div>
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">Tender detail</h3>
+          <div class="form-group  pull-right">
+
+          </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+           
+  
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Province Destination</label>
+                  <ng-multiselect-dropdown  
+                  [placeholder]="'Select one'"
+                  [data]="provinceKeyPair"
+                  [settings]="provinceDropdownSettings"
+                  formControlName="ProvinceId"
+                  (onSelect)="getRegionKeyPair($event)">
+                </ng-multiselect-dropdown>
+                </div>
+              </div>
+  
+              <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Region</label>
+                    <ng-multiselect-dropdown  
+                    [placeholder]="'Select one'"
+                    [data]="regionKeyPair"
+                    [settings]="regionDropdownSettings"
+                    formControlName="RegionId"
+                    (onSelect)="getCityKeyPair($event)">
+                  </ng-multiselect-dropdown>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label>Origin</label>
+                    <ng-multiselect-dropdown  
+                    [placeholder]="'Select one'"
+                    [data]="destinationToKeyPair"
+                    formControlName="DestinationFromId"
+                    [settings]="cityFromDropdownSettings"
+                    (onSelect)="getDestinationFromCity($event)">
+                  </ng-multiselect-dropdown>
+                  </div>
+                </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Destination to</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                  [data]="cityKeyPair" [settings]="dropdownSettings"
+                    (onSelect)="getDestinationToCity($event)" 
+                    (onSelectAll)="onSelectAllDestinationTo($event)"
+                    (onDeSelect)="onDestinationToDeSelect($event)"
+                    formControlName="DestinationTo"
+                    (onDeSelectAll)="onDestinationToDeSelectAll($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+  
+       
+  
+              <div class="col-md-1">
+                <div class="form-group tender-item-add">
+                  <button type="button" id="add" class="btn btn-sm btn-genx" (click)="addItemIntoTenderDetail()"><i
+                      class="fa fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Origin
+                      </th>
+                      <th>
+                        Destination to
+                      </th>
+                      <!-- <th>
+                        Item code
+                      </th> -->
+                      <th>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let detailItem of tenderDetailList">
+                        <td>{{detailItem.DestinationFromName}}</td>
+                        <td>{{detailItem.DestinationToName}}</td>
+                      <!-- <td>{{detailItem.ItemCode}}</td> -->
+                      <td>
+                        <button type="button" class="btn btn-sm btn-danger"
+                          (click)="deleteItemFromTenderDetail(detailItem)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Service detail</h3>
+            <div class="form-group  pull-right">
+             
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Service</label>
+                  <ng-multiselect-dropdown 
+                  [placeholder]="'Select one'" 
+                  [data]="vehicleKeyPair" 
+                  [settings]="servicesDropdownSettings"
+                  [ngModelOptions]="{ standalone : true }"
+                  [(ngModel)]="selectedServicesToInfoCopy"
+                  (onSelect)="onServiceSelect($event)"
+                  (onDeSelect)="onServiceDeSelect($event)"
+                  (onSelectAll)="onSelectAllServices($event)"
+                  (onDeSelectAll)="onDeSelectAllServices($event)">
+                </ng-multiselect-dropdown>
+                  <!-- <select formControlName="FleetServiceId" class="form-control">
+                    <option selected value="">Select one</option>
+                    <option *ngFor="let city of vehicleKeyPair" [value]="city.Value">
+                      {{city.Text}}
+                    </option>
+                  </select> -->
+                  <span class="help-block" *ngIf="formGroup.controls.FleetServiceId.invalid">
+                    {{getErrorMessage('FleetServiceId')}}
+                  </span>
+                </div>
+              </div>
+             
+              <div class="col-md-3">
+                <div class="form-group tender-item-add">
+                  <button type="button" [disabled]="this.formGroup.invalid" id="add" class="btn btn-sm btn-genx" (click)="addItemIntoTenderChild()"><i
+                    class="fa fa-plus"></i></button>
+                </div>
+              </div>
+          
+              <div class="col-md-3">
+               
+              </div>
+          
+              <div class="col-md-3">
+               
+              </div>
+            </div>
+          </div>
+          
+          <div class="box-body">
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>
+                          Service Name
+                        </th>
+                        <th>
+                          Service Type
+                        </th>
+                        <th>
+                            UOM
+                        </th>
+                        <!-- <th>
+                          Item code
+                        </th> -->
+                        <th>
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let detailItem of tenderChileList">
+                        <td>{{detailItem.ServiceName}}</td>
+                        <td>{{detailItem.ServiceType}}</td>
+                       <td>{{detailItem.Unit.Title}}</td> 
+                        <!-- <td>{{detailItem.ItemCode}}</td> -->
+                        <td>
+                          <button type="button" class="btn btn-sm btn-danger" (click)="deleteItemFromTenderChile(detailItem.FleetServiceId)"><i
+                              class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+        <div class="box-footer">
+          <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

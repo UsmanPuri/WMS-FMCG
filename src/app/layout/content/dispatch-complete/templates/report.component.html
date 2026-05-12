@@ -1,0 +1,50 @@
+<!-- <div id="menu1" class="tab-pane fade">
+  <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+    <div class="row">
+      <div class="col-sm-12 table-responsive" id="myTable2"> -->
+        <table class="table table-bordered table-hover dataTable" role="grid" id="tbl2">
+          <thead>
+            <tr role="row">
+              <th>Sr#</th>
+              <th>Customer</th>
+              <th>Customer Order No</th>
+              <th>Warehouse</th>
+              <th>Order Date</th>
+              <th>WayBill</th>
+              <th>Contact Person</th>
+              <th>City</th>
+              <th>Address</th>
+              <th>Pickup Method</th>
+              <th>Gate Pass No</th>
+              <th>Supervisor Name</th>
+              <th>Delivery Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr role="row" *ngFor="let dispatch of dispatchListCompleted; let i = index">
+              <td>{{i+1}}</td>
+              <td>{{dispatch.AML_Customers.Name}}</td>
+              <td>{{dispatch.AML_PickupOrder.CustomerOrderNo}}</td>
+              <td>{{dispatch.AML_Warehouse.Name}}</td>
+              <td>{{dispatch.AML_PickupOrder.OrderDate | date}}</td>
+              <td>{{dispatch.AML_PickupOrder.waybill}}</td>
+              <td>{{dispatch.AML_PickupOrder.ContactPerson}}</td>
+              <td>{{dispatch.AML_PickupOrder.AML_City.Name}}</td>
+              <td>{{dispatch.AML_PickupOrder.Address}}</td>
+              <td>
+                <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==1">FIFO</p>
+                <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==2">LIFO</p>
+                <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==3">LEFO</p>
+                <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==4">FEFO</p>
+                <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==5">Custom</p>
+              </td>
+              <td>{{dispatch.GatePassNo}}</td>
+              <td>{{dispatch.SupervisorName}}</td>
+              <td>{{dispatch.DispatchDate | date}}</td>
+            </tr>
+          </tbody>
+        </table>
+      <!-- </div>
+    </div>
+  </div>
+</div> -->

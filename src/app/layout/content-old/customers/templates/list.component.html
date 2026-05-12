@@ -1,0 +1,238 @@
+
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          CUSTOMER LISTING
+          <button class="btn btn-wms-head" (click)="redirectToCreateCustomer()"><i class="fa fa-plus-circle"></i> </button>
+          <small>
+            
+          </small>
+
+        </h1>
+        
+        <ol class="breadcrumb">
+          <li><a href="#"><i class=""></i> Home</a></li>
+          <li><a routerLink="[this.routesList.CUSTOMER_CREATE]">Customers</a></li>
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+
+      <div class="pull-right">
+        <button type="submit" [disabled]="formGroup.invalid" (click)="openModal()" class="btn btn-default">Print</button>
+        <!-- <a href="printlist.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Print</a> -->
+          &nbsp;
+        <button class="btn btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+      </div>
+      
+
+  <div class="row" >
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header 
+        <div class="pull-right">
+          <button (click)="printPage()">print</button>
+        </div>-->
+  
+        <div class="box-body" >
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">    
+            <div class="row" >
+              <div class="col-sm-12 table-responsive" id="print-index-invoice">
+                <table id="example2" class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Sr.                      
+                      </th>
+                      <th >
+                        Name
+                      </th>
+                      <th >
+                          Address
+                        </th>
+                        <th >
+                          Abbrevation
+                          </th>
+                          <th >
+                          Contact Person
+                            </th>
+                      <th >
+                        Mobile
+                      </th>
+                      <th >
+                        Email
+                      </th>
+                      <th >
+                        Customer type
+                      </th>
+                      <th>
+                          Status
+                        </th>
+                      <th >
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let customer of customerList; let i = index">
+                      <td>{{i+1}}</td> 
+                      <td>{{customer.Name}}</td>                 
+                      <td>{{customer.Address}}</td>
+                      <td>{{customer.Abbreviation}}</td>
+                      <td>{{customer.ContactPerson}}</td>
+                      <td>{{customer.Mobile}}</td>
+                      <td>{{customer.Email}}</td>
+                      <td>{{customer.Type}}</td>
+                      <td>
+                          <span *ngIf="IsStatisActive(customer.StatusId); else inactive_span" class="label label-success">Active</span>
+                          <ng-template #inactive_span>  <span class="bg-red label">In Active</span></ng-template>
+                      </td>
+                      <td>
+                          <button type="button" id="update" tooltip="Edit" class="editBtn btn-warning" (click)="Edit(customer.Id)"><i class="fa fa-edit"></i></button>
+                          <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger" (click)="Delete(customer.Id)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngx-ui-loader></ngx-ui-loader>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+<modal #AllModal>
+  <modal-header>
+     
+    
+  </modal-header>
+
+  <modal-content style="padding:20px">
+    <div class="box box-primary" id="print-section">
+      <div class="box-header with-border">
+        <h3 class="box-title detail-title">Dispatch</h3>
+        <div class="form-group  pull-right">
+
+        </div>
+      </div>
+      <section class="invoice">
+        <!-- title row -->
+    
+        <!-- info row -->
+        <div class="col-sm-6 invoice-col">
+          <div class="col-xs-12">
+            <h2 class="page-header">
+              <img id="logo" src="assets/images/aml-png-logo-web-1.png" height="70" width="160" style="background-color: white;">
+              <!-- <small id="date" class="pull-right">Date: {{dateInvoice}} </small> -->
+            </h2>
+          </div>
+        </div>
+        <div class="row invoice-info">
+          <div class="col-sm-6 invoice-col pull-right" id="invoice-col">
+        
+            <address>
+              <strong>AML,Logistics</strong>
+              Head Office Address: Plot No. 193, 1st Floor, 
+              Street No.1, Sector I/10,
+              Industrial Area, Islamabad. 
+              Phone: +92-51-4102361-62
+            
+            </address>
+          </div>
+          <!-- /.col -->
+        
+          <!-- /.col -->
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12" style="text-align: center;">
+            <h4><u>Customers</u></h4>
+          </div>
+      </div>
+   <!-- info row -->
+ 
+  <!-- /.row -->
+
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-xs-12 table-responsive">
+            <table id="example2" class="table table-bordered table-hover dataTable" role="grid">
+              <thead>
+                <tr role="row">
+                  <th>
+                    Sr.                      
+                  </th>
+                  <th >
+                    Name
+                  </th>
+                  <th >
+                      Address
+                    </th>
+                    <th >
+                      Abbrevation
+                      </th>
+                      <th >
+                      Contact Person
+                        </th>
+                  <th >
+                    Mobile
+                  </th>
+                  <th >
+                    Email
+                  </th>
+                  <th >
+                    Customer type
+                  </th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" *ngFor="let customer of customerList; let i = index">
+                  <td>{{i+1}}</td> 
+                  <td>{{customer.Name}}</td>                 
+                  <td>{{customer.Address}}</td>
+                  <td>{{customer.Abbreviation}}</td>
+                  <td>{{customer.ContactPerson}}</td>
+                  <td>{{customer.Mobile}}</td>
+                  <td>{{customer.Email}}</td>
+                  <td>{{customer.Type}}</td>
+                
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+      
+        
+      </section>
+     
+
+     
+    </div>
+  </modal-content>
+
+  <modal-footer>
+    <div class="row no-print" id="printButton">
+      <div class="col-xs-12">
+        <button
+        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+         class="btn-wms hidden-print print-btn" printTitle="Customer"
+          [useExistingCss]="true" ngxPrint printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-footer>
+</modal>

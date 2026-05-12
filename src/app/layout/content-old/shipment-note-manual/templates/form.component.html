@@ -1,0 +1,597 @@
+<style>
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  tr.border_bottom td {
+    border-bottom: 1px solid red;
+  }
+</style>
+
+<section class="content-header">
+  <h1>
+    SHIPMENT NOTE MANUAL CREATE
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_LISTING]">Shipment Note</a></li>
+    <li class="active">Create</li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate >
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToShipmentNoteList()" class="btn-wms">Shipment Note Listing</button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                  formControlName="CustomerId" (onSelect)="onSelect($event,'selectedCustomer')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Warehouse</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                  [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                  formControlName="WarehouseId" (onSelect)="onSelect($event,'selectedWarehouse')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>PO / Material#</label>
+                <input type="text" class="form-control" placeholder="Enter PO / Material No" formControlName="ASNNo" (blur)="ASNDuplicateChk()">
+                <span class="help-block" *ngIf="formGroup.controls.ASNNo.invalid">
+                  {{getErrorMessage('ASNNo')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Shipment Date</label>
+                <input type="date" formControlName="ASNDate" class="form-control" placeholder="Enter ASN Date">
+                <span class="help-block" *ngIf="formGroup.controls.ASNDate.invalid">
+                  {{getErrorMessage('ASNDate')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col col-lg-12">
+            <!-- <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="TempOut">Temperature In</label>
+                <input type="text" id="TempIn" formControlName="TempIn" #TempIn class="form-control"
+                  placeholder="Enter Temperature In">
+              </div>
+            </div> -->
+
+            <!-- <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="TempOut">Temperature Out</label>
+                <input type="text" id="TempOut" formControlName="TempOut" #TempOut class="form-control"
+                  placeholder="Enter Temperature Out">
+              </div>
+            </div> -->
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label>Vehicle Receiving Date-Time</label>
+                <input type="datetime-local" formControlName="ReceiveDate" #ReceiveDate class="form-control"
+                  (change)="ReceivingDateChange($event)">
+                <span class="help-block" *ngIf="formGroup.controls.ReceiveDate.invalid">
+                  {{getErrorMessage('ReceiveDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label>Select Parking Stage</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="parkingStageKeyPair"
+                  [settings]="parkingStageDropdownSettings" (onDeSelect)="onDeSelect('selectedParkingStage')"
+                  formControlName="ParkingStageId" (onSelect)="parkingStageChange($event)">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="formGroup.controls.ParkingStageId.invalid">
+                  {{getErrorMessage('ParkingStageId')}}
+                </span>
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label>Off Load Start Date-Time</label>
+                <input type="datetime-local" formControlname="OffLoadStartDate" #OffLoadStartDate class="form-control" 
+                (change)="OffLoadStartDateChange($event)">
+                <span class="help-block" *ngIf="formGroup.controls.OffLoadStartDate.invalid">
+                  {{getErrorMessage('OffLoadStartDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label>Off Load End Date-Time</label>
+                <input type="datetime-local" formControlname="OffLoadEndDate" #OffLoadEndDate 
+                class="form-control" (change)="OffLoadEndDateChange($event)">
+                <span class="help-block" *ngIf="formGroup.controls.OffLoadEndDate.invalid">
+                  {{getErrorMessage('OffLoadEndDate')}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col col-lg-12">
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="driverName">Driver Name</label>
+                <input type="text" id="DriverName" formControlName="DriverName" class="form-control"
+                  placeholder="Enter Driver Name">
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="MobileNo">Mobile No</label>
+                <input type="text" id="MobileNo" formControlName="MobileNo" class="form-control"
+                  placeholder="Enter Mobile No">
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="vehicleNo">Vehicle No</label>
+                <input type="text" id="VehicleNo" formControlName="VehicleNo" class="form-control"
+                  placeholder="Enter Vehicle No">
+                  <span class="help-block" *ngIf="formGroup.controls.VehicleNo.invalid">
+                    {{getErrorMessage('VehicleNo')}}
+                  </span>
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="VehicleSize">Vehicle Size</label>
+                <input type="text" id="VehicleSize" formControlName="VehicleSize" class="form-control"
+                  placeholder="Enter Vehicle Size">
+                  <span class="help-block" *ngIf="formGroup.controls.VehicleSize.invalid">
+                    {{getErrorMessage('VehicleSize')}}
+                  </span>
+              </div>
+            </div>
+            
+          </div>
+          <div class="col col-lg-12">
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="Transporter">Transporter</label>
+                <input type="text" id="Transporter" formControlName="Transporter" class="form-control"
+                  placeholder="Enter Transporter Name">
+                  <span class="help-block" *ngIf="formGroup.controls.Transporter.invalid">
+                    {{getErrorMessage('Transporter')}}
+                  </span>
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label for="SealNo">Seal#</label>
+                <input type="text" id="SealNo" formControlName="SealNo" class="form-control"
+                  placeholder="Enter Seal#">
+                  <span class="help-block" *ngIf="formGroup.controls.SealNo.invalid">
+                    {{getErrorMessage('SealNo')}}
+                  </span>
+              </div>
+            </div>
+            <div class="col col-lg-3">
+              <div class="form-group">
+                <label>Reporting Date-Time</label>
+                <input type="datetime-local" formControlName="ReportingTime" #ReportingTime
+                class="form-control" (change)="ReportingTimeChange($event)">
+                  <span class="help-block" *ngIf="formGroup.controls.ReportingTime.invalid">
+                    {{getErrorMessage('ReportingTime')}}
+                  </span>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+      </div>
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group">
+            <h3 class="box-title detail-title"><b>System Detail</b></h3>
+          </div>
+          <div>
+            <div class="pull-right">
+              <button type="button" class="btn btn-default" (click)="refreshItem()">Referesh SKU</button>
+            </div>
+            <div class="pull-left">
+              <a target="_blank" class="button" [routerLink]="[this.routesList.ITEM_CREATE]">Add SKU</a>
+            </div>
+
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>SKU</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="itemKeyPair"
+                  [settings]="itemDropdownSettings" formControlName="ItemId" (onDeSelect)="onDeSelect('selectedItem')"
+                  (onSelect)="onSelect($event,'selectedItem')">
+                </ng-multiselect-dropdown>
+                <ngx-ui-loader></ngx-ui-loader>
+                <span class="help-block" *ngIf="!this.selectedItem || !this.selectedItem['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Item CBM</label>
+                <input class="form-control" placeholder="CBM" formControlName="CBM" type="number" disabled>
+                <span class="help-block" *ngIf="formGroup.controls.CBM.invalid">
+                  {{getErrorMessage('CBM')}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>MFG Date</label>
+                <input type="date" formControlName="MFGDate" class="form-control" (blur)="MFGDateChange($event)"
+                  placeholder="Enter MFG Date">
+                <span class="help-block" *ngIf="formGroup.controls.MFGDate.invalid">
+                  {{getErrorMessage('MFGDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Expiry Date</label>
+                <input type="input" formControlName="EXPDate" readonly class="form-control" value="{{ExpiryDate | date:'MM-dd-yyyy'}}"
+                   placeholder="Enter Expiry Date">
+                <!-- (blur)="CheckDate()"
+                  <span class="help-block" *ngIf="formGroup.controls.EXPDate.invalid">
+                    {{getErrorMessage('EXPDate')}}
+                  </span> -->
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Quantity</label>
+                <input class="form-control" [disabled]="formGroup.controls.isDisabled" placeholder="Qty"
+                  formControlName="Quantity" type="number">
+                <span class="help-block" *ngIf="formGroup.controls.Quantity.invalid">
+                  {{getErrorMessage('Quantity')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Status</label>
+                <input type="text" formControlName="Status" class="form-control" placeholder="Enter Status">
+                <span class="help-block" *ngIf="formGroup.controls.Status.invalid">
+                  {{getErrorMessage('Status')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Batch/Serial</label>
+                <input type="input" formControlName="Batch" value="{{MFGDt | date:'yyMMdd'}}S000" class="form-control" placeholder="Enter Batch">
+                <!-- <span class="help-block" *ngIf="formGroup.controls.Batch.invalid">
+                  {{getErrorMessage('Batch')}}
+                </span>    -->
+              </div>
+            </div>
+            <div class="form-group shipment-item-add pull-right">
+              <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addShipmentItemManualy()">
+                Add
+              </button>
+            </div>
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label>PR No</label>
+                <input type="text" formControlName="PRno" class="form-control" placeholder="Enter PR No">
+                <span class="help-block" *ngIf="formGroup.controls.PRno.invalid">
+                  {{getErrorMessage('PRno')}}
+                </span>
+              </div>
+            </div> -->
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label>SN#</label>
+                <input type="text" formControlName="SNno" class="form-control"
+                  placeholder="Enter SN No">
+                <span class="help-block" *ngIf="formGroup.controls.SNno.invalid">
+                  {{getErrorMessage('SNno')}}
+                </span>
+              </div>
+            </div> -->
+
+
+          </div>
+          <!-- bilal s -->
+          <!-- <div class="col-md-12"> -->
+
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label>LOT#</label>
+                <input type="text" formControlName="RMA" class="form-control" placeholder="Enter LOT#">
+                <span class="help-block" *ngIf="formGroup.controls.RMA.invalid">
+                  {{getErrorMessage('RMA')}}
+                </span>
+              </div>
+            </div> -->
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label>Recieved From</label>
+                <input type="text" formControlName="RecievedFrom" class="form-control"
+                  placeholder="Enter Recieved From">
+                <span class="help-block" *ngIf="formGroup.controls.RecievedFrom.invalid">
+                  {{getErrorMessage('RecievedFrom')}}
+                </span>
+              </div>
+            </div> -->
+            <!-- <div class="col-md-2">
+            <div class="form-group">
+              <label>Consignment No</label>
+              <input type="text" formControlName="ConsignmentNo" class="form-control" placeholder="Enter Consignment No">
+              <span class="help-block" *ngIf="formGroup.controls.ConsignmentNo.invalid">
+                {{getErrorMessage('ConsignmentNo')}}
+              </span>
+            </div>
+          </div> -->
+            <!-- <div class="col-md-2">
+              <label>Packing List No</label>
+              <input type="text" class="form-control" placeholder="Enter Packing List No"
+                formControlName="PackingListNo">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Handler Name</label>
+                <input type="text" class="form-control" placeholder="Enter Handler Name" formControlName="HandlerName">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Received Station</label>
+                <input type="text" class="form-control" placeholder="Enter Received Station"
+                  formControlName="ReceivedStation">
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Contract No</label>
+                <input type="text" class="form-control" placeholder="Enter Contract No" formControlName="ContractNo">
+              </div>
+            </div> -->
+
+          <!-- </div> -->
+          <!-- bilal e -->
+
+
+          <div class="col-md-12">
+            <!-- <div class="col-md-2">
+              <label>Business Type</label>
+              <input type="text" class="form-control" placeholder="Enter Business Type" formControlName="BusinessType">
+            </div> -->
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label>Inbound Pool</label>
+                <input type="text" class="form-control" placeholder="Enter Inbound Pool" formControlName="InboundPool">
+              </div>
+            </div> -->
+            <!-- <div class="col-md-2">
+              <div class="form-group">
+                <label>Network</label>
+                <input type="text" class="form-control" placeholder="Enter Network" formControlName="Network">
+              </div>
+            </div> -->
+
+            <!-- <div class="col-md-2">
+              <label>Delivery Type</label>
+              <input type="text" class="form-control" placeholder="Enter Delivery Type" formControlName="DeliveryType">
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Gate Pass</label>
+                <input class="form-control" placeholder="GatePass" formControlName="GatePass" type="text">
+                <span class="help-block" *ngIf="formGroup.controls.GatePass.invalid">
+                  {{getErrorMessage('GatePass')}}
+                </span>
+              </div>
+
+            </div>-->
+          </div>
+
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 30%;
+                              background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.shelfListForShipment, 'shipment-note-manual-form-list.csv')"
+                        style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('shipment-note-manual-form-list.xlsx', 'tbl', 'Shipment Note Manual Form List')"
+                        style="color: white;">
+                        Download Excel</a>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable " role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th style="width:8%">System ID</th>
+                      <!-- <th style="width:8%">SKU Code</th> -->
+                      <th style="width:30%">SKU Name</th>
+                      <th  style="width:12%">Mfg Date</th>
+                      <th  style="width:12%">Expiry Date</th>
+                      <th style="width:10%">Batch</th>
+                      <!-- <th>PR #</th>
+                      <th>SN #</th> -->
+                      <th style="width:10%">Status</th>
+                      <th style="width:12%">Quantity</th>
+                      <!-- <th>No Of Boxes</th> -->
+                      <th style="width:10%">Total CBM</th>
+                      <!-- <th>GatePass</th> -->
+                      <!-- <th>ServiceRequest</th> -->
+                      <!-- <th>LOT#</th> -->
+                      <!-- <th>RecievedFrom</th> -->
+                      <!-- <th>ConsignmentNo</th> -->
+                      <!-- <th>ICare</th> -->
+                      <!-- <th>Business Type</th>
+                      <th>Handler Name</th>
+                      <th>Inbound Pool</th>
+                      <th>Network</th>
+                      <th>Packing List No</th>
+                      <th>Received Station</th> -->
+                      <!-- <th>Contract No</th> -->
+                      <!-- <th>Delivery Type</th> -->
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let shipment of shipmentListToPost"
+                      [ngClass]="{ 'border_bottom': shipment.ItemInformationId==='0' || shipment.ICare==='1'}">
+                      <td>{{shipment.ItemInformationId}}</td>
+                      <!-- <td>{{shipment.SKU}}</td> -->
+                      <td>{{shipment.Name}}</td>
+                      <td>{{shipment.MfgDate }}</td>
+                      <td>{{shipment.ExpiryDate }}</td>
+                      <!-- <td>{{shipment.PalletNo}}</td> -->
+                      <td>{{shipment.Batch}}</td>
+                      <!-- <td>{{shipment.PRno}}</td>
+                      <td>{{shipment.SNno}}</td> -->
+                      <td>{{shipment.Status}}</td>
+                      <td>{{shipment.Quantity}}</td>
+                      <!-- <td>{{shipment.NoOfBoxes}}</td> -->
+                      <!-- <td>{{shipment.Location}}</td> -->
+                      <td>{{shipment.TotalCBM}}</td>
+                      <!-- <td>{{shipment.GatePass}}</td> -->
+                      <!-- <td>{{shipment.ServiceRequest}}</td> -->
+                      <!-- <td>{{shipment.RMA}}</td>
+                      <td>{{shipment.RecievedFrom}}</td> -->
+                      <!-- <td>{{shipment.ConsignmentNo}}</td> -->
+                      <!-- <td>{{shipment.ICare}}</td> -->
+                      <!-- <td>{{shipment.BusinessType}}</td>
+                      <td>{{shipment.HandlerName}}</td>
+                      <td>{{shipment.InboundPool}}</td>
+                      <td>{{shipment.Network}}</td>
+                      <td>{{shipment.PackingListNo}}</td>
+                      <td>{{shipment.ReceivedStation}}</td> -->
+                      <!-- <td>{{shipment.ContractNo}}</td> -->
+                      <!-- <td>{{shipment.DeliveryType}}</td> -->
+                      <td>
+                        <button type="button" class="btn btn-sm btn-danger"
+                          (click)="deleteFromShipmentListManual(shipment)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tfoot>
+                    <tr>
+                      <td colspan="5"></td>
+                      <td>TOTAL :</td>
+                      <td>{{TotalQty}}</td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="box-footer">
+          <div class="col-md-2">
+            <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export Format</button>
+          </div>
+          <!-- <div class="col-md-2">
+            <button type="button" class="btn-genx" (click)="exportServiceAsCSV()"> Export as CSV</button>
+          </div> -->
+          <div class="col-md-4">
+            <input type="file" id="servicePicked" #servicePicked (click)="message=''"
+              (change)="onServicePicked(servicePicked)">
+          </div>
+          <button type="button" [disabled]="formGroup.invalid || shipmentListToPost.length <=0 || BTN===true"
+            class="btn btn-success pull-right" (click)="createShipmentNote(formGroup.value)">S U B M I T</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<!-- Modal Item shipment location -->
+<!-- <modal #modalItemLocation>
+<modal-header>
+    <div class="box-header">
+        <div class="form-group">
+            <h3 class="box-title detail-title">
+              {{this.selectedWarehouse.Name}}
+            </h3>
+        </div>
+      </div>
+</modal-header>
+
+<modal-content>
+    <div class="row">
+        <div class="col-sm-12">
+          <table class="table table-bordered table-hover dataTable" role="grid">
+            <thead>
+              <tr role="row">
+                <th>Chamber Aisle</th>
+                <th>Chamber Rack</th>
+                <th>Chamber Bay</th>
+                <th>Location</th>
+                <th>Vacant Quantity</th>
+                <th>Quantity</th>
+                <th class="pallets-dropdown">Pallet</th>
+                <th>No Of Boxes</th>
+                <th>No Of Pallets</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr role="row" *ngFor="let godwom of shelfListForShipment">
+                <td>{{godwom.godownRow.Name}} | {{godwom.godownRow.Alias}}</td>
+                <td>{{godwom.godownRack.Name}} | {{godwom.godownRack.Alias}}</td>
+                <td>{{godwom.godownShelf.Name}} | {{godwom.godownShelf.Alias}}</td>
+                <td>{{godwom.Location}}</td>
+                <td>{{godwom.vacantQuantity}}</td>
+                <td><input (blur)="QuantityChange($event,godwom.vacantQuantity,godwom.Location)" value="{{godwom.Quantity}}" type="text" class="form-control"></td>
+                <td>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="palletKeyPair" [settings]="palletDropdownSettings"
+                      (onDeSelect)="palletDeSelect(godwom.Location)"
+                    (onSelect)="palletSelect($event,godwom.Location,0)">
+                  </ng-multiselect-dropdown>
+                </td>
+                <td>{{godwom.NoOfBoxes}}</td>
+                <td>{{godwom.NoOfPallets}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+</modal-content>
+
+<modal-footer>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="cancelItemLocationModal()">Cancel</button>
+        <button type="button" class="btn btn-wms" (click)="addShipmentItem()">Save</button>
+      </div>
+</modal-footer>
+</modal> -->

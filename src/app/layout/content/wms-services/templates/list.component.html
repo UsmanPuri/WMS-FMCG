@@ -1,0 +1,89 @@
+
+
+<section class="content">
+  <section class="content-header">
+    <h1>
+      WMS SERVICE LISTING
+      <small>
+        <button class="btn-wms" (click)="redirectToCreateWmsService()"><i class="fa fa-plus"></i> New</button>
+      </small>
+    </h1>
+    <ol class="breadcrumb">
+        <!-- <li><button
+          [printStyle]="{table : {'font-size': '10px'}}"
+           class="btn-genx hidden-print print-btn" printTitle="Fleet Services Information"
+            [useExistingCss]="true" ngxPrint printSectionId="print-section">
+            <span class="glyphicon glyphicon-print" aria-hidden="true">
+            </span></button></li> -->
+            <!-- <li><button  class="btn-info print-btn" (click)="print()"><span class="glyphicon glyphicon-print" aria-hidden="true">
+            </span></button></li>  -->
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.WMS_SERVICE_LISTING]">Wms Services</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+ <div >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid" id="print-section">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Service Name
+                      </th>
+                      <th>
+                        Service Type
+                      </th>
+                      <th>
+                        UOM
+                      </th>
+                      <th>
+                          Status
+                        </th>
+                      <th>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let service of wmsServiceList">
+                      <td>{{service.ServiceName}}</td>
+                      <td>{{service.ServiceType}}</td>
+                      <td>{{service.AML_Units.Title}}</td>
+                      <td>
+                          <span *ngIf="IsStatisActive(service.StatusId); else inactive_span" class="label label-success">Active</span>
+                          <ng-template #inactive_span>  <span class="bg-red label">In Active</span></ng-template>
+                      </td>
+                      <td>
+                        <button type="button" id="update" class="btn-warning editBtn" (click)="Edit(service.Id)"><i
+                            class="fa fa-edit"></i></button>
+
+                            <button type="button" id="update" class="btn-warning editBtn" (click)="Detail(service.Id)"><i
+                              class="fa fa-info"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  </div>
+  <!-- /.row -->
+</section>

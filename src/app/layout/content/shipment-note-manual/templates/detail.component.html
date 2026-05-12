@@ -1,0 +1,226 @@
+<style>
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+</style>
+<section class="content-header">
+    <h1>
+      Shipment Note Detail 
+      <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.SHIPMENT_NOTE_MANUAL_LISTING]">ASN Listing</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+          
+            <div class="form-group  pull-right">
+              <button type="button" (click)="redirectToListShipmentNote()" class="btn-wms">ASN Listing</button>
+            </div>
+            <h3>ASN Detail</h3>
+          </div>
+      
+          <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateASN()">
+
+         
+          <!-- /.box-header -->
+          <div class="box-body">
+           
+            <!-- <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Customer</b><a class="pull-right">{{shipmentNote.CustomerName}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>ASN Id</b><a class="pull-right">{{shipmentNote.ShipmentNoteId}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Shipment Note No</b><a class="pull-right">{{shipmentNote.ShipmentNoteNo}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>ASN No.</b><a class="pull-right">{{shipmentNote.ASNNo}}</a>
+                        </li>
+
+                    </ul>
+                </div>             
+            </div> -->
+
+            <!-- <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Warehouse</b><a class="pull-right">{{shipmentNote.WarehouseName}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>ASN Date</b><a class="pull-right">{{shipmentNote.ASNDate | date}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Delivery No</b><a class="pull-right">{{shipmentNote.DeliveryNo}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Cargo Status</b><a class="pull-right">{{shipmentNote.CargoStatus}}</a>
+                        </li>
+
+                    </ul>
+                </div>             
+            </div> -->
+
+            <div class="col-md-6">
+              <div class="box-body box-profile">
+                  <ul class="list-group list-group-unbordered">
+                      <li class="list-group-item">
+                          <b>Business Type</b><a class="pull-right">{{shipmentNote.BusinessType}}</a>
+                      </li>
+                      <li class="list-group-item">
+                          <b>Handler Name</b><a class="pull-right">{{shipmentNote.HandlerName}}</a>
+                      </li>
+                      <li class="list-group-item">
+                          <b>Inbound Pool</b><a class="pull-right">{{shipmentNote.InboundPool}}</a>
+                      </li>
+                      <li class="list-group-item">
+                          <b>Network</b><a class="pull-right">{{shipmentNote.Network}}</a>
+                      </li>
+
+                  </ul>
+              </div>             
+          </div>
+
+          <div class="col-md-6">
+            <div class="box-body box-profile">
+                <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                        <b>Packing List No</b><a class="pull-right">{{shipmentNote.PackingListNo}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Received Station</b><a class="pull-right">{{shipmentNote.ReceivedStation}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Contract No</b><a class="pull-right">{{shipmentNote.ContractNo}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Delivery Type</b><a class="pull-right">{{shipmentNote.DeliveryType}}</a>
+                    </li>
+
+                </ul>
+            </div>             
+        </div>
+            
+           
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <!-- <th>
+                          SKU 
+                        </th> -->
+                        <th>
+                          SKU Name
+                        </th>
+                        <th>
+                          SKU CBM
+                        </th>
+                        <th>
+                          Batch / Serial
+                        </th>
+                        <th>
+                          SN #
+                        </th>
+                        <th>
+                          PR #
+                        </th>
+                        <th>
+                          Status
+                        </th>
+                        <th>
+                          Mfg Date
+                        </th> 
+                       
+                        <th>
+                         Expiry Date
+                        </th>
+                        <th>
+                           Quantity
+                        </th>
+                        <th>
+                            No of Boxes
+                         </th>
+                         <th>GatePass</th>
+                         <th>ServiceRequest</th>
+                         <th>RMA</th>
+                         <th>RecievedFrom</th>
+                         <th>ConsignmentNo</th>
+                         <th>ICare</th>
+
+                          <th>Business Type</th>
+                                <th>Handler Name</th>
+                                <th>Inbound Pool</th>
+                                <th>Network</th>
+                                <th>Packing List No</th>
+                                <th>Received Station</th>
+                                <th>Contract No</th>
+                                <th>Delivery Type</th>
+                                <th>Inbound Against</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of shipmentNote.AML_ShipmentNoteChild">
+                        <!-- <td>{{item.ItemInformationId}}</td> -->
+                        <td>{{item.Description}}{{item.ItemName}}</td>
+                        <td>{{item.ItemCBM | number:'1.2-2'}}</td>
+                        <td>{{item.Batch}}</td>
+                        <td>{{item.SNno}}</td>
+                        <td>{{item.PRno}}</td>
+                        <td>{{item.Status}}</td>
+                        <td>{{item.MfgDate | date}}</td>
+                        <td>{{item.ExpiryDate | date}}</td>
+                        <td>{{item.Quantity}}</td>                                          
+                        <td>{{item.NoOfBoxes}}</td>
+                        <td>{{item.GatePass}}</td>
+                              <td>{{item.ServiceRequest}}</td>
+                              <td>{{item.RMA}}</td>
+                              <td>{{item.RecievedFrom}}</td>
+                              <td>{{item.ConsignmentNo}}</td>
+                              <td>{{item.ICare}}</td>
+                              <td>{{item.BusinessType}}</td>
+                              <td>{{item.HandlerName}}</td>
+                              <td>{{item.InboundPool}}</td>
+                              <td>{{item.Network}}</td>
+                              <td>{{item.PackingListNo}}</td>
+                              <td>{{item.ReceivedStation}}</td>
+                              <td>{{item.ContractNo}}</td>
+                              <td>{{item.DeliveryType}}</td>
+                              <td>{{item.InboundAgainst}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+           
+          </div>
+        </form>
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>

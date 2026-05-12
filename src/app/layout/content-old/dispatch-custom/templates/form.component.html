@@ -1,0 +1,456 @@
+<section class="content-header">
+  <h1>
+    {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} CUSTOM PICKUP PLAN
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.DISPATCH_LISTING]">Pickups</a></li>
+    <li class="active">Create</li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createDispatch(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToDispatchCustomList()" class="btn-wms">{{dropdownHideShow == true ?
+              'Customer' : 'Transfer'}} Pickups Listing</button>
+          </div>
+          <!-- <div class="form-group pull-left">
+              &nbsp; <input type="radio"   checked="true" value="customer" (change)="radioChange($event)"  name="formMode">&nbsp;
+              Customer Oder&nbsp; <input type="radio" value="transfer" (change)="radioChange($event)"  name="formMode" >&nbsp; Transfer Order
+            </div> -->
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Customer</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                    [settings]="customerDropdownSettings" (onDeSelect)="customerDeSelect()"
+                    (onSelect)="customerChange($event)" formControlName="CustomerId">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                    It is required
+                  </span>
+                </div>
+
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <!-- <label *ngIf="formType=='customer'">Customer Order</label> -->
+                  <label [hidden]="!dropdownHideShow">Customer Order</label> <label [hidden]="dropdownHideShow">Transfer
+                    Order</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="pickupOrderKeyPair"
+                    [settings]="pickupOrderDropdownSettings" formControlName="PickupOrderId"
+                    (onDeSelect)="pickupOrderDeSelect()" (onSelect)="PickupOrderChange($event)"
+                    [disabled]="this.FlagList=='True'">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedPickupOrder || !this.selectedPickupOrder['Id']">
+                    It is required
+                  </span>
+                </div>
+              </div>
+              <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Agent</label>
+                    <input type="text" formControlName="Agent" class="form-control" placeholder="Enter Agent">
+                    <span class="help-block" *ngIf="formGroup.controls.Agent.invalid">
+                      {{getErrorMessage('Agent')}}
+                    </span>
+                  </div>
+                </div> -->
+            </div>
+          </div>
+          <div class="col-md-12" *ngIf="pickupOrder!=null">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Warehouse</label>
+                  <p>{{pickupOrder.OriginWarehouse}}</p>
+                </div>
+
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>PickupMethod</label>
+                  <p *ngIf="pickupOrder.PickupMethod==1">FIFO</p>
+                  <p *ngIf="pickupOrder.PickupMethod==2">LIFO</p>
+                  <p *ngIf="pickupOrder.PickupMethod==3">LEFO</p>
+                  <p *ngIf="pickupOrder.PickupMethod==4">FEFO</p>
+                  <p *ngIf="pickupOrder.PickupMethod==5">Custom</p>
+                </div>
+
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Loading Date</label>
+                  <p>{{pickupOrder.LoadingDate | date}}</p>
+                </div>
+
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>WayBill No</label>
+                  <p>{{pickupOrder.waybill}}</p>
+                </div>
+
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Distributor Name</label>
+                  <p>{{pickupOrder.DistName}}</p>
+                </div>
+
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Code</label>
+                  <p>{{pickupOrder.DistCode}}</p>
+                </div>
+
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Address</label>
+                  <p>{{pickupOrder.DistAddress}}</p>
+                </div>
+
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Contact Person</label>
+                  <p>{{pickupOrder.ContactPerson}}</p>
+                </div>
+
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group">
+              <h3 class="box-title detail-title"><b>Pickup Plan Detail</b></h3>
+            </div>
+          </div>
+          <div class="box-body">
+            <!-- <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>SKU</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="itemKeyPair"
+                    [settings]="itemDropdownSettings" formControlName="ItemId" (onDeSelect)="itemDeSelect()"
+                    (onSelect)="itemChange($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                    <label>SN no</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                    [data]="palletKeyPair"
+                      [settings]="palletDropdownSettings"
+                        formControlName="PalletId"
+                        (onDeSelect)="palletDeSelect()"
+                      (onSelect)="palletChange($event)">
+                    </ng-multiselect-dropdown>
+                  </div>
+                </div> 
+
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label>Batch/Serial No</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="batchKeyPair"
+                    [settings]="batchDropdownSettings" formControlName="BatchId" (onDeSelect)="batchDeSelect()"
+                    (onSelect)="batchChange($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Locations</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="locationKeyPair"
+                    [settings]="locationDropdownSettings" formControlName="LocationId" (onDeSelect)="locationDeSelect()"
+                    (onSelect)="locationChange($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>PRNo</label>
+                  <input type="input" readonly formControlName="PRNOs" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>PalletNO</label>
+                  <input type="input" readonly formControlName="PalletNO" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Status</label>
+                  <input type="input" readonly formControlName="SKUStatus" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>InboundPool</label>
+                  <input type="input" readonly formControlName="InboundPoolName" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Req.Qty</label>
+                  <input type="number" readonly value={{RequiredQuantity}} class="form-control">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Avail. Stock</label>
+                  <input type="number" readonly formControlName="QtyAvailableToAdd" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label>Reserve Qty</label>
+                  <input type="number" readonly formControlName="ReserveQty" value={{ReserveQty}} class="form-control">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Quantity</label>
+                  <input type="number" formControlName="QtyToAdd" (blur)="quantityChange($event)" class="form-control">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group shipment-item-add">
+                  <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemIntoItemPostList()">
+                    Add SKU
+                  </button>
+                </div>
+              </div>
+            </div> -->
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th style="width: 2%;">Sr.</th>
+                        <th style="width: 7%;">System ID</th>
+                        <th style="width: 7%;">SKU Code</th>
+                        <th style="width: 20%;">SKU Name</th>
+                        <th style="width: 7%;">Location</th>
+                        <th style="width: 7%;">Pallet No</th>
+                        <th style="width: 7%;">Batch/Serial</th>
+                        <th style="width: 7%;">MFG Date</th>
+                        <th style="width: 7%;">EXP Date</th>
+                        <th style="width: 7%;">Avl Stock</th>
+                        <th style="width: 7%;">InTransit</th>
+                        <th style="width: 7%;">Qty Required</th>
+                        <th style="width: 12%;">Qty Supply</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of itemListToPost; index as i">
+                        <td> {{i+1}}</td>
+                        <td>{{item.ItemId}}</td>
+                        <td>{{item.Description}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Location}}</td>
+                        <td>{{item.PalletNo}}</td>
+                        <td>{{item.Batch}}</td>
+                        <td>{{item.MfgDate | date}}</td>
+                        <td>{{item.ExpDate | date}}</td>
+                        <td>{{item.Balance}}</td>
+                        <td>{{item.TransitQuantity}}</td>
+                        <td>{{item.Quantity}}</td>
+                        <td><input type="number" value="{{item.QtySupply}}" class="form-control" (change)="addItemRelOrd($event,item.ItemId)"></td>
+                        <td>
+                          <button type="button" class="btn btn-sm btn-danger"
+                            (click)="deleteFromitemListToPost(item)"><i class="fa fa-trash"></i></button>
+                        </td>
+
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr role="row">
+                        <td colspan="9"></td>
+                        <td>TOTAL</td>
+                        <td>{{TotalQty}}</td>
+                        <td>{{ReserveQty}}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="box-footer">
+          <button type="button" [disabled]="formGroup.invalid || this.FlagDispatch=='True' || this.itemListToPost==null || this.itemListToPost.length==0"
+          (click)="createDispatch(formGroup.value)" class="btn btn-success pull-right">Pickup for Dispatch</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+<modal #AllModal>
+  <!-- <modal-header>
+
+  </modal-header> -->
+
+  <modal-content style="padding:1px; width:980px; margin: left -35px;">
+    <div class="box box-primary" id="print-section">
+      <div class="row">
+        <div class="col col-sm-3" style="text-align: left;">
+          <img id="logo" src={{LogoPath}} height="45" width="160" style="background-color: white;">
+        </div>
+        <div class="col col-sm-8 pull-right" style="margin-top: 10px; text-align: left;">
+          <address>
+            <strong>{{CompanyName}}</strong> <br>
+            {{CompanyAddress}}
+          </address>
+        </div>
+      </div>
+      <div class="row col-sm-12" style="text-align: center; padding-top: 30px;">
+        <h4><b><u>{{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} PICKUP PLAN</u></b></h4>
+      </div>
+        <!-- info row -->
+        <div class="row col col-sm-12 table-responsive" style="min-height: 80px;">
+          <div class="col col-sm-6" id="invoice-col">
+            <div class="row">
+              <div class="col-sm-6" style="text-align: left;">
+                <label><b>Customer Name :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{selectedCustomer['Name']}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6" style="text-align: left;">
+                <label><b>Distributor Info:</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{DistCode}} - {{DistName}}</label> 
+              </div> 
+              <!--  -->
+            </div>
+            <div class="row">
+              <div class="col-sm-6" style="text-align: left;">
+                <label><b>Address :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{DistAddress}}</label>
+              </div>
+            </div>
+           
+          </div>
+          <!-- /.col -->
+          <div class="col-sm-6 invoice-col">
+            <div class="row">
+              <div class="col-sm-6" style="text-align: left;">
+                <label><b>Pickup Method</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>FEFO</label>
+                  <!-- <p *ngIf="{{pickupOrder.PickupMethod}}==1">FIFO</p>
+                  <p *ngIf="{{pickupOrder.PickupMethod}}==2">LIFO</p>
+                  <p *ngIf="{{pickupOrder.PickupMethod}}==3">LEFO</p>
+                  <p *ngIf="{{pickupOrder.PickupMethod}}==4">FEFO</p>
+                  <p *ngIf="{{pickupOrder.PickupMethod}}==5">Custom</p> -->
+                
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6" style="text-align: left;">
+                <label><b>Gate Pass No :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{GatePassNo}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-6" style="text-align: left;">
+                <label><b>Customer Order Ref :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{selectedPickupOrder['Name']}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row col-sm-12">
+          <div class="col-sm-12">
+            <table class="table dataTable">
+              <thead>
+                <tr role="row">
+                  <th style="border: 1px solid black;">Sr.</th>
+                  <th style="border: 1px solid black;">Code</th>
+                  <th style="border: 1px solid black;">SKU Name</th>
+                  <!-- <th style="border: 1px solid black;">Location</th> -->
+                  <!-- <th style="border: 1px solid black;">Status</th> -->
+                  <th style="border: 1px solid black;">Batch#</th>
+                  <th style="border: 1px solid black;">MGF Date</th>
+                  <th style="border: 1px solid black;">ExpDate</th>
+                  <th style="border: 1px solid black;">Order Qty</th>
+                  <th style="border: 1px solid black;">Pickup Qty</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let item of itemListToPost; index as i">
+                <tr>
+                  <td style="border: 1px solid black;"> {{i+1}}</td>
+                  <td style="border: 1px solid black;">{{item.Description}}</td>
+                  <td style="border: 1px solid black;">{{item.Name}}</td>
+                  <!-- <td style="border: 1px solid black;">{{item.Location}}</td> -->
+                  <!-- <td style="border: 1px solid black;">{{item.Status}}</td> -->
+                  <td style="border: 1px solid black;">{{item.Batch}}</td>
+                  <td style="border: 1px solid black;">{{item.MfgDate | date}}</td>
+                  <td style="border: 1px solid black;">{{item.ExpDate | date}}</td>
+                  <td style="border: 1px solid black;">{{item.Quantity}}</td>
+                  <td style="border: 1px solid black;">{{item.QtySupply}}</td>
+                </tr>
+              </tbody>
+               <tfoot>
+                <td colspan="5"></td>
+                <td>TotalQty:</td>
+                <td>{{TotalQty}}</td>
+                <td>{{ReserveQty}}</td>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+    </div>
+  </modal-content>
+
+  <modal-footer>
+    <div class="row no-print" id="printButton">
+      <div class="col-sm-12">
+        <!-- <a  (click)="print()" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+        <button [printStyle]="{table : {'font-size': '10px'},body : {'font-size': '10px'}}"
+          class="btn-wms hidden-print print-btn" printTitle="Pickup Plan" [useExistingCss]="true" ngxPrint
+          printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-footer>
+</modal>

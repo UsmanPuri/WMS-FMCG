@@ -1,0 +1,237 @@
+<section class="content">
+  <section class="content-header">
+    <h1>
+      PRODUCT SKU LISTING
+      <small>
+        <button class="btn-wms-head" (click)="redirectToCreateItem()"><i class="fa fa-plus-circle"></i> </button>
+      </small>
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class=""></i> Home</a></li>
+      <li><a routerLink="[this.routesList.ITEM_LISTING]">Customer SKU Brand</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onSelect)="customerChange($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <div class="pull-right">
+                <button type="submit" [disabled]="formGroup.invalid" (click)="openModal()"
+                  class="btn btn-default">Print</button>
+                <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>Sr.</th>
+                      <th>System Code</th>
+                      <th class="col-sm-2">Name</th>
+                      <th>Height</th>
+                      <th>Width</th>
+                      <th>Length</th>
+                      <th>CBM</th>
+                      <th>Weight</th>
+                      <th>Min Stock</th>
+                      <th>Max Stock</th>
+                      <th>Price</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let Item of ItemList; let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{Item.Description}}</td>
+                      <td>{{Item.Category}} | {{Item.Brand}} | {{Item.ItemName}}</td>
+                      <td>{{Item.Height}}</td>
+                      <td>{{Item.Width}}</td>
+                      <td>{{Item.Length}}</td>
+                      <td>{{((Item.Width*2.54) * (Item.Height * 2.54) * (Item.Length * 2.54))/1000000 | number :
+                        '1.2-2'}}</td>
+                        <td>{{Item.Weight}}</td>
+                      <td>{{Item.MinStockLevel}}</td>
+                      <td>{{Item.MaxStockLevel}}</td>
+                      <td>{{Item.Price}}</td>
+                      <td>
+                        <button type="button" id="update" class="editBtn btn-warning"
+                          (click)="Edit(Item.ItemInformationId)"><i class="fa fa-edit"></i></button>
+                        <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger"
+                          (click)="Delete(Item.ItemInformationId)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngx-ui-loader></ngx-ui-loader>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+<modal #AllModal>
+
+  <modal-header>
+
+    <div class="row no-print" id="printButton">
+      <div class="col-xs-12">
+        <button [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+          class="btn-wms hidden-print pull-right print-btn" printTitle="Customer" [useExistingCss]="true" ngxPrint
+          printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-header>
+
+  <modal-content style="padding:2%">
+    <div class="box box-primary" id="print-section">
+      <div class="box-header with-border">
+        <h3 class="box-title detail-title">Customer SKU</h3>
+        <div class="form-group  pull-right">
+
+        </div>
+      </div>
+      <section class="invoice">
+        <!-- title row -->
+
+        <!-- info row -->
+        <div class="col-sm-6 invoice-col">
+          <div class="col-xs-12">
+            <h2 class="page-header">
+              <img id="logo" src="assets/images/aml-png-logo-web-1.png" height="70" width="160"
+                style="background-color: white;">
+              <!-- <small id="date" class="pull-right">Date: {{dateInvoice}} </small> -->
+            </h2>
+          </div>
+        </div>
+        <div class="row invoice-info">
+          <div class="col-sm-6 invoice-col pull-right" id="invoice-col">
+
+            <address>
+              <strong>AML,Logistics</strong>
+              Head Office Address: Plot No. 193, 1st Floor,
+              Street No.1, Sector I/10,
+              Industrial Area, Islamabad.
+              Phone: +92-51-4102361-62
+
+            </address>
+          </div>
+          <!-- /.col -->
+
+          <!-- /.col -->
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12" style="text-align: center;">
+            <h4><u>Customer SKU</u></h4>
+          </div>
+        </div>
+        <!-- info row -->
+
+        <!-- /.row -->
+
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-xs-12 table-responsive">
+            <table class="table table-bordered table-hover dataTable" role="grid">
+              <thead>
+                <tr role="row">
+                  <th>
+                    Sr.
+                  </th>
+                  <th>
+                    System Code
+                  </th>
+                  <th class="col-sm-1">
+                    Name
+                  </th>
+
+
+                  <th>
+                    Height
+                  </th>
+                  <th>
+                    Width
+                  </th>
+                  <th>
+                    Length
+                  </th>
+                  <th>
+                    CBM
+                  </th>
+                  <th>
+                    Min Stock
+                  </th>
+                  <th>
+                    Max Stock
+                  </th>
+                  <th>
+                    Price
+                  </th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" *ngFor="let Item of ItemList; let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{Item.Description}}</td>
+                  <td>{{Item.Category}} | {{Item.Brand}} | {{Item.ItemName}}</td>
+
+
+                  <td>{{Item.Height}}</td>
+                  <td>{{Item.Width}}</td>
+                  <td>{{Item.Length}}</td>
+                  <td>{{((Item.Width*2.54) * (Item.Height * 2.54) * (Item.Length * 2.54))/1000000 | number : '1.2-2'}}
+                  </td>
+                  <td>{{Item.MinStockLevel}}</td>
+                  <td>{{Item.MaxStockLevel}}</td>
+                  <td>{{Item.Price}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+
+
+      </section>
+
+
+
+    </div>
+  </modal-content>
+
+  <modal-footer>
+
+  </modal-footer>
+
+
+</modal>

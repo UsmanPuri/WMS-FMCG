@@ -1,0 +1,55 @@
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          PARKING STAGES CREATE
+         
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.PARKINGSTAGES_LISTING]">Parking Stages</a></li>
+          <li class="active">Create</li>
+        </ol>
+      </section>
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createParkingStage(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group  pull-right">
+                <button type="button" (click)="redirectToParkingStagesList()" class="btn-wms">Parking Stages Listing</button>
+
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" formControlName="Name" class="form-control input-sm" placeholder="Enter Name">
+                  <span class="help-block" *ngIf="formGroup.controls.Name.invalid">
+                    {{getErrorMessage('Name')}}
+                  </span>
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Description</label>
+                  <input type="text" formControlName="Description" class="form-control input-sm" placeholder="Enter Description">
+                  <span class="help-block" *ngIf="formGroup.controls.Description.invalid">
+                    {{getErrorMessage('Description')}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+        
+
+          </div>
+          <div class="box-footer">
+              <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>

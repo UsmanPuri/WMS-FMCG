@@ -1,0 +1,70 @@
+span.required {
+    color: red;
+}
+
+.header-wms {
+    background-color: dodgerblue !important;
+}
+
+.cont {
+    padding-left: 10px;
+    float: left;
+    color: #fff;
+    padding: 14px;
+}
+
+.bcrums:before {
+    content: "/";
+    padding: 0px 8px;
+}
+
+.main-header .navbar {
+    background-image: linear-gradient(to bottom, #536482, #6a7da7);
+    background-color: #605ca8 !important;
+    
+    
+}
+
+.main-header .logo {
+    background-image: linear-gradient(to bottom, #536482, #6a7da7);
+    background-color: #605ca8 !important;
+    padding: 0px 2px !important;
+}
+
+@media only screen and (max-width : 768px) {
+    .cont {
+        display: none;
+    }
+
+}
+
+.modal-content {
+    background-color: black;
+    border: 1px solid white !important;
+    opacity: 0.90;
+    width: 100%;
+}
+
+.modal-header {
+    border: 0px !important;
+}
+
+.modal {
+    display: flex;
+    justify-content: center;
+}
+
+.logoImg {
+    /* height: 50px; */
+    width: 167px;
+    background-color: white;
+    margin-left: 0%;
+    /* border-radius: 50%; */
+}
+
+.myImg {
+    height: 45px;
+    width: 165px;
+    object-fit: cover;
+    /* border-radius: 50%; */
+}

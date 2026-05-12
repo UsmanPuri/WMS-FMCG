@@ -1,0 +1,207 @@
+<style>
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+</style>
+<section class="content-header">
+    <h1>
+      ASN MOVING 
+      <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.SHIPMENT_NOTE_MOVING_LISTING]">ASN Moving</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+          
+            <div class="form-group  pull-right">
+              <button type="button" (click)="redirectToListShipmentNote()" class="btn-wms">ASN Moving Listing</button>
+            </div>
+            <h3>ASN Movement</h3>
+          </div>
+      
+          <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="moveASN()">
+
+         
+          <!-- /.box-header -->
+          <div class="box-body">
+           
+            <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>ASN Id</b><a class="pull-right">{{shipmentNote.ShipmentNoteId}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Shipment Note No</b><a class="pull-right">{{shipmentNote.ShipmentNoteNo}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>ASN No.</b><a class="pull-right">{{shipmentNote.ASNNo}}</a>
+                        </li>
+
+                    </ul>
+                </div>             
+            </div>
+
+            <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>ASN Date</b><a class="pull-right">{{shipmentNote.ASNDate | date}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Delivery No</b><a class="pull-right">{{shipmentNote.DeliveryNo}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Cargo Status</b><a class="pull-right">{{shipmentNote.CargoStatus}}</a>
+                        </li>
+
+                    </ul>
+                </div>             
+            </div>
+          
+
+    
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Moved From</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="parkingStageKeyPair"
+                    [settings]="parkingStageDropdownSettings" (onDeSelect)="onDeSelect('selectedParkingStage')"
+                    formControlName="ParkingStageIdFrom" (onSelect)="parkingStageChange($event)">
+                  </ng-multiselect-dropdown>
+    
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Moved To</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="parkingStageKeyPair"
+                    [settings]="parkingStageDropdownSettings" (onDeSelect)="onDeSelectparkingStageTo('selectedParkingStage')"
+                    formControlName="ParkingStageIdTo" (onSelect)="parkingStageToChange($event)">
+                  </ng-multiselect-dropdown>
+    
+                </div>
+              </div>
+             
+            </div>
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>
+                          Customer SKU 
+                        </th>
+                        <th>
+                          SKU Name 
+                        </th>
+                        <th>
+                          SKU CBC 
+                        </th>
+                        <th>
+                          Batch / Serial
+                        </th>
+                        <th>
+                         SN #
+                        </th> 
+                        <th>
+                          PR #
+                        </th> 
+                        <th>
+                          Mfg Date
+                        </th> 
+                       
+                        <th>
+                         Expiry Date
+                        </th>
+                        <th>
+                           Balance
+                        </th>
+                        <th>GatePass</th>
+                       <th>ServiceRequest</th>
+                       <th>RMA</th>
+                       <th>RecievedFrom</th>
+                       <th>ConsignmentNo</th>
+                       <th>ICare</th>
+                       <th>Business Type</th>
+                       <th>Handler Name</th>
+                       <th>Inbound Pool</th>
+                       <th>Network</th>
+                       <th>Packing List No</th>
+                       <th>Received Station</th>
+                       <th>Contract No</th>
+                       <th>Delivery Type</th>
+                       <th>Inbound Against</th>
+                       <th>Move Quantity</th>
+                      
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of shipmentNoteChild">
+                        <td>{{item.Description}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.ItemCBM}}</td>
+                        <td>{{item.Batch}}</td>
+                        <td>{{item.SNno}}</td>
+                        <td>{{item.PRno}}</td>
+                        <td >
+                          <span *ngIf="item.MfgDate=='3020-03-12T00:00:00'; else inactive_span">Null</span>
+                          <ng-template #inactive_span>  <span>{{item.MfgDate | date}}</span></ng-template>
+                        </td>
+                        <td>
+                          <span *ngIf="item.ExpiryDate=='3020-03-12T00:00:00'; else inactive_span">Null</span>
+                          <ng-template #inactive_span>  <span> {{item.ExpiryDate | date}}</span></ng-template>
+                         
+                        </td>
+                        <td>{{item.Balance}}</td>  
+                        <td>{{item.GatePass}}</td>
+                        <td>{{item.ServiceRequest}}</td>
+                        <td>{{item.RMA}}</td>
+                        <td>{{item.RecievedFrom}}</td>
+                        <td>{{item.ConsignmentNo}}</td>
+                        <td>{{item.ICare}}</td>
+                        <td>{{item.BusinessType}}</td>
+                        <td>{{item.HandlerName}}</td>
+                        <td>{{item.InboundPool}}</td>
+                        <td>{{item.Network}}</td>
+                        <td>{{item.PackingListNo}}</td>
+                        <td>{{item.ReceivedStation}}</td>
+                        <td>{{item.ContractNo}}</td>
+                        <td>{{item.DeliveryType}}</td>
+                        <td>{{item.InboundAgainst}}</td>
+                        <td><input type="number" value={{item.MoveQuantity}} (blur)="addMoveQuantity($event,item)" class="form-control"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="submit" class="btn btn-wms pull-right" [disabled]="formGroup.invalid">
+                Move
+            </button>
+          </div>
+        </form>
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>

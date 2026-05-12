@@ -1,0 +1,66 @@
+
+<section class="content">
+  <section class="content-header">
+    <h1>
+      WMS SERVICE CREATE
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.WMS_SERVICE_LISTING]">WMS Services</a></li>
+      <li class="active">Create</li>
+    </ol>
+  </section>
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createWmsService(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group  pull-right">
+                <button type="button" (click)="redirectToWMSServiceList()" class="btn-wms">WMS Service Listing</button>
+
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Service Name</label>
+                  <input type="text" formControlName="ServiceName" class="form-control input-sm" placeholder="Enter Service Name">
+                  <span class="help-block" *ngIf="formGroup.controls.ServiceName.invalid">
+                    {{getErrorMessage('ServiceName')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Service Type</label>
+                  <input type="text" formControlName="ServiceType" class="form-control input-sm" placeholder="Enter Service Type">
+                  <span class="help-block" *ngIf="formGroup.controls.ServiceType.invalid">
+                    {{getErrorMessage('ServiceType')}}
+                  </span>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label>UOM</label>
+                    <select formControlName="UnitOfMeasurement" class="form-control">
+                      <option selected value="">Select one</option>
+                      <option *ngFor="let unit of unitKeyPair"   [value]="unit.Value" >
+                        {{unit.Text}}
+                        
+                      </option>
+                    </select>
+                    <span class="help-block" *ngIf="formGroup.controls.UnitOfMeasurement.invalid">
+                      {{getErrorMessage('UnitOfMeasurement')}}
+                    </span>
+                  </div>
+                </div>
+            </div>
+          </div>
+          <div class="box-footer">
+              <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>

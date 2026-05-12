@@ -1,0 +1,162 @@
+<section class="content">
+  <section class="content-header">
+    <h1>FRESHNESS REPORT</h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable" style="overflow-x: auto">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%;
+                        background-color: #6c757d;">
+                    <!-- <li class="breadcrumb-item">
+                      <a (click)="exportServiceAsCSV()" style="color: white;">
+                        Download Excel</a>
+                    </li> -->
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('Freshness-Report.xlsx', 'tbl', 'Freshness Report')" style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('Freshness_Report.pdf', '#tbl')" style="color: white;">Download PDF</a>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff;
+                            width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                        <a class="dropdown-item" (click)="HideShow('0')" data-column="0" 
+                        style="color: white; text-align: center">
+                          Sr#
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('1')" data-column="1" 
+                        style="color: white; text-align: center">
+                          Warehouse
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('2')" data-column="2" 
+                        style="color: white; text-align: center">
+                          Customer SKU
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('3')" data-column="3" 
+                        style="color: white; text-align: center">
+                          Name
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="4"
+                          style="color: white; text-align: center">
+                          Balance.Stock
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('5')" data-column="5"
+                          style="color: white; text-align: center">
+                          Weight
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('6')" data-column="6"
+                          style="color: white; text-align: center">
+                          Mfg Date
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('7')" data-column="7" 
+                          style="color: white; text-align: center">
+                          Exp Date
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('8')" data-column="8" 
+                          style="color: white; text-align: center">
+                          Day Passed
+                        </a>
+                        
+                      </div>
+                    </li>
+                    <!-- <li>
+                      <a (click)="openModal()" style="color: white;">Print</a>
+                    </li> -->
+                  </ol>
+                </nav>
+
+                <label>Total Records: {{NoOfRecords}}</label>
+                <table class="table table-bordered table-hover dataTable" role="grid"
+										style="width:100%; height: 700px; overflow-x: auto" id="tbl">
+                  <thead>
+                    <tr>
+                      <th colspan="3"></th>
+                      <th style="text-align: center;"><h4><b>I-Logistics Warehouse</b></h4></th>
+                      <th colspan="5"></th>
+                    </tr>
+                    <tr role="row">
+                      <th class="col-sm-1" *ngIf="!hideShowList[0].status"> Sr#</th>
+                      <th class="col-sm-2" *ngIf="!hideShowList[1].status">Warehouse</th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[2].status">Customer SKU</th>
+                      <th style="max-width: 450px;" class="col-sm-2" *ngIf="!hideShowList[3].status">Name</th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[4].status">Balance.Stock</th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[5].status">Weight</th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[6].status">MFG Date</th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[7].status">Exp Date</th>
+                      <th class="col-sm-1" *ngIf="!hideShowList[8].status">Day Passed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- <tr role="row"
+                      *ngFor="let Item of listAvailableStock.slice(0,8000); let i = index;" [hidden]="listAvailableSearch != ''">
+                      <td *ngIf="!hideShowList[0].status">{{i+1}}</td>
+                      <td *ngIf="!hideShowList[1].status">{{Item.Warehouse}}</td>
+                      <td *ngIf="!hideShowList[2].status">{{Item.Description}}</td>
+                      <td *ngIf="!hideShowList[3].status">{{Item.Name}}</td>
+                      <td *ngIf="!hideShowList[4].status">{{Item.Balance}}</td>
+                      <td *ngIf="!hideShowList[5].status">{{Item.Weight}}</td>
+                      <td *ngIf="!hideShowList[6].status">{{Item.MfgDate | date}}</td>
+                      <td *ngIf="!hideShowList[7].status">{{Item.ExpDate | date}}</td>
+                      <td *ngIf="!hideShowList[8].status">{{Item.Aging}}</td>
+                    </tr> -->
+
+                    <tr role="row"
+                      *ngFor="let Item of listAvailableStock; let i = index;" [hidden]="listAvailableSearch == ''">
+                        <td *ngIf="!hideShowList[0].status">{{i+1}}</td>
+                        <td *ngIf="!hideShowList[1].status">{{Item.Warehouse}}</td>
+                        <td *ngIf="!hideShowList[2].status">{{Item.Description}}</td>
+                        <td *ngIf="!hideShowList[3].status">{{Item.Name}}</td>
+                        <td *ngIf="!hideShowList[4].status">{{Item.Balance}}</td>
+                        <td *ngIf="!hideShowList[5].status">{{Item.Weight}}</td>
+                        <td *ngIf="!hideShowList[6].status">{{Item.MfgDate | date}}</td>
+                        <td *ngIf="!hideShowList[7].status">{{Item.ExpDate | date}}</td>
+                        <td *ngIf="!hideShowList[8].status">{{Item.Aging}}</td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3"></td>
+                      <td>Total:</td>
+                      <td>{{addInList | number : '1.2-2'}}</td>
+                      <td colspan="4"></td>
+                      
+                      <!-- <td>{{TotQuantityInPacking}}</td> -->
+                    </tr>
+                  </tfoot>
+                </table>
+                <label>Total Records: {{NoOfRecords}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+  <!-- <div class="box-footer">
+    
+    <div class="col-md-2">
+      <button type="button" class="btn-genx" (click)="exportServiceAsCSV()"> Export as CSV</button>
+    </div>
+  </div> -->
+</section>

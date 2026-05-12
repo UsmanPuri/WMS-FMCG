@@ -1,0 +1,46 @@
+.logo-width {
+  width: 1523px;
+  // position: relative;
+  // min-width: 100%;
+  // background-repeat: no-repeat;
+  // background-size: 100%;
+  // background-position: center;
+  // background-size: cover;
+}
+
+@media screen and (max-width: 800px) {
+  #carouselExampleDark {
+    display: none;
+
+  }
+}
+
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: white;
+  height: 35px;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 5px, 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  /* Prevent double borders */
+  cursor: pointer;
+  height: 35px;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}

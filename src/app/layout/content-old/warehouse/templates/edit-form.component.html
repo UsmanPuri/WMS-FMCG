@@ -1,0 +1,108 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          WAREHOUSE EDIT
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.WAREHOUSE_LISTING]">Warehouses</a></li>
+          <li class="active">Edit</li>
+        </ol>
+      </section>
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateWarehouse(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToWarehouseList()" class="btn-wms">Warehouse Listing</button>
+
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Name</label>
+                <input type="text" formControlName="Name" class="form-control input-sm" placeholder="Enter Warehouse name">
+                <span class="help-block" *ngIf="formGroup.controls.Name.invalid">
+                  {{getErrorMessage('Name')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Abberivation</label>
+                <input type="text" formControlName="Abbreviation" class="form-control input-sm"
+                  placeholder="Enter Warehouse abbreviation">
+                <span class="help-block" *ngIf="formGroup.controls.Abbreviation.invalid">
+                  {{getErrorMessage('Abbreviation')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Contact Person</label>
+                <input type="text" formControlName="ContactPerson" class="form-control input-sm"
+                  placeholder="Enter Contact Person">
+                <span class="help-block" *ngIf="formGroup.controls.ContactPerson.invalid">
+                  {{getErrorMessage('ContactPerson')}}
+                </span>
+              </div>
+
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Contact Person Phone</label>
+                <input type="text" formControlName="ContactPersonPhone" class="form-control input-sm"
+                  placeholder="Enter Contact Person Phone">
+                <span class="help-block" *ngIf="formGroup.controls.ContactPersonPhone.invalid">
+                  {{getErrorMessage('ContactPersonPhone')}}
+                </span>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Longitude</label>
+                <input type="text" formControlName="Longitude" class="form-control input-sm" placeholder="Enter Longitude">
+                <span class="help-block" *ngIf="formGroup.controls.Longitude.invalid">
+                  {{getErrorMessage('Longitude')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Latitude</label>
+                <input type="text" formControlName="Latitude" class="form-control input-sm" placeholder="Enter Latitude">
+                <span class="help-block" *ngIf="formGroup.controls.Latitude.invalid">
+                  {{getErrorMessage('Latitude')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label>Address</label>
+                    <textarea placeholder="Enter Warehouse address" class="form-control input-sm" formControlName="Address"></textarea>
+                    </div>
+              </div>
+              <div class="col-md-4">
+
+              </div>
+              <div class="col-md-4">
+
+              </div>
+            </div>
+        </div>
+        <div class="box-footer">
+          <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Update</button>
+        </div>
+      </div>
+    </form>
+    <ngx-ui-loader></ngx-ui-loader>
+  </div>
+</section>

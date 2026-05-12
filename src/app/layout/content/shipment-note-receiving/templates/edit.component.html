@@ -1,0 +1,390 @@
+<style>
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+</style>
+<section class="content-header">
+  <h1>
+    SHIPMENT RECEIVING
+    <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_RECEIVING_LISTING]">Shipment Receiving</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header">
+
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToListShipmentNote()" class="btn-wms">ASN Receiving Listing</button>
+          </div>
+          <h3>SHIPMENT RECEIVING</h3>
+        </div>
+
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateASN()">
+          <!-- /.box-header -->
+          <div class="box-body">
+            <div class="col col-lg-12">
+              <div class="col-md-4">
+                <div class="box-body box-profile">
+                  <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                      <b>ASN ID</b><a class="pull-right">{{shipmentNote.ShipmentNoteId}}</a>
+                    </li>
+                    
+                    <li class="list-group-item">
+                      <b>PO / Material No.</b><a class="pull-right">{{shipmentNote.ASNNo}}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>ASN Date</b><a class="pull-right">{{shipmentNote.ASNDate | date}}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="box-body box-profile">
+                  <ul class="list-group list-group-unbordered">
+                    <li class="list-group-item">
+                      <b>Shipment Note No</b><a class="pull-right">{{shipmentNote.ShipmentNoteNo}}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Delivery No</b><a class="pull-right">{{shipmentNote.DeliveryNo}}</a>
+                    </li>
+                    <li class="list-group-item">
+                      <b>Cargo Status</b><a class="pull-right">{{shipmentNote.CargoStatus}}</a>
+                    </li>
+
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="col col-lg-12">
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label for="driverName">Driver Name</label>
+                  <input type="text" id="driverName" formControlName="driverName" class="form-control"
+                    placeholder="Enter Driver Name">
+                </div>
+              </div>
+
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label for="vehicleNo">Vehicle No</label>
+                  <input type="text" id="vehicleNo" formControlName="vehicleNo" class="form-control"
+                    placeholder="Enter Vehicle No">
+                </div>
+              </div>
+
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label for="cnicNo">CNIC No.</label>
+                  <input type="text" id="cnicNo" formControlName="cnicNo" class="form-control"
+                    placeholder="Enter CNIC No.">
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="col col-lg-12">
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label for="mobileNo">Mobile No</label>
+                  <input type="text" id="mobileNo" formControlName="mobileNo" class="form-control"
+                    placeholder="Enter Mobile No">
+                </div>
+              </div>
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label for="tempIn">Temperature In</label>
+                  <input type="text" id="tempIn" formControlName="tempIn" class="form-control"
+                    placeholder="Enter Temperature In">
+                </div>
+              </div>
+
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label for="tempOut">Temperature Out</label>
+                  <input type="text" id="tempOut" formControlName="tempOut" class="form-control"
+                    placeholder="Enter Temperature Out">
+                </div>
+              </div>
+            </div>
+
+            <div class="col col-lg-12">
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label>Vehicle Receiving Date-Time</label>
+                  <input type="datetime-local" formControlName="ReceiveDate" #ReceiveDate class="form-control"
+                    (change)="ReceivingDateChange($event)">
+                  <span class="help-block" *ngIf="formGroup.controls.ReceiveDate.invalid">
+                    {{getErrorMessage('ReceiveDate')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label>Off Load Start Date-Time</label>
+                  <input type="datetime-local" formControlname="OffLoadStartDate" #OffLoadStartDate class="form-control" 
+                  (change)="OffLoadStartDateChange($event)">
+                  <span class="help-block" *ngIf="formGroup.controls.OffLoadStartDate.invalid">
+                    {{getErrorMessage('OffLoadStartDate')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label>Off Load End Date-Time</label>
+                  <input type="datetime-local" formControlname="OffLoadEndDate" #OffLoadEndDate 
+                  class="form-control" (change)="OffLoadEndDateChange($event)">
+                  <span class="help-block" *ngIf="formGroup.controls.OffLoadEndDate.invalid">
+                    {{getErrorMessage('OffLoadEndDate')}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col col-lg-12">
+              <div class="col col-lg-4">
+                <div class="form-group">
+                  <label>Select Parking Stage</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="parkingStageKeyPair"
+                    [settings]="parkingStageDropdownSettings" (onDeSelect)="onDeSelect('selectedParkingStage')"
+                    formControlName="ParkingStageId" (onSelect)="parkingStageChange($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+
+
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th style="width:250px;">SKU Name</th>
+                        <th>SKU CBM</th>
+                        <th style="width:100px;">MFG Date</th>
+                        <th style="width:100px;">Expiry Date</th>
+                        <th style="width:100px;">Batch / Serial</th>
+                        <th style="width:40px;">SN #</th>
+                        <th style="width:40px;">PR #</th>
+                        <th tyle="width:100px;">Status</th>
+                        <th>Quantity</th>
+                        <th>Received Quantity</th>
+                        <th>GatePass</th>
+                        <th>RecievedFrom</th>
+                        <th>Business Type</th>
+                        <th>Handler Name</th>
+                        <th>Inbound Pool</th>
+                        <th>Received Station</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of shipmentNote.AML_ShipmentNoteChild">
+                        <td>{{item.Description}}{{item.ItemName}}</td>
+                        <td>{{item.ItemCBM | number:'1.2-2'}}</td>
+                        <td>{{item.MfgDate | date}}</td>
+                        <td>{{item.ExpiryDate | date}}</td>
+                        <td>{{item.Batch}}</td>
+                        <td>{{item.SNno}}</td>
+                        <td>{{item.PRno}}</td>
+                        <td>{{item.Status}}</td>
+                        <td>{{item.Quantity}}</td>
+                        <td><input style="width:100px;" type="number" value={{item.ReceivedQuantity}}
+                          (blur)="addReceivedQuantity($event,item)" class="form-control"></td>
+                        <!-- <td>{{item.NoOfBoxes}}</td>
+                        <td>{{item.ServiceRequest}}</td> -->
+                        <td>{{item.GatePass}}</td>
+                        <!-- <td>{{item.RMA}}</td> -->
+                        <td>{{item.RecievedFrom}}</td>
+                        <!-- <td>{{item.ConsignmentNo}}</td> -->
+                        <!-- <td>{{item.ICare}}</td> -->
+                        <td>{{item.BusinessType}}</td>
+                        <td>{{item.HandlerName}}</td>
+                        <td>{{item.InboundPool}}</td>
+                        <!-- <td>{{item.Network}}</td>
+                        <td>{{item.PackingListNo}}</td> -->
+                        <td>{{item.ReceivedStation}}</td>
+                        <!-- <td>{{item.ContractNo}}</td>
+                        <td>{{item.DeliveryType}}</td>
+                        <td>{{item.InboundAgainst}}</td> -->
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-wms pull-right">S U B M I T</button>
+          </div>
+      </form>
+    </div>
+    <!-- /.box -->
+  </div>
+  <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+
+
+<div class="modal" id="shipNoteReceivingModal">
+  <div class="modal-dialog ">
+    <div class="modal-content" style="width: 900px;">
+      <form name="formGroup" [formGroup]="formGroup" novalidate>
+        <!-- Modal Header -->
+        <!-- /.row -->
+        
+        <!-- Modal body -->
+        <div class="modal-body" id="print">
+          <div class="row col-lg-12" >
+            <div class="row">
+              <div class="col col-lg-3" style="text-align: center;">
+                <img id="logo" src={{LogoPath}} height="70" width="160" style="background-color: white;">
+              </div>
+              <div class="col col-lg-8 pull-left" style="margin-top: 20px;">
+                <address>
+                  <strong>{{CompanyName}}</strong> <br>
+                  {{CompanyAddress}}
+                </address>
+              </div>
+            </div>
+            <div class="row col-lg-12" style="text-align: center; padding-top: 30px;">
+              <h2><u>SHIPMENT RECEIVING NOTE</u></h2>
+            </div>
+        </div>
+          <div class="row col col-lg-12" style="min-height: 150px;">
+            <div class="row">
+              <div class="col-md-4" style="text-align: left;">
+                <div class="col-md-12">
+                  <b>ASN ID</b><a class="pull-right">{{shipmentNote.ShipmentNoteId}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Shipment Note No</b><a class="pull-right">{{shipmentNote.ShipmentNoteNo}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>ASN No.</b><a class="pull-right">{{shipmentNote.ASNNo}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>ASN Date</b><a class="pull-right">{{shipmentNote.ASNDate | date}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Vehicle Rec. Date-TM</b><a class="pull-right">{{shipmentNote.ReceivingDate | date:'short'}}</a>
+                </div>
+              </div>
+
+              <div class="col-md-4" style="text-align: left;">
+                <div class="col-md-12">
+                  <b>Cargo Status</b><a class="pull-right">{{shipmentNote.CargoStatus}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Temperature In</b><a class="pull-right">{{shipmentNote.TempIn}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Temperature Out</b><a class="pull-right">{{shipmentNote.TempOut}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Off-Load Start Date-TM</b><a class="pull-right">{{shipmentNote.OffLoadingStartTime | date:'short'}}</a>
+                </div>
+                <div class="col-md-12">
+                      <b>Off-Load END Date-TM</b><a class="pull-right">{{shipmentNote.OffLoadingEndTime | date:'short'}}</a>
+                </div>
+              </div>
+
+              <div class="col-md-4" style="text-align: left;">
+                <div class="col-md-12">
+                  <b>Delivery No</b><a class="pull-right">{{shipmentNote.DeliveryNo}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Driver Name.</b><a class="pull-right">{{shipmentNote.DriverName}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Vehicle No.</b><a class="pull-right">{{shipmentNote.VehicleNo}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>Mobile No.</b><a class="pull-right">{{shipmentNote.MobileNo}}</a>
+                </div>
+                <div class="col-md-12">
+                  <b>CNIC No.</b><a class="pull-right">{{shipmentNote.CNICNo}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="box-body">
+            <div class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-lg-12">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr role="row">
+                        <th>SKU Name</th>
+                        <th>SKU CBM</th>
+                        <th>Batch / Serial</th>
+                        <th>SN #</th>
+                        <!-- <th>PR #</th> -->
+                        <th>Status</th>
+                        <th>Mfg Date</th>
+                        <th>Expiry Date</th>
+                        <th>Quantity</th>
+                        <th>No of Boxes</th>
+                        <th>Received Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of shipmentNote.AML_ShipmentNoteChild">
+                        <td>{{item.Description}}{{item.ItemName}}</td>
+                        <td>{{item.ItemCBM | number:'1.2-2'}}</td>
+                        <td>{{item.Batch}}</td>
+                        <td>{{item.SNno}}</td>
+                        <!-- <td>{{item.PRno}}</td> -->
+                        <td>{{item.Status}}</td>
+                        <td>{{item.MfgDate | date}}</td>
+                        <td>{{item.ExpiryDate | date}}</td>
+                        <td>{{item.Quantity}}</td>
+                        <td>{{item.NoOfBoxes}}</td>
+                        <td>{{item.ReceivedQuantity}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+        <!-- //calculator Modal  End-->
+        <!-- Modal footer -->
+        
+        <div class="modal-footer">
+          <div class="col-md-10">
+            <button [printStyle]="{table : {'font-size': '10px'},body : {'padding': '10px','font-size': '10px'}}"
+              class="btn-excel hidden-print print-btn" printTitle="Shipment Receiving Note" [useExistingCss]="true" ngxPrint
+              printSectionId="print">
+              <span aria-hidden="true"><i class="fa fa-print"></i>
+              </span></button>
+          </div>
+          <div class="col-md-2">
+            <button type="submit" (click)="closeModal()" class="btn btn-success">Close</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

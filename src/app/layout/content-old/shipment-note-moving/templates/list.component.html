@@ -1,0 +1,168 @@
+<section class="content-header">
+  <h1>
+    ASN MOVING LISTING
+    <!-- <small>
+      <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+    </small> -->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_MOVING_LISTING]">Shipment Note</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <form name="formGroup" [formGroup]="formGroup" novalidate>
+
+   
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                  formControlName="CustomerId" (onSelect)="customerChange($event)">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+        
+           
+          </div>
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 50%; 
+                      background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.shipmentNoteList, 'asn-moving-list.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('asn-moving-list.xlsx', 'tbl', 'ASN Moving List')" style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('asn-moving-list.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                          width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                        <a class="dropdown-item ml-3" (click)="HideShow('0')" data-column="1" style="color: white;">
+                          Customer Name
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('1')" data-column="1" style="color: white;">
+                          ASN No
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="2" style="color: white;">
+                          Warehouse
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('3')" data-column="3"
+                          style="color: white; text-align: center">
+                          ASN Ref No
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="0" style="color: white;">
+                          ASN Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('5')" data-column="1" style="color: white;">
+                          Delivery No
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('6')" data-column="3"
+                          style="color: white; text-align: center">
+                          Action
+                        </a>
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th *ngIf="!hideShowList[0].status">
+                        Customer Name
+                      </th>
+                      <th *ngIf="!hideShowList[1].status">
+                        ASN No
+                      </th>
+                      <th *ngIf="!hideShowList[2].status">
+                        Warehouse
+                      </th>
+                      <th *ngIf="!hideShowList[3].status">
+                        ASN Ref No
+                      </th>
+                      <th *ngIf="!hideShowList[4].status">
+                        ASN Date
+                      </th>
+                      <th *ngIf="!hideShowList[5].status">
+                        Delivery No
+                      </th> 
+                      <!-- <th>
+                        Driver Name
+                      </th>
+                      <th>
+                        
+                        Vehical No
+                      </th> -->
+                      <th *ngIf="!hideShowList[6].status">
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let godwom of shipmentNoteList">
+                      <td *ngIf="!hideShowList[0].status">{{godwom.Name}}</td>
+                     
+                      <td *ngIf="!hideShowList[1].status">{{godwom.ASNNo}}</td>
+                      <td *ngIf="!hideShowList[2].status">{{godwom.WarehouseName}}</td>
+                      <td *ngIf="!hideShowList[3].status">{{godwom.ShipmentNoteNo}}</td>
+                      <td *ngIf="!hideShowList[4].status">{{godwom.ASNDate | date}}</td>
+                      <td *ngIf="!hideShowList[5].status">{{godwom.DeliveryNo}}</td>
+                      <!-- <td>{{godwom.DriverName}}</td>
+                      <td>{{godwom.VehicleNo}}</td> -->
+                      <td *ngIf="!hideShowList[6].status">
+                        <button type="button" class="btn-warining editBtn" (click)="Details(godwom.ShipmentNoteId)">
+                            <i class="fa fa-info"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    </form>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

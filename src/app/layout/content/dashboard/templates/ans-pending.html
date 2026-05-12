@@ -1,0 +1,142 @@
+<section class="content">
+  <section class="content-header">
+    <h1>
+      ASN CREATE PENDING
+
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  <div class="col-xs-12">
+    <div class="box box-solid">
+      <div class="box-header">
+
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                          background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.listAvailableStock, 'ans-create-pending.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('ans-create-pending.xlsx', 'tbl', 'ASN Create Pending')"
+                        style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('ans-create-pending.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                              width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+
+                        <a class="dropdown-item ml-3" (click)="HideShow('0')" data-column="1" style="color: white;">
+                          Item Name
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('1')" data-column="4"
+                          style="color: white; text-align: center">
+                          Expiry Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="1" style="color: white;">
+                          Height
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('3')" data-column="2" style="color: white;">
+                          Width
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="3"
+                          style="color: white; text-align: center">
+                          Length
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('5')" data-column="5"
+                          style="color: white; text-align: center">
+                          Min Stock
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('6')" data-column="0" style="color: white;">
+                          Max Stock
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('7')" data-column="1" style="color: white;">
+                          Price
+                        </a>
+
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+
+                      <th *ngIf="!hideShowList[0].status">
+                        Item Name
+                      </th>
+                      <th *ngIf="!hideShowList[1].status">
+                        Expiry Date
+                      </th>
+                      <th *ngIf="!hideShowList[2].status">
+                        Height
+                      </th>
+                      <th *ngIf="!hideShowList[3].status">
+                        Width
+                      </th>
+                      <th *ngIf="!hideShowList[4].status">
+                        Length
+                      </th>
+                      <th *ngIf="!hideShowList[5].status">
+                        Min Stock
+                      </th>
+                      <th *ngIf="!hideShowList[6].status">
+                        Max Stock
+                      </th>
+                      <th *ngIf="!hideShowList[7].status">
+                        Price
+                      </th>
+                    </tr>
+                  </thead>
+                  <!-- <tbody>
+                      <tr role="row" *ngFor="let Item of listAvailableStock">
+                         
+                        <td *ngIf="!hideShowList[0].status">{{Item.Category}} | {{Item.Brand}} | {{Item.ItemName}}</td>
+                        <td *ngIf="!hideShowList[1].status">{{Item.ExpiryDate | date: 'dd/MM/yyyy'}}</td>
+                        <td *ngIf="!hideShowList[2].status">{{Item.Height}}</td>
+                        <td *ngIf="!hideShowList[3].status">{{Item.Width}}</td>
+                        <td *ngIf="!hideShowList[4].status">{{Item.Length}}</td>
+                        <td *ngIf="!hideShowList[5].status">{{Item.MinStockLevel}}</td>
+                        <td *ngIf="!hideShowList[6].status">{{Item.MaxStockLevel}}</td>
+                        <td *ngIf="!hideShowList[7].status">{{Item.Price}}</td>
+                        
+                      </tr>
+                    </tbody>  -->
+                </table>
+                <ngx-ui-loader></ngx-ui-loader>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

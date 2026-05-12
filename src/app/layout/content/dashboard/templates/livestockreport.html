@@ -1,0 +1,78 @@
+
+<section class="content">
+  <section class="content-header">
+  </section>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <!-- /.box-header -->
+        <div class="box-body">
+
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable" style="overflow-x: auto">
+                <div class="col col-sm-6"><label>Total Records: {{NoOfRecords}}</label></div>
+                <div class="col col-sm-6"><label>Latest Update: {{UpdateTime | date:'dd/MMM/yyyy hh:mm'}}</label></div>
+                <table class="table table-bordered table-hover dataTable" role="grid"
+										style="width:100%; font-size: 20px !important; height: auto; overflow-x: auto" id="tbl">
+                  <thead>
+                    <tr>
+                      <th colspan="8" style="text-align: center;"><h2><b>L I V E -  S T O C K  -  U P D A T E </b></h2></th>
+                    </tr>
+                    <tr role="row">
+                      <!-- <th style="font-size: 20px !important; max-width: 15px;" > Sr#</th> -->
+                      <th style="font-size: 20px !important;" class="col-sm-1">Customer SKU</th>
+                      <th style="font-size: 20px !important; max-width: 450px;" class="col-sm-3">Name</th>
+                      <th style="font-size: 20px !important;" class="col-sm-1">Balance.Stock</th>
+                      <th style="font-size: 20px !important;" class="col-sm-1">Weight</th>
+                      <th style="font-size: 20px !important;" class="col-sm-1">MFG Date</th>
+                      <th style="font-size: 20px !important;" class="col-sm-1">Exp Date</th>
+                      <th style="font-size: 20px !important;" class="col-sm-1">Day Passed</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr role="row"
+                      *ngFor="let Item of listAvailableStock; let i = index;" [hidden]="listAvailableSearch == ''">
+                        <!-- <td style="font-size: 20px !important;">{{i+1}}</td> -->
+                        <td style="font-size: 20px !important;">{{Item.Description}}</td>
+                        <td style="font-size: 20px !important;">{{Item.Name}}</td>
+                        <td style="font-size: 20px !important; background: yellowgreen; text-align: center;">{{Item.Balance | number}}</td>
+                        <td style="font-size: 20px !important;">{{Item.Weight}}</td>
+                        <td style="font-size: 20px !important;">{{Item.MfgDate | date}}</td>
+                        <td style="font-size: 20px !important;">{{Item.ExpDate | date}}</td>
+                        <td style="font-size: 20px !important;">{{Item.Aging}}</td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                  <tfoot>
+                    <tr>
+                      <td colspan="3"></td>
+                      <td>Total:</td>
+                      <td>{{addInList | number : '1.2-2'}}</td>
+                      <td colspan="4"></td>
+                      
+                      <!-- <td>{{TotQuantityInPacking}}</td> -->
+                    </tr>
+                  </tfoot>
+                </table>
+                <label>Total Records: {{NoOfRecords}}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+  <!-- <div class="box-footer">
+    
+    <div class="col-md-2">
+      <button type="button" class="btn-genx" (click)="exportServiceAsCSV()"> Export as CSV</button>
+    </div>
+  </div> -->
+</section>

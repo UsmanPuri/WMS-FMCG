@@ -1,0 +1,367 @@
+<style>
+  #tbl1 {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+table.mytbl tr.border_bottom td {
+  border-bottom: 1px solid red;
+}
+</style>
+<section class="content">
+    <section class="content-header">
+        <h1>
+          SKU INFORMATION CREATE
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.ITEM_LISTING]">SKU Information</a></li>
+          <li class="active">Create</li>
+        </ol>
+      </section>
+      <ul class="nav nav-tabs">
+        <!-- <li class="active"><a data-toggle="tab" href="#menu3">Other Expense</a></li> -->
+          <li class="active"><a data-toggle="tab" href="#home">Single</a></li>
+          <li><a data-toggle="tab" href="#menu1">Multiple</a></li>
+          <!-- <li><a data-toggle="tab" href="#menu2">Services Invoice</a></li>
+          <li><a data-toggle="tab" href="#menu3">Other vendor Invoice </a></li> -->
+         
+        </ul>
+        <div class="tab-content" >
+          <div id="menu1" class="tab-pane fade in">
+            <div col-md-12>
+              <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="executeItemInformationCreationLIST()">
+                <div class="box box-primary">
+                  <div class="box-header with-border">
+                    <div class="form-group  pull-right">
+                      <button type="button" (click)="redirectToItemInformationList()" class="btn-wms">Sku Information Listing</button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+          
+                    <div class="col-md-12">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Customer</label>
+                          <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          [data]="customerKeyPair" [settings]="customerDropdownSettings"
+                            (onDeSelect)="onDropDownDeSelect($event,'selectedCustomer')"
+                            (onSelect)="onDropDownSelect($event,'selectedCustomer')">
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Category</label>
+                          <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          formControlName="CategoryId"
+                          [data]="categoryKeyPair" [settings]="itemCategoryDropdownSettings"
+                            (onDeSelect)="onDropDownDeSelect($event,'selectedCategory')"
+                            (onSelect)="onDropDownSelect($event,'selectedCategory')">
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Brand</label>
+                          <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          formControlName="BrandId"
+                          [data]="brandKeyPair" [settings]="itemBrandDropdownSettings"
+                            (onDeSelect)="onDropDownDeSelect($event,'selectedBrand')"
+                             (onSelect)="onDropDownSelect($event,'selectedBrand')">
+                          </ng-multiselect-dropdown>
+                          <span class="help-block" *ngIf="formGroup.controls.BrandId.invalid">
+                            {{getErrorMessage('BrandId')}}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+          
+                    <div class="col-md-12">
+                     
+                     
+                      <div class="col-md-4">
+                          <div class="form-group">
+                              <label>Unit of Measure</label>
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" formControlName="UOMId"
+                              [data]="unitOfMeasureKeyPair"
+                                [settings]="unitOfMeasureBrandDropdownSettings" (onDeSelect)="onDropDownDeSelect($event,'selectedUnitOfMeasure')"
+                                (onSelect)="onDropDownSelect($event,'selectedUnitOfMeasure')">
+                              </ng-multiselect-dropdown>
+                              <span class="help-block" *ngIf="formGroup.controls.UOMId.invalid">
+                                {{getErrorMessage('UOMId')}}
+                              </span>
+                            </div>
+                      </div>
+                      <div class="col-md-2">
+                        <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export Format</button>
+                      </div>
+                      <div class="col-md-2">
+                        <input  type="file" id="servicePicked" #servicePicked 
+                        (click)="message=''"
+                        (change)="onServicePicked(servicePicked)">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12 table-responsive">
+                        <table class="table table-bordered table-hover dataTable disp1" role="grid" id="tbl">
+                          <thead>
+                          <tr>
+                            <th style="min-width:10px">Sr.</th>
+                           
+                            <th>Name</th>
+                            <!-- <th>Unit of Measure
+                            </th> -->
+                            <th>Customer SKU Code</th>
+                            <th>Height (Inch)</th>
+                            <th>Width (Inch)</th>
+                            <th>Length (Inch)</th>
+                            <th>Weight (KG)</th>
+                            <th>Min Stock Level</th>
+                            <th>Max Stock Level</th>
+                            <th>Quantity In Packing</th>
+                            <th>Price</th>
+                            <th>System Code</th>
+                            <th>Remarks</th>
+                            <th>Actions</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr *ngFor="let item of SKUListToPost; index as i" [ngClass]="{ 'border_bottom': item.unvalid }">
+                           <td>{{i+1}}</td>
+                           <td>{{item.Name}}</td>
+                           <!-- <td>{{item.UOM}}</td> -->
+                        
+                         <td>{{item.Description}}</td>
+                         <td>{{item.Height}}</td>
+                         <td>{{item.Width}}</td>
+                         <td>{{item.Length}}</td>
+                         <td>{{item.Weight}}</td>
+                         <td>{{item.MinStockLevel}}</td>
+                         <td>{{item.MaxStockLevel}}</td>
+                         <td>{{item.QuantityInPacking}}</td>
+                         <td>{{item.Price}}</td>
+                         <td>{{item.ItemInformationId}}</td>
+                         <td>{{item.Remarks}}</td>
+                         <td>
+                          <button type="button" id="delete" class="editBtn btn-danger" (click)="Delete(item)"><i
+                            class="fa fa-trash"></i></button>
+                         </td>
+                         
+                          </tr>
+                         
+                          </tbody>
+                        </table>
+                      </div>
+        
+                      <!-- /.col -->
+                    </div>
+                   
+          
+                  </div>
+          
+                </div>
+                <div class="box-footer">
+                  <button type="submit" [disabled]="isEnable" class="btn btn-success pull-right">Add</button>
+                </div>
+            </form>
+            </div>
+          </div>
+          <div id="home" class="tab-pane fade in active">
+            <div col-md-12>
+              <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createItemInformation(formGroup.value)">
+                <div class="box box-primary">
+                  <div class="box-header with-border">
+                    <div class="form-group  pull-right">
+                      <button type="button" (click)="redirectToItemInformationList()" class="btn-wms">Sku Information Listing</button>
+                    </div>
+                  </div>
+                  <div class="box-body">
+          
+                    <div class="col-md-12">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Customer</label>
+                          <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          [data]="customerKeyPair" [settings]="customerDropdownSettings"
+                            (onDeSelect)="onDropDownDeSelect($event,'selectedCustomer')"
+                            (onSelect)="onDropDownSelect($event,'selectedCustomer')">
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Category</label>
+                          <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          formControlName="CategoryId"
+                          [data]="categoryKeyPair" [settings]="itemCategoryDropdownSettings"
+                            (onDeSelect)="onDropDownDeSelect($event,'selectedCategory')"
+                            (onSelect)="onDropDownSelect($event,'selectedCategory')">
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Brand</label>
+                          <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          formControlName="BrandId"
+                          [data]="brandKeyPair" [settings]="itemBrandDropdownSettings"
+                            (onDeSelect)="onDropDownDeSelect($event,'selectedBrand')"
+                             (onSelect)="onDropDownSelect($event,'selectedBrand')">
+                          </ng-multiselect-dropdown>
+                        </div>
+                      </div>
+                    </div>
+          
+                    <div class="col-md-12">
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Customer SKU Code </label>
+                          <input type="text" formControlName="Description" (change)="ValidateCustomerSKUCODE(formGroup.value)" class="form-control input-sm" placeholder="Enter Description">
+                          <span class="help-block" *ngIf="formGroup.controls.Description.invalid">
+                            {{getErrorMessage('Description')}}
+                          </span>
+                          <span class="help-block" *ngIf="isCheckSKUCODE">
+                            <!-- SKU Code already exist in Selected Category. -->
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Name</label>
+                          <input type="text" formControlName="Name" class="form-control input-sm" placeholder="Enter Name">
+                          <span class="help-block" *ngIf="formGroup.controls.Name.invalid">
+                            {{getErrorMessage('Name')}}
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                          <div class="form-group">
+                              <label>Unit of Measure</label>
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="unitOfMeasureKeyPair" 
+                                [settings]="unitOfMeasureBrandDropdownSettings" (onDeSelect)="onDropDownDeSelect($event,'selectedUnitOfMeasure')"
+                                (onSelect)="onDropDownSelect($event,'selectedUnitOfMeasure')">
+                              </ng-multiselect-dropdown>
+                              <span class="help-block" *ngIf="!this.selectedUnitOfMeasure || !this.selectedUnitOfMeasure['Id']">
+                                Required
+                              </span>
+                            </div>
+                      </div>
+                    </div>
+          
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Height (Inch)</label>
+                            <input type="number" min="0"  formControlName="Height" class="form-control input-sm" placeholder="Enter Height">
+                            <span class="help-block" *ngIf="formGroup.controls.Height.invalid">
+                              {{getErrorMessage('Height')}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Width (Inch)</label>
+                            <input type="number" min="0" formControlName="Width" class="form-control input-sm" placeholder="Enter Width">
+                            <span class="help-block" *ngIf="formGroup.controls.Width.invalid">
+                              {{getErrorMessage('Width')}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Length (Inch)</label>
+                            <input type="number" min="0" formControlName="Length" class="form-control input-sm" placeholder="Enter Length">
+                            <span class="help-block" *ngIf="formGroup.controls.Length.invalid">
+                              {{getErrorMessage('Length')}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+          
+                      <div class="col-md-12">
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Weight (KG)</label>
+                            <input type="number" formControlName="Weight" class="form-control input-sm" placeholder="Enter Weight">
+                            <span class="help-block" *ngIf="formGroup.controls.Weight.invalid">
+                              {{getErrorMessage('Weight')}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Min Stock Level</label>
+                            <input type="text" formControlName="MinStockLevel" class="form-control input-sm" placeholder="Enter Min Stock Level">
+                            <span class="help-block" *ngIf="formGroup.controls.MinStockLevel.invalid">
+                              {{getErrorMessage('MinStockLevel')}}
+                            </span>
+                          </div>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="form-group">
+                            <label>Max Stock Level</label>
+                            <input type="text" formControlName="MaxStockLevel" class="form-control input-sm" placeholder="Enter Max Stock Level">
+                            <span class="help-block" *ngIf="formGroup.controls.MaxStockLevel.invalid">
+                              {{getErrorMessage('MaxStockLevel')}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+          
+                      <div class="col-md-12">
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>Quantity In Packing</label>
+                              <input type="text" formControlName="QuantityInPacking" class="form-control input-sm" placeholder="Enter Quantity In Packing">
+                              <span class="help-block" *ngIf="formGroup.controls.QuantityInPacking.invalid">
+                                {{getErrorMessage('QuantityInPacking')}}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>Price</label>
+                              <input type="text" formControlName="Price" class="form-control input-sm" placeholder="Enter Price">
+                              <span class="help-block" *ngIf="formGroup.controls.Price.invalid">
+                                {{getErrorMessage('Price')}}
+                              </span>
+                            </div>
+                          </div>
+                          <div class="col-md-4">
+                            <div class="form-group">
+                              <label>System Code</label>
+                              <input type="text" formControlName="ItemCode" class="form-control input-sm" placeholder="System Code" readonly>
+                            </div>
+                             
+                          </div>
+                        </div>
+          
+                        <div class="col-md-12">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea formControlName="Remarks" class="form-control input-sm"></textarea>
+                                    <span class="help-block" *ngIf="formGroup.controls.Remarks.invalid">
+                                      {{getErrorMessage('Remarks')}}
+                                    </span>
+                                  </div>
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+                          </div>
+          
+                  </div>
+          
+                </div>
+                <div class="box-footer">
+                  <button type="submit" [disabled]="formGroup.invalid || isCheckSKUCODE || !this.selectedUnitOfMeasure['Id']" class="btn btn-success pull-right">Add</button>
+                </div>
+            </form>
+            </div>
+          </div> 
+        </div>
+  
+</section>

@@ -1,0 +1,67 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          ZONE LISTING
+          <small>
+            <button class="btn-wms" (click)="redirectToCreateZone()"><i class="fa fa-plus-circle"></i></button>
+          </small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.ZONE_LISTING]">Zone</a></li>
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+
+      <div class="pull-right">
+        <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+      </div>
+      
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>Sr.</th>
+                      <th>Province Name</th>
+                      <th>Region Name</th>
+                      <th>Zone Name</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let zone of zoneList; let i = index">
+                      <td>{{i+1}}</td>
+                      <td>{{zone.AML_Province.Name}}</td>
+                      <td>{{zone.AML_Region.Name}}</td>
+                      <td>{{zone.ZoneName}}</td>
+                      <td>
+                        <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(zone.ZoneId)"><i
+                            class="fa fa-edit"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

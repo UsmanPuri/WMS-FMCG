@@ -1,0 +1,297 @@
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          CUSTOMER EDIT
+      
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.CUSTOMER_CREATE]">Customers</a></li>
+          <li class="active">Edit</li>
+        </ol>
+      </section>
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateCustomer(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <div class="pull-left">
+                  <div class="col-md-6 toggle-label ">
+                      <span *ngIf="status == true">
+                        <b>Active</b>
+                      </span>
+                      <span *ngIf="status == false">
+                        <b>InActive</b>
+                      </span>
+                    </div>
+                    <div class="col-md-6">
+                      <ui-switch switchColor="#fcfcfc" [checked]="status == true" (change)="onStatusChange($event)"></ui-switch>
+                    </div>
+              </div>
+              
+              <!-- <h3 class="box-title">Quick Example</h3> -->
+
+            </div>
+            <div class="col-md-6">
+              <div class="pull-right">
+                  <button type="button" (click)="redirectToCustomerList()" class="btn-wms">Customer Listing</button>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer Name</label>
+                <input type="text" readonly formControlName="Name" class="form-control input-sm" placeholder="Enter Customer name">
+                <span class="help-block" *ngIf="formGroup.controls.Name.invalid">
+                  {{getErrorMessage('Name')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer type</label>
+                <select formControlName="Type" class="form-control input-sm">
+                  <option>Select one</option>
+                  <option *ngFor="let custType of constantList.CUSTOMER_TYPES" [value]="custType.value">
+                    {{custType.name}}
+                  </option>
+                </select>
+                <span class="help-block" *ngIf="formGroup.controls.Type.invalid">
+                  {{getErrorMessage('Type')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Business Line</label>
+                  <select class="form-control input-sm" formControlName="CustomerBusinessLineId" disabled="disabled">
+                    <option selected value="">Select one</option>
+                    <option *ngFor="let custBusinessLine of customerBusinessLineKeyPair"
+                      [value]="custBusinessLine.Value">
+                      {{custBusinessLine.Text}}
+                    </option>
+                  </select>
+                  <span class="help-block" *ngIf="formGroup.controls.CustomerBusinessLineId.invalid">
+                    {{getErrorMessage('CustomerBusinessLineId')}}
+                  </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputPassword1">CNIC No</label>
+                <input type='text' formControlName="CNIC" class="form-control input-sm" placeholder="Enter CNIC no"  mask="00000-0000000-0">
+                <span class="help-block" *ngIf="formGroup.controls.CNIC.invalid">
+                  {{getErrorMessage('CNIC')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputPassword1">Contact Person</label>
+                <input type="text" formControlName="ContactPerson" class="form-control input-sm"
+                  placeholder="Enter contact person name">
+                <span class="help-block" *ngIf="formGroup.controls.ContactPerson.invalid">
+                  {{getErrorMessage('ContactPerson')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputPassword1">Mobile</label>
+                <input type='text' formControlName="Mobile" class="form-control input-sm" placeholder="Enter mobile no"  mask="0000-0000000">
+                <span class="help-block" *ngIf="formGroup.controls.Mobile.invalid">
+                  {{getErrorMessage('Mobile')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Landline</label>
+                <input type='text' formControlName="Phone" class="form-control input-sm" placeholder="Enter Phone no"  mask="0000-0000000">
+                <span class="help-block" *ngIf="formGroup.controls.Phone.invalid">
+                  {{getErrorMessage('Phone')}}
+                </span>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Fax no</label>
+                <input type='text' formControlName="FaxNo" class="form-control input-sm" placeholder="Enter Fax no"  mask="0000-0000000">
+                <span class="help-block" *ngIf="formGroup.controls.FaxNo.invalid">
+                  {{getErrorMessage('FaxNo')}}
+                </span>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Account No/Remarks</label>
+                <input type="text" class="form-control input-sm" formControlName="AccountNo" placeholder="Enter account no">
+                <span class="help-block" *ngIf="formGroup.controls.AccountNo.invalid">
+                  {{getErrorMessage('AccountNo')}}
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">Email</label>
+                <input type="text" class="form-control input-sm" formControlName="Email" placeholder="Enter Email id">
+                <span class="help-block" *ngIf="formGroup.controls.Email.invalid">
+                  {{getErrorMessage('Email')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">Credit Limit</label>
+                <input type="text" class="form-control input-sm" formControlName="CreditLimit" placeholder="Enter Credit limit">
+                <span class="help-block" *ngIf="formGroup.controls.CreditLimit.invalid">
+                  {{getErrorMessage('CreditLimit')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">NTN No</label>
+                <input type="text" formControlName="NTN" class="form-control input-sm" placeholder="Enter NTN no">
+                <span class="help-block" *ngIf="formGroup.controls.NTN.invalid">
+                  {{getErrorMessage('NTN')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>STRN No</label>
+                <input type="text" formControlName="STRN" class="form-control input-sm" placeholder="Enter STRN no">
+                <span class="help-block" *ngIf="formGroup.controls.STRN.invalid">
+                  {{getErrorMessage('STRN')}}
+                </span>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label for="exampleInputPassword1">Country</label>
+                <input type="text" class="form-control input-sm" disabled="disabled" formControlName="Country"
+                  placeholder="Pakistan">
+                <span class="help-block" *ngIf="formGroup.controls.Country.invalid">
+                  {{getErrorMessage('Country')}}
+                </span>
+              </div>
+
+            </div>
+
+              <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Region</label>
+                   
+                    <ng-multiselect-dropdown  
+                    [placeholder]="'Select one'"
+                    [data]="regionKeyPair"
+                    [settings]="regionDropdownSettings"
+                    formControlName="RegionId"
+                    [(ngModel)]="selectedRegionInfo"
+                    (onSelect)="getCityKeyPair($event,true)">
+                  </ng-multiselect-dropdown>
+                    <span class="help-block" *ngIf="formGroup.controls.RegionId.invalid">
+                      {{getErrorMessage('RegionId')}}
+                    </span>
+                  </div>
+                </div>
+          </div>
+
+          <div class="col-md-12">
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>City</label>
+                     
+                      <ng-multiselect-dropdown  
+                      [placeholder]="'Select one'"
+                      [data]="cityKeyPair"
+                      [settings]="cityDropdownSettings"
+                      formControlName="CityId"
+                      [(ngModel)]="selectedCityInfo"
+                      (onSelect)="getCityValue($event)">
+                      
+                    </ng-multiselect-dropdown>
+                      <span class="help-block" *ngIf="formGroup.controls.CityId.invalid">
+                        {{getErrorMessage('CityId')}}
+                      </span>
+                    </div>
+                  </div>
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">Address</label>
+                <input type="text" formControlName="Address" class="form-control input-sm" placeholder="Enter address">
+                <span class="help-block" *ngIf="formGroup.controls.Address.invalid">
+                  {{getErrorMessage('Address')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <div class="form-group">
+                <label for="exampleInputPassword1">Discount %</label>
+                <input type="text" class="form-control input-sm" formControlName="Discount" placeholder="Enter discount">
+                <span *ngIf="formGroup.controls.Discount.invalid">
+                  {{getErrorMessage('Discount')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Abbreviation</label>
+                  <input type="text" class="form-control input-sm" readonly minlength="3" maxlength="3" formControlName="Abbreviation" placeholder="Enter Region no">
+                  <span class="help-block" *ngIf="formGroup.controls.Abbreviation.invalid">
+                    {{getErrorMessage('Abbreviation')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+               
+              </div>
+              <div class="col-md-4">
+                
+              </div>
+            </div>
+
+
+        </div>
+        <div class="box-footer">
+          <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Update</button>
+          
+        </div>
+      </div>
+    </form>
+    <ngx-ui-loader></ngx-ui-loader>
+  </div>
+</section>

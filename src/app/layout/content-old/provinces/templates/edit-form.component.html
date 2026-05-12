@@ -1,0 +1,76 @@
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          PROVINCE EDIT
+         
+        </h1>
+        <ol class="breadcrumb">
+          <li><a routerLink="[this.routesList.PROVINCE_LISTING]"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.PROVINCE_LISTING]">Provinces</a></li>
+          <li class="active">Edit</li>
+        </ol>
+      </section>
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateProvince(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="col-md-12">
+              <div class="col-md-6">
+              
+                <button type="button" (click)="redirectToProvinceList()" class="btn-wms">Province Listing</button>
+              </div>
+              <div class="col-md-6">
+                <div class="pull-right">
+                  <div class="col-md-6 toggle-label ">
+                    <span *ngIf="status == true">
+                      <b>Active</b>
+                    </span>
+                    <span *ngIf="status == false">
+                      <b>InActive</b>
+                    </span>
+                  </div>
+                  <div class="col-md-6">
+                    <ui-switch switchColor="#fcfcfc" [checked]="status == true" (change)="onStatusChange($event)"></ui-switch>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" formControlName="Name" class="form-control input-sm" placeholder="Enter Province name">
+                  <span class="help-block" *ngIf="formGroup.controls.Name.invalid">
+                    {{getErrorMessage('Name')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Abberivation</label>
+                  <input type="text" formControlName="Abbreviation" class="form-control input-sm" placeholder="Enter unit abbreviation">
+                  <span class="help-block" *ngIf="formGroup.controls.Abbreviation.invalid">
+                    {{getErrorMessage('Abbreviation')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="box-footer">
+             
+              <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Submit</button>
+          </div>
+        </div>
+      </form>
+      <ngx-ui-loader></ngx-ui-loader>
+    </div>
+  </section>

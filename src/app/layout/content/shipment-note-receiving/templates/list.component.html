@@ -1,0 +1,167 @@
+<section class="content-header">
+  <h1>
+    ASN RECEIVING LISTING
+    <!-- <small>
+      <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+    </small> -->
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_LISTING]">Shipment Note</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <form name="formGroup" [formGroup]="formGroup" novalidate>
+
+   
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" 
+                  formControlName="CustomerId" (onSelect)="customerChange($event)">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+        
+           
+          </div>
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                    background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.shipmentNoteList, 'asn-recieving-list.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('asn-recieving-list.xlsx', 'tbl', 'Shipment Note Manual List')"
+                        style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('asn-recieving-list.pdf', '#tbl')" style="color: white;">Export To
+                        PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                        width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                        <a class="dropdown-item" (click)="HideShow('0')" data-column="0" style="color: white;">
+                          Sr #
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('1')" data-column="1" style="color: white;">
+                          Tr. #
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="1" style="color: white;">
+                          Customer Name
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('3')" data-column="2" style="color: white;">
+                          ASN No
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="3"
+                          style="color: white; text-align: center">
+                          Warehouse
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('5')" data-column="0" style="color: white;">
+                          ASN Ref No
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('6')" data-column="1" style="color: white;">
+                          ASN Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('7')" data-column="1" style="color: white;">
+                          Delivery No
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('8')" data-column="1" style="color: white;">
+                          Receiving Status
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('9')" data-column="1" style="color: white;">
+                          Action
+                        </a>
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable"  role="grid" id="tbl">
+                  <thead>
+                  <tr role="row">
+                      <th *ngIf="!hideShowList[0].status">Sr #</th>
+                      <th *ngIf="!hideShowList[1].status">Tr. #</th>
+                      <th *ngIf="!hideShowList[2].status">Customer Name</th>
+                      <th *ngIf="!hideShowList[3].status">ASN No</th>
+                      <th *ngIf="!hideShowList[4].status">Warehouse</th>
+                      <th *ngIf="!hideShowList[5].status">ASN Ref No</th>
+                      <th *ngIf="!hideShowList[6].status">ASN Date</th>
+                      <th *ngIf="!hideShowList[7].status">Delivery No</th> 
+                      <!-- <th>
+                        Driver Name
+                      </th> -->
+                      <th *ngIf="!hideShowList[8].status">Receiving Status</th> 
+                      <th *ngIf="!hideShowList[9].status">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let godwom of shipmentNoteList; let i = index">
+                      <td *ngIf="!hideShowList[0].status">{{i+1}}</td> 
+                      <td *ngIf="!hideShowList[1].status">{{godwom.Id}}</td>
+                      <td *ngIf="!hideShowList[2].status">{{godwom.Name}}</td>
+                      <td *ngIf="!hideShowList[3].status">{{godwom.ASNNo}}</td>
+                      <td *ngIf="!hideShowList[4].status">{{godwom.WarehouseName}}</td>
+                      <td *ngIf="!hideShowList[5].status">{{godwom.ShipmentNoteNo}}</td>
+                      <td *ngIf="!hideShowList[6].status">{{godwom.ASNDate | date}}</td>
+                      <td *ngIf="!hideShowList[7].status">{{godwom.DeliveryNo}}</td>
+                      <!-- <td>{{godwom.DriverName}}</td>-->
+                      <td *ngIf="!hideShowList[8].status">
+                        <span *ngIf="godwom.ParkingStageId != null; else inactive_span" class="label label-success">Received</span>
+                        <ng-template #inactive_span>  <span class="bg-red label">Pending</span></ng-template>
+                      </td> 
+                      <td *ngIf="!hideShowList[9].status">
+                        <button type="button" class="btn-warining editBtn" (click)="Details(godwom.ShipmentNoteId)">
+                            <i class="fa fa-info"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngx-ui-loader></ngx-ui-loader>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+    </form>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

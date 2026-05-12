@@ -1,0 +1,298 @@
+<style>
+    tr.border_bottom td {
+    border-bottom: 1px solid red;
+  }
+  </style>
+  <section class="content-header">
+    <h1>
+      TRANSFER ORDER 
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.TRANSFER_ORDER_LISTING]">Transfer Orders</a></li>
+      <li class="active">Create</li>
+    </ol>
+  </section>
+  <section class="content">
+      <div col-md-12>
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createTransferOrder(formGroup.value)">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <div class="form-group  pull-right">
+                  <button type="button" (click)="redirectToTransferOrderList()" class="btn-wms">Transfer Order Listing</button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="col-md-12">
+              
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Warehouse From</label>
+                      <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="FromWarehouseKeyPair"
+                        [settings]="FromWarehouseDropdownSettings" (onDeSelect)="onDeSelectFromWarehouse('selectedFromWarehouse')"
+                        formControlName="FromWarehouseId" 
+                        (onSelect)="onSelectFromWarehouse($event,'selectedFromWarehouse')">
+                      </ng-multiselect-dropdown>
+                      <span class="help-block" *ngIf="!this.selectedFromWarehouse || !this.selectedFromWarehouse['Id']">
+                        Required
+                      </span>
+                    </div>
+                  </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Warehouse To</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="ToWarehouseKeyPair"
+                      [settings]="ToWarehouseDropdownSettings" (onDeSelect)="onDeSelectToWarehouse('selectedToWarehouse')"
+                      formControlName="ToWarehouseId" 
+                      (onSelect)="onSelectToWarehouse($event,'selectedToWarehouse')">
+                    </ng-multiselect-dropdown>
+                    <span class="help-block" *ngIf="!this.selectedToWarehouse || !this.selectedToWarehouse['Id']">
+                      Required
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Order NO</label>
+                      <input type="text" formControlName="TransferOrderNo"  class="form-control" placeholder="Enter Order no">
+                      <span class="help-block" *ngIf="formGroup.controls.TransferOrderNo.invalid">
+                        {{getErrorMessage('TransferOrderNo')}}
+                      </span>
+                    </div>
+                  </div>
+               
+               
+              </div>
+  
+              <div class="col-md-12">
+              
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Order Date</label>
+                      <input type="date" formControlName="OrderDate" class="form-control" placeholder="Select OrderDate">
+                      <span class="help-block" *ngIf="formGroup.controls.OrderDate.invalid">
+                        {{getErrorMessage('OrderDate')}}
+                      </span>
+                    </div>
+                  </div>
+               
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Loading Date</label>
+                    <input type="date" formControlName="LoadingDate" class="form-control" placeholder="Select Loading Date">
+                    <span class="help-block" *ngIf="formGroup.controls.LoadingDate.invalid">
+                      {{getErrorMessage('LoadingDate')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Pickup Method</label>
+                      <select class="form-control" formControlName="PickupMethod" (change)="PickupMethodChange()">
+                        <option *ngFor="let c of constantList.PICKUP_METHODS" [ngValue]="c.value">{{ c.name }}</option>
+                      </select>
+                      <span class="help-block" *ngIf="formGroup.controls.PickupMethod.invalid">
+                        {{getErrorMessage('PickupMethod')}}
+                      </span>
+                    </div>
+                  </div>
+                
+              
+  
+              </div>
+  <div class="col-md-12"> 
+    <div class="col-md-4">
+      <div class="form-group">
+          <label>Customer</label>
+          <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair" [settings]="customerDropdownSettings"
+            (onSelect)="customerChange($event)">
+          </ng-multiselect-dropdown>
+          <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+            It is required
+          </span>
+        </div>
+   
+  </div>
+  </div>
+            
+  
+            </div>
+  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <div class="form-group">
+                      <h3 class="box-title detail-title">SKU detail</h3>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>SKU</label>
+                                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="itemKeyPair"
+                                  [settings]="itemDropdownSettings"
+                                   formControlName="ItemId"
+                                   (onDeSelect)="itemDeSelect()"
+                                  (onSelect)="itemChange($event)">
+                                </ng-multiselect-dropdown>
+                              </div>
+                        </div>
+                        <div class="col-md-9" [hidden]="!hideshow">
+                          <div class="form-group">
+                              <label>SN#</label>
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="SerialKeyPair"
+                                [settings]="serialDropdownSettings"
+                                 formControlName="SNno"
+                                 (onDeSelect)="itemDeSelect()"
+                                (onSelect)="serialChange($event)">
+                              </ng-multiselect-dropdown>
+                            </div>
+                      </div>
+  
+                     
+                      </div>
+                      <div class="col-md-12" [hidden]="!hideshow">
+                        <div class="col-md-2">
+                          <label>GatePass</label>
+                         <p>{{shipmentNoteChildRow.GatePass}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <label>ServiceRequest</label>
+                          <p>{{shipmentNoteChildRow.ServiceRequest}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <label>RMA</label>
+                          <p>{{shipmentNoteChildRow.RMA}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <label>RecievedFrom</label>
+                          <p>{{shipmentNoteChildRow.RecievedFrom}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <label>Consignment</label>
+                          <p>{{shipmentNoteChildRow.ConsignmentNo}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <label>ICare</label>
+                          <p>{{shipmentNoteChildRow.ICare}}</p>
+                        </div>
+                      </div>
+                      <div class="col-md-12" [hidden]="!hideshow">
+                        <div class="col-md-2">
+                          <label>Batch</label>
+                         <p>{{shipmentNoteChildRow.Batch}}</p>
+                        </div>
+                        <div class="col-md-2">
+                          <label>Status</label>
+                          <p>{{shipmentNoteChildRow.Status}}</p>
+                        </div>
+                       
+                        
+                      </div>
+                      <div class="col-md-12">
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>Quantity</label>
+                           <input type="number" formControlName="QtyToAdd" (blur)="quantityChange($event)" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>Dest.Address</label>
+                           <input type="text" formControlName="DestinationAddress" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>ICareRef</label>
+                           <input type="text" formControlName="ICareRef"  class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>SLA Mode</label>
+                           <input type="text" formControlName="SlaMode"  class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group shipment-item-add">
+                            <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemIntoItemPostList()">
+                              Add SKU
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                          <div class="row">
+                              <div class="col-sm-12 table-responsive">
+                                <table class="table table-bordered table-hover dataTable" role="grid">
+                                  <thead>
+                                    <tr role="row">
+                                      <th>
+                                        System Id
+                                      </th>
+                                      <th>
+                                        SKU Name
+                                      </th>
+                                      <th>
+                                        Unit
+                                      </th>
+                                      <th>
+                                        Quantity
+                                      </th>
+                                      <th>SNno</th>
+                                      <th>Dest.Address</th>
+                                      <th>ICareRef</th>
+                                      <th>SlaMode</th>
+                                      <th>
+                                        Remarks / Instructions
+                                      </th>
+                                      <th>
+                                        Action
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr role="row" *ngFor="let item of itemListToPost"  [ngClass]="{ 'border_bottom': item.ItemId==='0' }">
+                                      <td>{{item.ItemId}}</td>
+                                      <td>{{item.Name}}</td>
+                                      <td>{{item.Unit}}</td>
+                                      <td>{{item.Quantity}}</td>
+  
+                                      <td>{{item.SNno}}</td>
+                                      <td>{{item.DestinationAddress}}</td>
+                                      <td>{{item.ICareRef}}</td>
+                                      <td>{{item.SlaMode}}</td>
+  
+  
+                                      <td><input type="text" value="{{item.RelOrd}}" class="form-control" (blur)="addItemRelOrd($event,item.ItemId)"></td>
+                                      <td>
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                          (click)="deleteFromitemListToPost(item)"><i class="fa fa-trash"></i></button>
+                                      </td> 
+                                    </tr>
+                                  </tbody>  
+                                </table>
+                              </div>
+                            </div>
+                      </div>
+                     
+                </div>
+              </div>
+  
+            <div class="box-footer">
+              <div class="col-md-2">
+                <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export Format</button>
+              </div>
+             <div class="col-md-2">
+              <input  type="file" id="servicePicked" #servicePicked 
+              (click)="message=''"
+              (change)="onServicePicked(servicePicked)">
+             </div>
+                <button type="submit" [disabled]="formGroup.invalid || itemListToPost.length <=0 || BTN===true" class="btn btn-success pull-right">Add</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  

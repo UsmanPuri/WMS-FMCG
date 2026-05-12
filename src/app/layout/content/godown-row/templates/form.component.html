@@ -1,0 +1,74 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          CREATE AISLE / ROW
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.GODOWN_ROW_LISTING]">Chamber Aisle</a></li>
+          <li class="active">Create</li>
+        </ol>
+      </section>
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createGodownRow(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group  pull-right">
+                <button type="button" (click)="redirectToGodownRowList()" class="btn-wms">AISLE / ROW Listing</button>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Warehouse</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair" [settings]="warehouseDropdownSettings"
+                    formControlName="WarehouseId" (onSelect)="getGodownKeyPair($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+                <span class="help-block" *ngIf="!this.selectedWarehouseId">
+                  Required
+                </span>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Chamber</label>
+                  <ng-multiselect-dropdown  
+                  [placeholder]="'Select one'"
+                  [data]="godownKeyPair"
+                  formControlName="GodownId"
+                  [settings]="godownDropdownSettings"
+                  (onSelect)="godownChange($event)">
+                </ng-multiselect-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Name</label>
+                  <input type="text" formControlName="Name" class="form-control input-sm" placeholder="Enter AISLE / ROW Name">
+                  <span class="help-block" *ngIf="formGroup.controls.Name.invalid">
+                    {{getErrorMessage('Name')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Alias</label>
+                  <input type="text" formControlName="Alias" class="form-control input-sm" placeholder="Enter AISLE / ROW Alias">
+                  <span class="help-block" *ngIf="formGroup.controls.Alias.invalid">
+                    {{getErrorMessage('Alias')}}
+                  </span>
+                </div>
+              </div>
+            
+            </div>
+          </div>
+          <div class="box-footer">
+              <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>

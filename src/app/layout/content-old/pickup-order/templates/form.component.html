@@ -1,0 +1,297 @@
+<style>
+  tr.border_bottom td {
+    border-bottom: 1px solid red;
+    color: red;
+  }
+</style>
+<section class="content-header">
+  <h1>
+    {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} ORDER {{dropdownHideShow == true ? '/ SALES ORDER' : ''}}
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a
+        routerLink="[dropdownHideShow == true ? this.routesList.PICKUP_ORDER_LISTING : this.routesList.PICKUP_TRANSFER_ORDER_LISTING]">{{dropdownHideShow
+        == true ? 'Customer' : 'Transfer'}} orders</a></li>
+    <li class="active">Create</li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate >
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToPickupOrderList()" class="btn-wms">{{dropdownHideShow == true ?
+              'Customer' : 'Transfer'}} Order Listing</button>
+          </div>
+          <!-- <div class="form-group pull-left">
+              &nbsp; <input type="radio"   checked="true"  (change)="radioChange($event)"  name="formMode">&nbsp;
+              Customer Oder&nbsp; <input type="radio"  (change)="radioChange($event)"  name="formMode" >&nbsp; Transfer Order
+            </div> -->
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onSelect)="customerChange($event)">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+
+            </div>
+            <!-- there -->
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Pickup Method</label>
+                <select class="form-control" formControlName="PickupMethod" (change)="PickupMethodChange()">
+                  <option *ngFor="let c of constantList.PICKUP_METHODS" [ngValue]="c.value">{{ c.name }}</option>
+                </select>
+                <span class="help-block" *ngIf="formGroup.controls.PickupMethod.invalid">
+                  {{getErrorMessage('PickupMethod')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label [hidden]="!dropdownHideShow">Warehouse</label> <label [hidden]="dropdownHideShow">Warehouse
+                  From</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                  [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                  formControlName="WarehouseId" (onSelect)="onSelect($event,'selectedWarehouse')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>{{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} ORDER # / DN #</label>
+                <input type="text" formControlName="CustomerOrderNo" value="Pakistan" class="form-control"
+                  placeholder="{{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} Order No"
+                  (blur)="SONODuplicateChk()">
+                <span class="help-block" *ngIf="formGroup.controls.CustomerOrderNo.invalid">
+                  {{getErrorMessage('CustomerOrderNo')}}
+                </span>
+              </div>
+            </div>
+            
+          </div>
+
+          <div class="col-md-12">
+            
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Order Date</label>
+                <input type="date" formControlName="OrderDate" class="form-control" placeholder="Select OrderDate">
+                <span class="help-block" *ngIf="formGroup.controls.OrderDate.invalid">
+                  {{getErrorMessage('OrderDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Bilty#</label>
+                <input type="text" formControlName="waybill" class="form-control" placeholder="Enter Waybill/DN">
+                <span class="help-block" *ngIf="formGroup.controls.waybill.invalid">
+                  {{getErrorMessage('waybill')}}
+                </span>
+              </div>
+            </div>
+
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Loading Date</label>
+                <input type="date" formControlName="LoadingDate" class="form-control" placeholder="Select Loading Date">
+                <span class="help-block" *ngIf="formGroup.controls.LoadingDate.invalid">
+                  {{getErrorMessage('LoadingDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Distributor</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="distributorKeyPair"
+                  [settings]="distributorDropdownSettings" (onSelect)="distributorChange($event)"
+                  (onDeSelect)="DeSelectdistributorChange($event)">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedDistributor || !this.selectedDistributor['Id']">
+                  Required
+                </span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>City</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="cityKeyPair"
+                  [settings]="cityDropdownSettings" (onSelect)="cityChange($event)">
+                </ng-multiselect-dropdown>
+                <!-- <span class="help-block" *ngIf="!this.selectedCity || !this.selectedCity['Id']">
+                    Required
+                  </span> -->
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Contact Person</label>
+                <input type="text" formControlName="ContactPerson" class="form-control"
+                  placeholder="Enter Contact Person">
+                <span class="help-block" *ngIf="formGroup.controls.ContactPerson.invalid">
+                  {{getErrorMessage('ContactPerson')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Delivery Address</label>
+                <input type="text" formControlName="Address" class="form-control" placeholder="Enter Address">
+                <span class="help-block" *ngIf="formGroup.controls.Address.invalid">
+                  {{getErrorMessage('Address')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="form-group">
+                <label>Telephone</label>
+                <input type="text" formControlName="Telephone" class="form-control" placeholder="Enter Telephone">
+                <span class="help-block" *ngIf="formGroup.controls.Telephone.invalid">
+                  {{getErrorMessage('Telephone')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-3" [hidden]="dropdownHideShow">
+              <div class="form-group">
+                <label>Warehouse To</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="ToWarehouseKeyPair"
+                  [settings]="ToWarehouseDropdownSettings" (onDeSelect)="onDeSelectToWarehouse('selectedToWarehouse')"
+                  formControlName="ToWarehouseId" (onSelect)="onSelectToWarehouse($event,'selectedToWarehouse')">
+                </ng-multiselect-dropdown>
+                <!-- <span class="help-block" *ngIf="!this.selectedToWarehouse || !this.selectedToWarehouse['Id']">
+                    Required
+                  </span> -->
+              </div>
+            </div>
+            
+          </div>
+        </div>
+
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group">
+              <h3 class="box-title detail-title">SKU Detail</h3>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>SKU</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="itemKeyPair"
+                    [settings]="itemDropdownSettings" formControlName="ItemId" (onDeSelect)="itemDeSelect()"
+                    (onSelect)="itemChange($event)">
+                  </ng-multiselect-dropdown>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Quantity</label>
+                  <input type="number" formControlName="QtyToAdd" (blur)="quantityChange($event)" class="form-control">
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group shipment-item-add">
+                  <button type="button" ng-disabled="" id="add" class="btn btn-sm btn-excel" style="padding: 10px;"
+                    (click)="addItemIntoItemPostList()">
+                    Add to List
+                  </button>
+                </div>
+              </div>
+              
+            </div>
+            
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>System ID</th>
+                        <th>Item SKU</th>
+                        <th>SKU Name</th>
+                        <th>Unit</th>
+                        <th>Quantity</th>
+                        <!-- <th>SNno</th>
+                        <th>BatchID</th> -->
+                        <!-- <th>Status</th> -->
+                        <!-- <th>Dest.Address</th>
+                                    <th>ICareRef</th>
+                                    <th>SlaMode</th>
+                                    <th>InboundPool</th> -->
+                        <!-- <th>Remarks / Instructions</th> -->
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of itemListToPost"
+                        [ngClass]="{ 'border_bottom': item.SystemId==='Invalid SKU' || item.SNno=== 'Invalid SN' || item.SNno=== 'SN Duplicate'}">
+                        <td>{{item.SystemId}}</td>
+                        <td>{{item.ItemSKU}}</td>
+                        <td>{{item.Name}}</td>
+                        <td>{{item.Unit}}</td>
+                        <td>{{item.Quantity}}</td>
+                        <!-- <td>{{item.SNno}}</td>
+                        <td>{{item.BatchID}}</td> -->
+                        <!-- <td>{{item.Status}}</td> -->
+                        <!-- <td>{{item.DestinationAddress}}</td>
+                                    <td>{{item.ICareRef}}</td>
+                                    <td>{{item.SlaMode}}</td>
+                                    <td>{{item.InboundPool}}</td> -->
+
+                        <!-- <td><input type="text" value="{{item.RelOrd}}" class="form-control" (blur)="addItemRelOrd($event,item.ItemId)"></td> -->
+                        <td>
+                          <button type="button" class="btn btn-sm btn-danger"
+                            (click)="deleteFromitemListToPost(item)"><i class="fa fa-trash"></i></button>
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="3"></td>
+                        <td>TOTAL</td>
+                        <td>{{TotalQtyDispatch}}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <ngx-ui-loader></ngx-ui-loader>
+          </div>
+        </div>
+
+        <div class="box-footer">
+          <div class="col-md-2">
+            <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export Format</button>
+          </div>
+          <div class="col-md-2">
+            <input type="file" id="servicePicked" #servicePicked [disabled]="formGroup.invalid"
+              (click)="message='TESTING'" (change)="onServicePicked(servicePicked)">
+          </div>
+          <button type="button" [disabled]="formGroup.invalid || itemListToPost.length ==0 || BTN===true || BTNStatus===false"
+            class="btn btn-success pull-right" (click)="createPickupOrder(formGroup.value)"> S U B M I T </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

@@ -1,0 +1,55 @@
+
+ <section class="content">
+    <section class="content-header">
+        <h1>
+          ANALYTIC DASHBOARD
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        
+        </ol>
+      </section>
+   <div col-md-12>
+  
+       <div class="box box-primary">
+         <div class="box-header with-border">
+           <div class="form-group  pull-right">
+             <!-- <button type="button" (click)="redirectToShipmentNoteList()" class="btn-wms">Shipment Note Listing</button> -->
+           </div>
+         </div>
+         <div class="box-body">
+           <div class="col-md-12">
+             <div class="col-md-4">
+               <google-chart #chart
+               [title]="title"
+               [type]="type"
+               [data]="data"
+               [columnNames]="columnNames"
+               [options]="options"
+               [width]="width"
+               [height]="height">
+            </google-chart>
+             </div>
+             <div class="col-md-4">
+               <google-chart #chart
+               [title]="Bartitle"
+               [type]="Bartype"
+               [data]="Bardata"
+               [columnNames]="BarcolumnNames"
+               [options]="Baroptions"
+               [width]="Barwidth"
+               [height]="Barheight">
+            </google-chart>
+             </div>
+          
+           </div>
+ 
+         
+ 
+           
+         </div>
+        
+       </div>
+    
+   </div>
+ </section>

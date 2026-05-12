@@ -1,0 +1,74 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+            CUSTOMER LISTING
+        </h1>
+        
+        <div class="box-body" >
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">    
+              <div class="row" >
+                <div class="col-sm-12 table-responsive" id="print-index-invoice">
+                  <table id="example2" class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>
+                          Sr.                      
+                        </th>
+                        <th >
+                          Name
+                        </th>
+                        <th >
+                            Address
+                          </th>
+                          <th >
+                            Abbrevation
+                            </th>
+                            <th >
+                            Contact Person
+                              </th>
+                        <th >
+                          Mobile
+                        </th>
+                        <th >
+                          Email
+                        </th>
+                        <th >
+                          Customer type
+                        </th>
+                        <th>
+                            Status
+                          </th>
+                        <th >
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let customer of customerList; let i = index">
+                        <td>{{i+1}}</td> 
+                        <td>{{customer.Name}}</td>                 
+                        <td>{{customer.Address}}</td>
+                        <td>{{customer.Abbreviation}}</td>
+                        <td>{{customer.ContactPerson}}</td>
+                        <td>{{customer.Mobile}}</td>
+                        <td>{{customer.Email}}</td>
+                        <td>{{customer.Type}}</td>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <script>
+            window.addEventListener("load", window.print());
+          </script>
+
+
+
+    </section>
+
+
+</section>

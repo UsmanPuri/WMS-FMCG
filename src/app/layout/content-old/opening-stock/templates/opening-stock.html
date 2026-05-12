@@ -1,0 +1,277 @@
+<section class="content-header">
+  <h1>OPENING STOCK</h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createShipmentNote(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <!-- <button type="button" (click)="redirectToShipmentNoteList()" class="btn-wms">Shipment Note Listing</button> -->
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                  [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                  formControlName="CustomerId" (onSelect)="onSelect($event,'selectedCustomer')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Warehouse</label>
+                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                  [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                  formControlName="WarehouseId" 
+                  (onSelect)="onSelect($event,'selectedWarehouse')">
+                </ng-multiselect-dropdown>
+                <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                  Required
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Opening Stock Date</label>
+                <input type="date" formControlName="ASNDate" class="form-control" placeholder="Enter ASN Date">
+                <span class="help-block" *ngIf="formGroup.controls.ASNDate.invalid">
+                  {{getErrorMessage('ASNDate')}}
+                </span>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group">
+              <h3 class="box-title detail-title">SKUs</h3>
+          </div>
+        </div>
+        <div class="box-body">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <!-- <label>Item</label> -->
+                        <ng-multiselect-dropdown [placeholder]="'Select One SKU'" [data]="itemKeyPair"
+                          [settings]="itemDropdownSettings" formControlName="ItemId"
+                           (onDeSelect)="onDeSelect('selectedItem')"
+                          (onSelect)="onSelect($event,'selectedItem')">
+                        </ng-multiselect-dropdown>
+                        <span class="help-block" *ngIf="!this.selectedItem || !this.selectedItem['Id']">
+                          Required
+                        </span>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group shipment-item-add">
+                        <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemLocation()">
+                          Add Location
+                        </button>
+                      </div>
+                    <!-- <div class="form-group">
+                        <label>Godown</label>
+                        <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="godownKeyPair"
+                          [settings]="godownDropdownSettings" formControlName="GodownId"
+                          (onDeSelect)="onDeSelect('selectedGodown')" (onSelect)="onSelect($event,'selectedGodown')">
+                        </ng-multiselect-dropdown>
+                        <span class="help-block" *ngIf="!this.selectedGodown || !this.selectedGodown['Id']">
+                          Required
+                        </span>
+                      </div> -->
+                   
+                </div>
+                <div class="col-md-4">
+                  
+                </div>
+              </div>
+              <div class="col-md-12">
+                  <div class="row">
+                      <div class="col-sm-12 table-responsive" id="myTable1">
+                        <nav>
+                          <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                              background-color: #6c757d;">
+                            <li class="breadcrumb-item">
+                              <a (click)="downloadCSV(this.shipmentListToPost, 'opening-stock-list.csv')" style="color: white;">
+                                Download CSV</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                              <a (click)="exportExcel('opening-stock-list.xlsx', 'tbl', 'Opening Stock List')" style="color: white;">
+                                Download Excel</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                              <a (click)="createPdf('opening-stock-list.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                            </li>
+                            <li>
+                              <button
+                                [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                                class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                                ngxPrint printSectionId="myTable">
+                                Print
+                              </button>
+                            </li>
+                            <li class="breadcrumb-item dropdown">
+                              <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                                Column Hidden
+                              </a>
+                              <div class="dropdown-menu" style="background-color: #007bff; 
+                                  width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                                <a class="dropdown-item" (click)="HideShow('0')" data-column="0" style="color: white;">
+                                  System ID
+                                </a>
+                                <a class="dropdown-item ml-3" (click)="HideShow('1')" data-column="1" style="color: white;">
+                                  SKU Name
+                                </a>
+                                <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="1" style="color: white;">
+                                  Pallet No
+                                </a>
+                                <a class="dropdown-item ml-3" (click)="HideShow('3')" data-column="2" style="color: white;">
+                                  Batch
+                                </a>
+                                <a class="dropdown-item" (click)="HideShow('4')" data-column="3"
+                                  style="color: white; text-align: center">
+                                  Status
+                                </a>
+                                <a class="dropdown-item" (click)="HideShow('5')" data-column="0" style="color: white;">
+                                  Quantity
+                                </a>
+                                <a class="dropdown-item ml-3" (click)="HideShow('6')" data-column="1" style="color: white;">
+                                  No Of Boxes
+                                </a>
+                                <a class="dropdown-item ml-3" (click)="HideShow('7')" data-column="1" style="color: white;">
+                                  Location
+                                </a>
+                                <a class="dropdown-item ml-3" (click)="HideShow('8')" data-column="2" style="color: white;">
+                                  Mfg Date
+                                </a>
+                                <a class="dropdown-item" (click)="HideShow('9')" data-column="3"
+                                  style="color: white; text-align: center">
+                                  Expiry Date
+                                </a>
+                              </div>
+                            </li>
+                          </ol>
+                        </nav>
+                        <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                          <thead>
+                            <tr role="row">
+                              <th *ngIf="!hideShowList[0].status">System ID</th>
+                              <th *ngIf="!hideShowList[1].status">SKU Name</th>
+                              <th *ngIf="!hideShowList[2].status">Pallet No</th>
+                              <th *ngIf="!hideShowList[3].status">Batch</th>
+                              <th *ngIf="!hideShowList[4].status">Status</th>
+                              <th *ngIf="!hideShowList[5].status">Quantity</th>
+                              <th *ngIf="!hideShowList[6].status">No Of Boxes</th>
+                              <th *ngIf="!hideShowList[7].status">Location</th>
+                              <th *ngIf="!hideShowList[8].status">Mfg Date</th>
+                              <th *ngIf="!hideShowList[9].status">Expiry Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr role="row" *ngFor="let shipment of shipmentListToPost">
+                              <td *ngIf="!hideShowList[0].status">{{shipment.ItemInformationId}}</td>
+                              <td *ngIf="!hideShowList[1].status">{{shipment.Name}}</td>
+                              <td *ngIf="!hideShowList[2].status">{{shipment.PalletNo}}</td>
+                              <td *ngIf="!hideShowList[3].status"><input type="text" class="form-control" value="{{shipment.Batch}}" (blur)="addShipmentTextField($event,'Batch',shipment.Location,shipment.PalletNo)"></td>
+                              <td *ngIf="!hideShowList[4].status"><input type="text" class="form-control" value="{{shipment.Status}}" (blur)="addShipmentTextField($event,'Status',shipment.Location,shipment.PalletNo)"></td>
+                              <td *ngIf="!hideShowList[5].status">{{shipment.Quantity}}</td>
+                              <td *ngIf="!hideShowList[6].status">{{shipment.NoOfBoxes}}</td>
+                              <td *ngIf="!hideShowList[7].status">{{shipment.Location}}</td>
+                              <td *ngIf="!hideShowList[8].status"><input type="date" class="form-control" (blur)="addShipmentTextField($event,'MfgDate',shipment.Location,shipment.PalletNo)"></td>
+                              <td *ngIf="!hideShowList[9].status"><input type="date" class="form-control" (blur)="addShipmentTextField($event,'ExpiryDate',shipment.Location,shipment.PalletNo)"></td>
+                            
+                            </tr>
+                          </tbody>  
+                          <ngx-ui-loader></ngx-ui-loader>
+                        </table>
+                      </div>
+                    </div>
+              </div>
+             
+        </div>
+        <div class="box-footer">
+            <button type="submit" [disabled]="formGroup.invalid || shipmentListToPost.length <=0" class="btn btn-success pull-right">Add Opening Stock</button>
+        </div>
+      </div>
+      <div class="box-footer">
+          <div class="col-md-2">
+            <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export Format</button>
+          </div>
+          <div class="col-md-4">
+            <input type="file" id="servicePicked" #servicePicked (click)="message=''" (change)="onServicePicked(servicePicked)">
+          </div>
+      </div>
+    </form>
+  </div>
+</section>
+<modal #modalItemLocation>
+  <modal-header>
+      <div class="box-header">
+          <div class="form-group">
+              <h3 class="box-title detail-title">
+                {{this.selectedWarehouse.Name}}
+              </h3>
+          </div>
+        </div>
+  </modal-header>
+  
+  <modal-content>
+      <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-bordered table-hover dataTable" role="grid">
+              <thead>
+                <tr role="row">
+                  <th>Chamber Aisle</th>
+                  <th>Chamber Rack</th>
+                  <th>Chamber Bay</th>
+                  <th>Location</th>
+                  <th>Vacant Quantity</th>
+                  <th>Quantity</th>
+                  <th class="pallets-dropdown">Pallet</th>
+                  <th>No Of Boxes</th>
+                  <th>No Of Pallets</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" *ngFor="let godwom of shelfListForShipment">
+                  <td>{{godwom.godownRow.Name}} | {{godwom.godownRow.Alias}}</td>
+                  <td>{{godwom.godownRack.Name}} | {{godwom.godownRack.Alias}}</td>
+                  <td>{{godwom.godownShelf.Name}} | {{godwom.godownShelf.Alias}}</td>
+                  <td>{{godwom.Location}}</td>
+                  <td>{{godwom.vacantQuantity | number:'1.2-2'}}</td>
+                  <td><input (blur)="QuantityChange($event,godwom.vacantQuantity,godwom.Location)" value="{{godwom.Quantity}}" type="text" class="form-control"></td>
+                  <td>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="palletKeyPair" [settings]="palletDropdownSettings"
+                        (onDeSelect)="palletDeSelect(godwom.Location)"
+                      (onSelect)="palletSelect($event,godwom.Location,0)">
+                    </ng-multiselect-dropdown>
+                  </td>
+                  <td>{{godwom.NoOfBoxes | number:'1.2-2'}}</td>
+                  <td>{{godwom.NoOfPallets}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <ngx-ui-loader></ngx-ui-loader>
+        </div>
+  </modal-content>
+  
+  <modal-footer>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="cancelItemLocationModal()">Cancel</button>
+          <button type="button" class="btn btn-wms" (click)="addShipmentItem()">Save</button>
+        </div>
+  </modal-footer>
+  </modal>

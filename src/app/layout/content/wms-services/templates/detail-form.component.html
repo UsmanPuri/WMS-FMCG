@@ -1,0 +1,64 @@
+<section class="content-header">
+  <h1>
+    WMS SERVICE EDIT
+  </h1>
+  <ol class="breadcrumb">
+      <li><button
+        [printStyle]="{table : {'font-size': '10px'}}"
+         class="btn-wms hidden-print print-btn" printTitle="WMS Service Information"
+          [useExistingCss]="true" ngxPrint printSectionId="print-section">
+          <span class="glyphicon glyphicon-print" aria-hidden="true">
+          </span></button></li>
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.WMS_SERVICE_LISTING]">WMS Services</a></li>
+    <li class="active">Create</li>
+  </ol>
+</section>
+<section class="content">
+    <div id="print-section">
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateWmsService(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="col-md-12">
+          
+              <div class="col-md-6">
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                  <div class="col-sm-12 table-responsive">
+                    <table class="table table-bordered table-hover dataTable" role="grid">
+                      <thead>
+                        <tr role="row">
+                          <th>
+                            Service Name
+                          </th>
+                          <th>
+                            Service Type
+                          </th>
+                          <th>
+                            UOM
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr role="row" *ngFor="let service of wmsServiceList">
+                          <td>{{service.ServiceName}}</td>
+                          <td>{{service.ServiceType}}</td>
+                          <td>{{service.Unit}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+         
+              </div>
+            </div>
+        </div>
+      </form>
+    </div>
+    </div>
+  </section>

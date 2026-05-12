@@ -1,0 +1,311 @@
+<section class="content-header">
+    <h1>
+      {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} ORDER {{dropdownHideShow == true ? '/ SALES ORDER EDIT' : 'EDIT'}}
+      <!-- CUSTOMER ORDER / SALES ORDER EDIT -->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.PICKUP_ORDER_LISTING]">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Order</a></li>
+      <li class="active">Create</li>
+    </ol>
+  </section>
+  <section class="content">
+      <div col-md-12>
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updatePickupOrder(formGroup.value)">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <div class="form-group  pull-right">
+                  <button type="button" (click)="redirectToPickupOrderList()" class="btn-wms">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Order Listing</button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Customer</label>
+                        <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                         [settings]="customerDropdownSettings"
+                         formControlName="CustomerId"
+                          (onSelect)="customerChange($event)"
+                          [(ngModel)]="selectedCustomerInfo">
+                        </ng-multiselect-dropdown>
+                        <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                          It is required
+                        </span>
+                      </div>
+                 
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Warehouse</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                      [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                      formControlName="WarehouseId" 
+                      (onSelect)="onSelect($event,'selectedWarehouse')"
+                      [(ngModel)]="selectedWarehouseInfo">
+                    </ng-multiselect-dropdown>
+                    <span class="help-block" *ngIf="!this.selectedWarehouse || !this.selectedWarehouse['Id']">
+                      Required
+                    </span>
+                  </div>
+                </div>
+              
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Order Date</label>
+                    <input type="date" formControlName="OrderDate" class="form-control" placeholder="Select OrderDate">
+                    <span class="help-block" *ngIf="formGroup.controls.OrderDate.invalid">
+                      {{getErrorMessage('OrderDate')}}
+                    </span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>PCR No</label>
+                    <input type="text" formControlName="PCRNo" class="form-control" placeholder="Enter PCR No">
+                    <span class="help-block" *ngIf="formGroup.controls.PCRNo.invalid">
+                      {{getErrorMessage('PCRNo')}}
+                    </span>
+                  </div>
+                </div> -->
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Plant</label>
+                    <input type="text" formControlName="Plant" class="form-control" placeholder="Enter Plant">
+                    <span class="help-block" *ngIf="formGroup.controls.Plant.invalid">
+                      {{getErrorMessage('Plant')}}
+                    </span>
+                  </div>
+                </div> -->
+              </div>
+  
+              <div class="col-md-12">
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Origin Warehouse</label>
+                    <input type="text" formControlName="OriginWarehouse" class="form-control" placeholder="Enter Origin Warehouse">
+                    <span class="help-block" *ngIf="formGroup.controls.OriginWarehouse.invalid">
+                      {{getErrorMessage('OriginWarehouse')}}
+                    </span>
+                  </div>
+                </div> -->
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Waybill/DN</label>
+                    <input type="text" formControlName="waybill" class="form-control" placeholder="Enter Waybill/DN">
+                    <span class="help-block" *ngIf="formGroup.controls.waybill.invalid">
+                      {{getErrorMessage('waybill')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Customer Order No</label>
+                    <input type="text" formControlName="CustomerOrderNo" value="Pakistan" class="form-control" placeholder="Enter Customer Order No">
+                    <span class="help-block" *ngIf="formGroup.controls.CustomerOrderNo.invalid">
+                      {{getErrorMessage('CustomerOrderNo')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Loading Date</label>
+                    <input type="date" formControlName="LoadingDate" class="form-control" placeholder="Select Loading Date">
+                    <span class="help-block" *ngIf="formGroup.controls.LoadingDate.invalid">
+                      {{getErrorMessage('LoadingDate')}}
+                    </span>
+                  </div>
+                </div>
+  
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Consignee</label>
+                    <input type="text" formControlName="Consignee" class="form-control" placeholder="Enter Consignee">
+                    <span class="help-block" *ngIf="formGroup.controls.Consignee.invalid">
+                      {{getErrorMessage('Consignee')}}
+                    </span>
+                  </div>
+                </div> -->
+              
+  
+              </div>
+  
+              <div class="col-md-12">
+                
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Contact Person</label>
+                    <input type="text" formControlName="ContactPerson" class="form-control" placeholder="Enter Contact Person">
+                    <span class="help-block" *ngIf="formGroup.controls.ContactPerson.invalid">
+                      {{getErrorMessage('ContactPerson')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Delivery Address</label>
+                    <input type="text" formControlName="Address"  class="form-control" placeholder="Enter Address">
+                    <span class="help-block" *ngIf="formGroup.controls.Address.invalid">
+                      {{getErrorMessage('Address')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>City</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="cityKeyPair" 
+                    [settings]="cityDropdownSettings"
+                    formControlName="CityId"
+                      (onSelect)="cityChange($event)"
+                      [(ngModel)]="selectedCityInfo">
+                    </ng-multiselect-dropdown>
+                    <span class="help-block" *ngIf="!this.selectedCity || !this.selectedCity['Id']">
+                      It is required
+                    </span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Consignee Contact</label>
+                    <input type="text" formControlName="ConsigneeContact" class="form-control" placeholder="Enter Consignee Contact">
+                    <span class="help-block" *ngIf="formGroup.controls.ConsigneeContact.invalid">
+                      {{getErrorMessage('ConsigneeContact')}}
+                    </span>
+                  </div>
+                </div> -->
+               
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>State</label>
+                    <input type="text" formControlName="State" class="form-control" placeholder="Enter State">
+                    <span class="help-block" *ngIf="formGroup.controls.State.invalid">
+                      {{getErrorMessage('State')}}
+                    </span>
+                  </div>
+                </div> -->
+              </div>
+  
+              <div class="col-md-12">
+                <!-- <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Country</label>
+                    <input type="text" formControlName="Country" value="Pakistan" class="form-control" placeholder="Enter Country">
+                    <span class="help-block" *ngIf="formGroup.controls.Country.invalid">
+                      {{getErrorMessage('Country')}}
+                    </span>
+                  </div>
+                </div> -->
+              
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Telephone</label>
+                    <input type="text" formControlName="Telephone" class="form-control" placeholder="Enter Telephone">
+                    <span class="help-block" *ngIf="formGroup.controls.Telephone.invalid">
+                      {{getErrorMessage('Telephone')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Pickup Method</label>
+                    <select class="form-control" formControlName="PickupMethod">
+                      <option *ngFor="let c of constantList.PICKUP_METHODS" [ngValue]="c.value">{{ c.name }}</option>
+                    </select>
+                    <span class="help-block" *ngIf="formGroup.controls.PickupMethod.invalid">
+                      {{getErrorMessage('PickupMethod')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <label></label>
+                  <p>{{pick.name}}</p>
+                </div>
+              
+              </div>
+  
+              <div class="col-md-12">
+                
+               
+             
+              
+              </div>
+  
+            </div>
+  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <div class="form-group">
+                      <h3 class="box-title detail-title">SKU detail</h3>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>SKU</label>
+                                <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="itemKeyPair"
+                                  [settings]="itemDropdownSettings"
+                                   formControlName="ItemId"
+                                   (onDeSelect)="itemDeSelect()"
+                                  (onSelect)="itemChange($event)">
+                                </ng-multiselect-dropdown>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>Quantity</label>
+                           <input type="number" formControlName="QtyToAdd" (blur)="quantityChange($event)" class="form-control">
+                          </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                          <div class="form-group shipment-item-add">
+                            <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemIntoItemPostList()">
+                              Add SKU
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                          <div class="row">
+                              <div class="col-sm-12 table-responsive">
+                                <table class="table table-bordered table-hover dataTable" role="grid">
+                                  <thead>
+                                    <tr role="row">
+                                      <th>SKU ID</th>
+                                      <th>SKU Name</th>
+                                      <th>Unit</th>
+                                      <th>Quantity</th>
+                                      <th>Remarks / Instructions</th>
+                                      <th>Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr role="row" *ngFor="let item of itemListToPost">
+                                      <td>{{item.ItemId}}</td>
+                                      <td>{{item.Name}}</td>
+                                      <td>{{item.Unit}}</td>
+                                      <td>{{item.Quantity}}</td>
+                                      <td><input type="text" class="form-control" value="{{item.RelOrd}}" (blur)="addItemRelOrd($event,item.ItemId)"></td>
+                                      <td>
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                          (click)="deleteFromitemListToPost(item)"><i class="fa fa-trash"></i></button>
+                                      </td> 
+                                    </tr>
+                                  </tbody>  
+                                </table>
+                              </div>
+                            </div>
+                      </div>
+                     
+                </div>
+              </div>
+  
+            <div class="box-footer">
+                <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Update</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+  

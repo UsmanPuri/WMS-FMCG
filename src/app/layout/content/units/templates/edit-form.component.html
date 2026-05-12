@@ -1,0 +1,78 @@
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          UNIT EDIT
+         
+        </h1>
+        <ol class="breadcrumb">
+          <li><a routerLink="[this.routesList.UNIT_LISTING]"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.UNIT_LISTING]">Units</a></li>
+          <li class="active">Edit</li>
+        </ol>
+      </section>
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateUnit(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="pull-left">
+                    <div class="col-md-6 toggle-label ">
+                        <span *ngIf="status == true">
+                          <b>Active</b>
+                        </span>
+                        <span *ngIf="status == false">
+                          <b>InActive</b>
+                        </span>
+                      </div>
+                      <div class="col-md-6">
+                        <ui-switch switchColor="#fcfcfc" [checked]="status == true" (change)="onStatusChange($event)"></ui-switch>
+                      </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="pull-right">
+                    <button type="button" (click)="redirectToUnitList()" class="btn-wms">Unit Listing</button>
+
+              
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" formControlName="Title" class="form-control input-sm" placeholder="Enter unit tile">
+                  <span class="help-block" *ngIf="formGroup.controls.Title.invalid">
+                    {{getErrorMessage('Title')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Abberivation</label>
+                  <input type="text" formControlName="Abbreviation" minlength="3" maxlength="3" class="form-control input-sm" placeholder="Enter unit abbreviation">
+                  <span class="help-block" *ngIf="formGroup.controls.Abbreviation.invalid">
+                    {{getErrorMessage('Abbreviation')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="box-footer">
+              <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Submit</button>
+          </div>
+        </div>
+      </form>
+      <ngx-ui-loader></ngx-ui-loader>
+    </div>
+  </section>

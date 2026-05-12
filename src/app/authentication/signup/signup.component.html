@@ -1,0 +1,130 @@
+<body class="login-aml">
+  <div class="login-box" style="width: 500px;">
+
+    <div class="login-logo" style="margin-bottom:0px">
+      <img id="logo" src="assets/images/wms-logo.png" height="170" width="500" style="background-color: white;">
+    </div>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+
+      <p class="login-box-msg">Sign-up for Free Trial</p>
+
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="submitForm()">
+        <div class="d-flex justify-content-around">
+          <div class="form-group">
+            <label for="cmpName">Company Name</label>
+            <input type="text" id="cmpName" formControlName="cmpName" class="form-control"
+              placeholder="Enter Your Company Name">
+            <div *ngIf="cmpName.touched && cmpName.invalid" class="alert text-danger">
+              <div *ngIf="cmpName.errors.required"> Company Name is required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cmpAddress">Company Address</label>
+            <input type="text" id="cmpAddress" formControlName="cmpAddress" class="form-control"
+              placeholder="Enter Your Company Address">
+            <div *ngIf="cmpAddress.touched && cmpAddress.invalid" class="alert text-danger">
+              <div *ngIf="cmpAddress.errors.required"> Company Address is required.</div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-around">
+          <div class="form-group">
+            <label for="city">City</label>
+            <input type="text" id="city" formControlName="city" class="form-control" placeholder="Enter the City">
+            <div *ngIf="city.touched && city.invalid" class="alert text-danger">
+              <div *ngIf="city.errors.required"> City is required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="country">Country</label>
+            <input type="text" id="country" formControlName="country" class="form-control"
+              placeholder="Enter the Country">
+            <div *ngIf="country.touched && country.invalid" class="alert text-danger">
+              <div *ngIf="country.errors.required"> Country is required.</div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-around">
+          <div class="form-group">
+            <label for="contactNum">Contact Number</label>
+            <input type="text" id="contactNum" formControlName="contactNum" class="form-control"
+              placeholder="Enter the Contact Number">
+            <div *ngIf="contactNum.touched && contactNum.invalid" class="alert text-danger">
+              <div *ngIf="contactNum.errors.required"> Contact Number is required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="contactPerson">Contact Person</label>
+            <input type="text" id="contactPerson" formControlName="contactPerson" class="form-control"
+              placeholder="Enter the Name of Contacted Person">
+            <div *ngIf="contactPerson.touched && contactPerson.invalid" class="alert text-danger">
+              <div *ngIf="contactPerson.errors.required"> Contact Person is required.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-around">
+          <div class="form-group">
+            <label for="cmpEmail">Company Email</label>
+            <input type="email" id="cmpEmail" formControlName="cmpEmail" class="form-control"
+              placeholder="Enter Your Company Email">
+            <div *ngIf="cmpEmail.touched && cmpEmail.invalid" class="alert text-danger">
+              <div *ngIf="cmpEmail.errors.required"> Company Email is required.</div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" formControlName="password" class="form-control"
+              placeholder="Enter your Password">
+            <div *ngIf="password.touched && password.invalid" class="alert text-danger">
+              <div *ngIf="password.errors.required"> Password is required.</div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-around">
+          <div class="form-group">
+            <label for="cnfPassword">Confirm Password</label>
+            <input type="password" id="cnfPassword" formControlName="cnfPassword" class="form-control"
+              placeholder="Enter confirm Password" style="width: 450px;">
+            <div *ngIf="cnfPassword.touched && cnfPassword.invalid" class="alert text-danger">
+              <div *ngIf="cnfPassword.errors.required"> Confirm Password is required.</div>
+            </div>
+            <div *ngIf="cnfPassword.touched &&  formGroup.invalid && formGroup.hasError('passwordMatch')"
+                class="alert text-danger">
+                Passwords do not match.
+              </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-8">
+            <div class="col-xs-8">
+              <button type="button" class="btn btn-link myBtnLink -danger text-decoration-none" 
+              (click)="signIn()">Sign In</button>
+            </div>
+          </div>
+          <!-- /.col -->
+          <div class="col-xs-4">
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-primary btn-block btn-flat">Sign
+              up</button>
+          </div>
+          <!-- /.col -->
+        </div>
+      </form>
+
+      <div class="social-auth-links text-center">
+        <!-- <p>- OR -</p>
+          <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign in using
+            Facebook</a>
+          <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign in using
+            Google+</a> -->
+      </div>
+      <!-- /.social-auth-links -->
+
+      <!-- <a href="#">I forgot my password</a><br>
+        <a href="#" class="text-center">Register a new membership</a> -->
+
+    </div>
+    <!-- /.login-box-body -->
+  </div>
+</body>

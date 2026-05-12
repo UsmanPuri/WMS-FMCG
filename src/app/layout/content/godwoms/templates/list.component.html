@@ -1,0 +1,76 @@
+
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          CHAMBER LISTING
+          <small>
+            <button class="btn-wms" (click)="redirectToCreateGodwom()"><i class="fa fa-plus-circle"></i> </button>
+          </small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.GODWOM_LISTING]">Chamber</a></li>
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+      <div class="pull-right">
+        <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+      </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>Sr.</th>
+                      <th>Warehouse</th>
+                      <th>Name</th>
+                      <th>Abberivation</th>
+                      <th>Chamber Type</th>
+                      <th>Height</th>
+                      <th>Width</th>
+                      <th>Depth</th>
+                       <th>Actions</th> 
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let godwom of godwomList; let i = index">
+                      <td>{{i+1}}</td> 
+                      <td>{{godwom.AML_Warehouse.Name}}</td>
+                      <td>{{godwom.Name}}</td>
+                      <td>{{godwom.Abbreviation}}</td>
+                      <td>{{godwom.AML_GodwomType.Name}}</td>
+                      <td>{{godwom.Height}}</td>
+                      <td>{{godwom.Width}}</td>
+                      <td>{{godwom.Dept}}</td>
+                      <td>
+                        <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(godwom.GodwomId)"><i
+                            class="fa fa-edit"></i></button>
+                            <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger" (click)="Delete(godwom.GodwomId)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <ngx-ui-loader></ngx-ui-loader>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

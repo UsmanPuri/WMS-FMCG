@@ -1,0 +1,657 @@
+<section class="content-header">
+  <h1>
+    {{isCustomerOrder == true ? 'CUSTOMER' : 'TRANSFER'}} ORDER LISTING
+    <small>
+      <button class="btn-wms" (click)="redirectToCreatePickupOrder()"><i class="fa fa-plus-circle"></i></button>
+    </small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a
+        routerLink="[isCustomerOrder == true ? this.routesList.PICKUP_ORDER_LISTING : this.routesList.PICKUP_TRANSFER_ORDER_LISTING]">{{isCustomerOrder
+        == true ? 'Customer' : 'Transfer'}} Order</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="col-md-12">
+            <form name="formGroup" [formGroup]="formGroup" novalidate>
+
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Customer</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                    [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                    formControlName="CustomerId" (onSelect)="customerChange($event)">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                    Required
+                  </span>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <ul class="nav nav-tabs">
+                  <li class="active"><a data-toggle="tab" href="#home">Pending</a></li>
+                  <li><a data-toggle="tab" href="#executed">Executed</a></li>
+                  <li><a data-toggle="tab" href="#cancel">Cancel</a></li>
+                </ul>
+                <div class="tab-content">
+                  <div id="home" class="tab-pane fade in active">
+                    <h3>Pending</h3>
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                      <div class="row">
+                        <div class="col-sm-12 table-responsive" id="myTable1">
+                          <nav>
+                            <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                                background-color: #6c757d;">
+                              <li class="breadcrumb-item">
+                                <a (click)="downloadCSV(this.pickupOrderPending, 'pickup-order-pending-list.csv')"
+                                  style="color: white;">
+                                  Download CSV</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a (click)="exportExcel('pickup-order-pending-list.xlsx', 'tbl1', 'Pickup Order Pending List')"
+                                  style="color: white;">
+                                  Download Excel</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a (click)="createPdf('pickup-order-pending-list.pdf', '#tbl1')"
+                                  style="color: white;">Export To PDF</a>
+                              </li>
+                              <li>
+                                <button
+                                  [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                                  class="btn-genx hidden-print print-btn" printTitle="Sales Invoice"
+                                  [useExistingCss]="true" ngxPrint printSectionId="myTable1">
+                                  Print
+                                </button>
+                              </li>
+                              <li class="breadcrumb-item dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                                  Column Hidden
+                                </a>
+                                <div class="dropdown-menu" style="background-color: #007bff; 
+                                    width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                                  <a class="dropdown-item ml-3" (click)="HideShow1('0')" data-column="1"
+                                    style="color: white;">
+                                    Sr #
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow1('1')" data-column="1"
+                                    style="color: white;">
+                                    Customer
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow1('2')" data-column="2"
+                                    style="color: white;">
+                                    Warehouse
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow1('3')" data-column="1"
+                                    style="color: white;">
+                                    Contact Person
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('4')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Waybill/DN
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('5')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Customer Order No
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow1('6')" data-column="1"
+                                    style="color: white;">
+                                    Pickup Method
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('7')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Order Date
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('8')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Loaded Date
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('9')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Address
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('10')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Type
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow1('11')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Action
+                                  </a>
+                                </div>
+                              </li>
+                            </ol>
+                          </nav>
+                          <table class="table table-bordered tabl-hover dataTable" role="grid" id="tbl1">
+                            <thead>
+                              <tr role="row">
+                                <th *ngIf="!hideShowList1[0].status">Sr#</th>
+                                <th *ngIf="!hideShowList1[1].status">Customer</th>
+                                <th *ngIf="!hideShowList1[2].status">Warehouse</th>
+                                <th *ngIf="!hideShowList1[3].status">ContactPerson</th>
+                                <th *ngIf="!hideShowList1[4].status">Waybill/DN</th>
+                                <th *ngIf="!hideShowList1[5].status">Customer Order No</th>
+                                <th *ngIf="!hideShowList1[6].status">PickUp Method</th>
+                                <th *ngIf="!hideShowList1[7].status">Order Date</th>
+                                <th *ngIf="!hideShowList1[8].status">Loaded Date</th>
+                                <th *ngIf="!hideShowList1[9].status">Address</th>
+                                <th *ngIf="!hideShowList1[10].status">Type</th>
+                                <th *ngIf="!hideShowList1[11].status">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr role="row" *ngFor="let pickupOrder of pickupOrderPending; let i = index">
+                                <td *ngIf="!hideShowList1[0].status">{{i+1}}</td>
+                                <td *ngIf="!hideShowList1[1].status">{{pickupOrder.Name}}</td>
+                                <td *ngIf="!hideShowList1[2].status">{{pickupOrder.OriginWarehouse}}</td>
+                                <td *ngIf="!hideShowList1[3].status">{{pickupOrder.ContactPerson}}</td>
+                                <!-- <td>{{pickupOrder.Consignee}}</td> -->
+                                <td *ngIf="!hideShowList1[4].status">{{pickupOrder.waybill}}</td>
+                                <td *ngIf="!hideShowList1[5].status">{{pickupOrder.CustomerOrderNo}}</td>
+                                <td *ngIf="!hideShowList1[6].status">{{pickupOrder.Method}}</td>
+                                <td *ngIf="!hideShowList1[7].status">{{pickupOrder.OrderDate | date}}</td>
+                                <td *ngIf="!hideShowList1[8].status">{{pickupOrder.LoadingDate | date}}</td>
+                                <td *ngIf="!hideShowList1[9].status">{{pickupOrder.Address}}</td>
+                                <td *ngIf="!hideShowList1[10].status">{{pickupOrder.FormType}}</td>
+                                <td *ngIf="!hideShowList1[11].status">
+                                  <!-- <button type="button" id="update" class="editBtn btn-warning"
+                                    (click)="Detail(pickupOrder.PickupOrderId)"><i class="fa fa-info"></i></button> -->
+                                  <button type="button" id="update" class="editBtn btn-warning" data-toggle="tooltip"
+                                    data-placement="bottom" title="Edit Order"
+                                    (click)="Edit(pickupOrder.PickupOrderId)"><i class="fa fa-edit"></i></button>
+                                  <button type="button" id="update" class="editBtn btn-danger" data-toggle="tooltip"
+                                    data-placement="bottom" title="Cancel Sales Order"
+                                    (click)="delete(pickupOrder.PickupOrderId)">
+                                    <i class="fa fa-times-circle-o"></i>
+                                  </button>
+                                  <button type="button" id="report" title="Print Dispatched Order" class="editBtn btn-danger"
+                                    (click)="reportmodal(pickupOrder.PickupOrderId, 'pickup')">
+                                    <i style="font-size:14px !important" class="fa fa-file"></i>
+                                  </button>
+
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="executed" class="tab-pane fade">
+                    <h3>Executed</h3>
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                      <div class="row">
+                        <div class="col-sm-12 table-responsive" id="myTable2">
+                          <nav>
+                            <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                                background-color: #6c757d;">
+                              <li class="breadcrumb-item">
+                                <a (click)="downloadCSV(this.pickupOrderCompleted, 'pickup-order-completed-list.csv')"
+                                  style="color: white;">
+                                  Download CSV</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a (click)="exportExcel('pickup-order-completed-list.xlsx', 'tbl2', 'Pickup Order Completed List')"
+                                  style="color: white;">
+                                  Download Excel</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a (click)="createPdf('pickup-order-completed-list.pdf', '#tbl2')"
+                                  style="color: white;">Export To PDF</a>
+                              </li>
+                              <li>
+                                <button [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                                  class="btn-genx hidden-print print-btn" printTitle="Sales Invoice"
+                                  [useExistingCss]="true" ngxPrint printSectionId="myTable2">
+                                  Print
+                                </button>
+                              </li>
+                              <li class="breadcrumb-item dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                                  Column Hidden
+                                </a>
+                                <div class="dropdown-menu" style="background-color: #007bff; 
+                                    width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                                  <a class="dropdown-item ml-3" (click)="HideShow2('0')" data-column="1"
+                                    style="color: white;">
+                                    Sr #
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow2('1')" data-column="1"
+                                    style="color: white;">
+                                    Customer
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow2('2')" data-column="2"
+                                    style="color: white;">
+                                    Warehouse
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow2('3')" data-column="1"
+                                    style="color: white;">
+                                    Contact Person
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('4')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Waybill/DN
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('5')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Customer Order No
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow2('6')" data-column="1"
+                                    style="color: white;">
+                                    Pickup Method
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('7')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Order Date
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('8')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Loaded Date
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('9')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Address
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('10')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Type
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow2('11')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Action
+                                  </a>
+                                </div>
+                              </li>
+                            </ol>
+                          </nav>
+                          <table class="table table-bordered tabl-hover dataTable" role="grid" id="tbl2">
+                            <thead>
+                              <tr role="row">
+                                <th *ngIf="!hideShowList2[0].status">Sr#</th>
+                                <th *ngIf="!hideShowList2[1].status">Customer</th>
+                                <th *ngIf="!hideShowList2[2].status">Warehouse</th>
+                                <th *ngIf="!hideShowList2[3].status">ContactPerson</th>
+                                <th *ngIf="!hideShowList2[4].status">Waybill/DN</th>
+                                <th *ngIf="!hideShowList2[5].status">Customer Order No</th>
+                                <th *ngIf="!hideShowList2[6].status">PickUp Method</th>
+                                <th *ngIf="!hideShowList2[7].status">Order Date</th>
+                                <th *ngIf="!hideShowList2[8].status">Loaded Date</th>
+                                <th *ngIf="!hideShowList2[9].status">Address</th>
+                                <th *ngIf="!hideShowList2[10].status">Type</th>
+                                <th *ngIf="!hideShowList2[11].status">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr role="row" *ngFor="let pickupOrder of pickupOrderCompleted; let i = index">
+                                <td *ngIf="!hideShowList2[0].status">{{i+1}}</td>
+                                <td *ngIf="!hideShowList2[1].status">{{pickupOrder.Name}}</td>
+                                <td *ngIf="!hideShowList2[2].status">{{pickupOrder.OriginWarehouse}}</td>
+                                <td *ngIf="!hideShowList2[3].status">{{pickupOrder.ContactPerson}}</td>
+                                <!-- <td>{{pickupOrder.Consignee}}</td> -->
+                                <td *ngIf="!hideShowList2[4].status">{{pickupOrder.waybill}}</td>
+                                <td *ngIf="!hideShowList2[5].status">{{pickupOrder.CustomerOrderNo}}</td>
+                                <td *ngIf="!hideShowList2[6].status">{{pickupOrder.Method}}</td>
+                                <td *ngIf="!hideShowList2[7].status">{{pickupOrder.OrderDate | date}}</td>
+                                <td *ngIf="!hideShowList2[8].status">{{pickupOrder.LoadingDate | date}}</td>
+                                <td *ngIf="!hideShowList2[9].status">{{pickupOrder.Address}}</td>
+                                <td *ngIf="!hideShowList2[10].status">{{pickupOrder.FormType}}</td>
+                                <td *ngIf="!hideShowList2[11].status">
+                                  <button type="button" id="update" class="editBtn btn-warning"
+                                    (click)="Detail(pickupOrder.PickupOrderId)"><i class="fa fa-info"></i></button>
+                                  <!-- <button type="button" id="update" class="editBtn btn-warning"
+                                    (click)="Edit(pickupOrder.PickupOrderId)"><i class="fa fa-edit"></i></button> -->
+                                    <button type="button" id="update" class="editBtn btn-danger" data-toggle="tooltip"
+                                    data-placement="bottom" title="Delete Sales Order"
+                                    (click)="delete(pickupOrder.PickupOrderId)">
+                                    <i class="fa fa-times-circle-o"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="cancel" class="tab-pane fade">
+                    <h3>Cancel</h3>
+                    <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                      <div class="row">
+                        <div class="col-sm-12 table-responsive" id="myTable3">
+                          <nav>
+                            <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                                background-color: #6c757d;">
+                              <li class="breadcrumb-item">
+                                <a (click)="downloadCSV(this.pickupOrderCancel, 'pickup-order-cancelled-list.csv')"
+                                  style="color: white;">
+                                  Download CSV</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a (click)="exportExcel('pickup-order-cancelled-list.xlsx', 'tbl1', 'Pickup Order Cancelled List')"
+                                  style="color: white;">
+                                  Download Excel</a>
+                              </li>
+                              <li class="breadcrumb-item">
+                                <a (click)="createPdf('pickup-order-cancelled-list.pdf', '#tbl1')"
+                                  style="color: white;">Export To PDF</a>
+                              </li>
+                              <li>
+                                <button
+                                  [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                                  class="btn-genx hidden-print print-btn" printTitle="Sales Invoice"
+                                  [useExistingCss]="true" ngxPrint printSectionId="myTable3">
+                                  Print
+                                </button>
+                              </li>
+                              <li class="breadcrumb-item dropdown">
+                                <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                                  Column Hidden
+                                </a>
+                                <div class="dropdown-menu" style="background-color: #007bff; 
+                                    width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                                  <a class="dropdown-item ml-3" (click)="HideShow3('0')" data-column="1"
+                                    style="color: white;">
+                                    Sr #
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow3('1')" data-column="1"
+                                    style="color: white;">
+                                    Customer
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow3('2')" data-column="2"
+                                    style="color: white;">
+                                    Warehouse
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow3('3')" data-column="1"
+                                    style="color: white;">
+                                    Contact Person
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('4')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Waybill/DN
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('5')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Customer Order No
+                                  </a>
+                                  <a class="dropdown-item ml-3" (click)="HideShow3('6')" data-column="1"
+                                    style="color: white;">
+                                    Pickup Method
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('7')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Order Date
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('8')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Loaded Date
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('9')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Address
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('10')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Type
+                                  </a>
+                                  <a class="dropdown-item" (click)="HideShow3('11')" data-column="3"
+                                    style="color: white; text-align: center">
+                                    Action
+                                  </a>
+                                </div>
+                              </li>
+                            </ol>
+                          </nav>
+                          <table class="table table-bordered tabl-hover dataTable" role="grid" id="tbl3">
+                            <thead>
+                              <tr role="row">
+                                <th *ngIf="!hideShowList2[0].status">Sr#</th>
+                                <th *ngIf="!hideShowList2[1].status">Customer</th>
+                                <th *ngIf="!hideShowList2[2].status">Warehouse</th>
+                                <th *ngIf="!hideShowList2[3].status">ContactPerson</th>
+                                <th *ngIf="!hideShowList2[4].status">Waybill/DN</th>
+                                <th *ngIf="!hideShowList2[5].status">Customer Order No</th>
+                                <th *ngIf="!hideShowList2[6].status">PickUp Method</th>
+                                <th *ngIf="!hideShowList2[7].status">Order Date</th>
+                                <th *ngIf="!hideShowList2[8].status">Loaded Date</th>
+                                <th *ngIf="!hideShowList2[9].status">Address</th>
+                                <th *ngIf="!hideShowList2[10].status">Type</th>
+                                <th *ngIf="!hideShowList2[11].status">Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr role="row" *ngFor="let pickupOrder of pickupOrderCancel; let i = index">
+                                <td *ngIf="!hideShowList2[0].status">{{i+1}}</td>
+                                <td *ngIf="!hideShowList2[1].status">{{pickupOrder.Name}}</td>
+                                <td *ngIf="!hideShowList2[2].status">{{pickupOrder.OriginWarehouse}}</td>
+                                <td *ngIf="!hideShowList2[3].status">{{pickupOrder.ContactPerson}}</td>
+                                <!-- <td>{{pickupOrder.Consignee}}</td> -->
+                                <td *ngIf="!hideShowList2[4].status">{{pickupOrder.waybill}}</td>
+                                <td *ngIf="!hideShowList2[5].status">{{pickupOrder.CustomerOrderNo}}</td>
+                                <td *ngIf="!hideShowList2[6].status">{{pickupOrder.Method}}</td>
+                                <td *ngIf="!hideShowList2[7].status">{{pickupOrder.OrderDate | date}}</td>
+                                <td *ngIf="!hideShowList2[8].status">{{pickupOrder.LoadingDate | date}}</td>
+                                <td *ngIf="!hideShowList2[9].status">{{pickupOrder.Address}}</td>
+                                <td *ngIf="!hideShowList2[10].status">{{pickupOrder.FormType}}</td>
+                                <td *ngIf="!hideShowList2[11].status">
+                                  <!-- <button type="button" id="update" class="editBtn btn-warning"
+                                    (click)="Detail(pickupOrder.PickupOrderId)"><i class="fa fa-info"></i></button> -->
+                                  <!-- <button type="button" id="update" class="editBtn btn-warning"
+                                    (click)="Edit(pickupOrder.PickupOrderId)"><i class="fa fa-edit"></i></button> -->
+                                  <!-- <button type="button" id="update" class="editBtn btn-danger"
+                                    (click)="delete(pickupOrder.PickupOrderId)">
+                                    <i class="fa fa-times-circle-o"></i>
+                                  </button> -->
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<modal #AllModalpickup>
+
+  <!-- <modal-header>
+    </modal-header> -->
+
+    <modal-content style="padding:1px">
+      <div class="row col col-sm-12" id="print-section">
+        <div class="row">
+          <div class="col col-sm-4">
+            <img id="logo" src={{LogoPath}} height="45" width="160" style="background-color: white;">
+          </div>
+          <div class="col col-sm-8 pull-right">
+            <address>
+              <strong>{{CompanyName}}</strong> <br>
+              {{CompanyAddress}}
+            </address>
+          </div>
+        </div>
+        <div class="row col-sm-12" style="text-align: center; padding-top: 30px;">
+          <h4><b><u>CUSTOMER PICKUP PLAN</u></b></h4>
+        </div>
+        <!-- info row -->
+        <div class="row col col-sm-12 table-responsive" style="min-height: 150px;">
+          <div class="col col-sm-6" id="invoice-col">
+            <div class="row">
+              <div class="col col-sm-6" style="text-align: left;">
+                <label><b>Customer Name :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{rep_CustomerName}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-sm-6" style="text-align: left;">
+                <label><b>Auto Pickup# :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>Pickup-{{rep_PickupId}}</label>
+              </div>
+            </div>
+            
+            
+           
+            
+            <div class="row">
+              <div class="col col-sm-6" style="text-align: left;">
+                <label><b>Driver Name :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{rep_DriverName}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-sm-6" style="text-align: left;">
+                <label><b>Driver Number :</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{rep_PhoneNumber}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col col-sm-6" style="text-align: left;">
+                <label><b>Vehicle Info:</b></label>
+              </div>
+              <div class="col col-sm-6" style="text-align: left;">
+                <label>{{rep_VehicleNo}} - {{rep_VehicleType}} <br> {{rep_Transporter}} - {{rep_SealNo}}</label>
+              </div>
+            </div>
+          </div>
+  
+          <div class="col col-sm-6" id="invoice-col">
+              <div class="row">
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label><b>Warehouse :</b></label>
+                </div>
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label>{{rep_OriginWarehouse}}</label>
+                </div>
+              </div>
+              
+              
+              <div class="row">
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label><b>Customer SO# :</b></label>
+                </div>
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label>{{rep_CustomerOrderNo}}</label>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label><b>Loading Date :</b></label>
+                </div>
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label>{{rep_LoadingDate | date}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label><b>Distributor Info :</b></label>
+                </div>
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label>{{rep_DistCode}} | {{rep_DistName}}</label>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label><b>Way Bill :</b></label>
+                </div>
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label>{{rep_waybill}}</label>
+                </div>
+              </div> -->
+              <div class="row">
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label><b>Address :</b></label>
+                </div>
+                <div class="col col-sm-6" style="text-align: left;">
+                  <label>{{rep_deliveryAddress}}</label>
+                </div>
+              </div>
+
+          </div>
+        </div>
+        <!-- /.row -->
+  
+        <!-- Table row -->
+        <div class="row col-sm-12">
+          <div class="col-sm-12">
+            <table class="table dataTable" >
+              <thead>
+                <tr role="row">
+                  <th style="border: 1px solid black; width:5%">Sr.</th>
+                  <th style="border: 1px solid black; width:15%">SKU Code</th>
+                  <th style="border: 1px solid black; width:70%">SKU Name</th>
+                  <th style="border: 1px solid black; width:10%">Quantity</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let item of rep_SOData; index as i">
+                <tr>
+                  <td style="border: 1px solid black;">{{i+1}}</td>
+                  <td style="border: 1px solid black;">{{item.SlaMode}}</td>
+                  <td style="border: 1px solid black;">{{item.ItemName}}</td>
+                  <td style="border: 1px solid black;">{{item.Quantity}}</td>
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <td colspan="2"></td>
+                  <td>Total Qty:</td>
+                  <td> {{TotalQty}}</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+      </div>
+    </modal-content>
+  
+    <modal-footer>
+      <div class="row no-print" id="printButton">
+        <div class="col-sm-8">
+          <!-- <a  (click)="openModal()" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+          <button class="btn-wms hidden-print print-btn" printTitle="DispatchOrder" [useExistingCss]="true" ngxPrint
+            printSectionId="print-section"
+            [printStyle]="{table : {'font-size': '10px'},body : {'font-size': '10px'}}">
+            <span aria-hidden="true"><i class="fa fa-print"></i></span>
+          </button>
+          <!-- <button (click)="createPdfModule('DispatchOrder.pdf', '#printButton')" style="color: rgb(242, 6, 250);"><i
+              class="fa fa-file-pdf-o"></i></button> -->
+        </div>
+      </div>
+    </modal-footer>
+
+</modal>

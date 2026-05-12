@@ -1,0 +1,92 @@
+<aside class="main-sidebar" id="sidebarmenu">
+  <!-- sidebar: style can be found in sidebar.less -->
+  <section class="sidebar" style="height: auto;" >
+          <!-- <div class="input-group sidebar-form">
+              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                  <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i
+                          class="fa fa-search"></i>
+                  </button>
+              </span> 
+          </div> -->
+      <!-- sidebar menu: : style can be found in sidebar.less -->
+
+    <ul class="sidebar-menu tree" data-widget="tree">
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-dashboard"></i><br> <span>DASHBOARD</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                <li *ngFor="let form of moduleFormsDashboard">
+                    <a [routerLink]="[form.formName]"><i [class]="form.IconClass"></i><span>{{form.formAlias}}</span>
+                    </a>
+                </li>
+            </ul>
+          </li>
+
+
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-share"></i><br> <span>SETUP</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                <li *ngFor="let form of moduleFormsSettup">
+                    <a [routerLink]="[form.formName]"><i [class]="form.IconClass"></i><span>{{form.formAlias}}</span>
+                    </a>
+                </li>
+            </ul>
+          </li>
+
+          <li class="treeview">
+              <a href="#">
+                <i class="fa fa-download"></i><br> <span>INBOUND</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li *ngFor="let form of moduleFormsOperation">
+                      <a [routerLink]="[form.formName]"><i [class]="form.IconClass"></i><span>{{form.formAlias}}</span>
+                      </a>
+                  </li>
+              </ul>
+            </li>
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-upload"></i><br> <span>OUTBOUND</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li *ngFor="let form of moduleFormsOutBound">
+                      <a [routerLink]="[form.formName]"><i [class]="form.IconClass"></i><span>{{form.formAlias}}</span>
+                      </a>
+                  </li>
+              </ul>
+            </li>  
+            <li class="treeview">
+              <a href="#">
+                <i class="fa fa-book"></i><br> <span>SETTINGS</span>
+                <span class="pull-right-container">
+                  <i class="fa fa-angle-left pull-right"></i>
+                </span>
+              </a>
+              <ul class="treeview-menu">
+                  <li *ngFor="let form of moduleFormsTender">
+                      <a [routerLink]="[form.formName]"><i [class]="form.IconClass"></i><span>{{form.formAlias}}</span>
+                      </a>
+                  </li>
+              </ul>
+            </li>
+
+    </ul>
+  </section>
+  <!-- /.sidebar -->
+</aside>

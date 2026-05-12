@@ -1,0 +1,298 @@
+<section class="content-header">
+  <h1>Graphical Dashboard</h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<!-- dropdwon -->
+<section class="content">
+  <div class="col-md-12" style="background-color: whitesmoke;">
+    <ngx-ui-loader></ngx-ui-loader>
+    <form name="formGroup" [formGroup]="form" novalidate (ngSubmit)="search(formGroup.value)">
+      <div class="col-md-4">
+        <div class="form-group">
+          <label>Search By Warehouse</label>
+          <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair "
+            [settings]="warehouseDropdownSettings" formControlName="WarehouseId" #WarehouseId
+            (onSelect)="selectedWarehouse($event)">
+          </ng-multiselect-dropdown>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>From Date</label>
+          <input type="date" formControlName="FromDate" #fromDate class="form-control">
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <label>To Date</label>
+          <input type="date" formControlname="ToDate" #toDate class="form-control">
+        </div>
+      </div>
+      <div class="col-md-1">
+
+        <div class="form-group">
+          <!-- <label>Search</label> -->
+          <button style="margin-top: 15px;" type="button" class="btn btn-success"
+            (click)="search(fromDate, toDate)">Search</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <!-- Inbound section -->
+  <h3>Inbound</h3>
+  <div class="row">
+
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{TotalInbound}}<sup style="font-size: 20px"></sup></h3>
+
+          <p><strong>Total ASN Inbound</strong></p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-archive-outline"></i>
+        </div>
+        <a title="All Jobs that dont have vendor quatations" routerLink="/shipment-note-manual"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{PendingRecASN}}<sup style="font-size: 20px"></sup></h3>
+
+          <p><strong>Pending ASN Receiving </strong></p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-timer-outline"></i>
+        </div>
+        <a title="All Jobs that have vendor qoutations but still not approved" routerLink="/shipment-note-receiving"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>{{PendingRectoWH}}</h3>
+
+          <p><strong>Pending ASN Receiving To Warehouse</strong> </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-alarm-outline"></i>
+        </div>
+        <a title="All job Services  that will be execut" routerLink="/shipment-note-moving-warehouse"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{TotalRecInbound}}</h3>
+
+          <p><strong>Total ASN Received Into Warehouse </strong> </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/shipment-note-moving-warehouse"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{TotalTransferOrderRec}}</h3>
+
+          <p><strong>Total Transfer</strong> Orders Receiving </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/transfer-receiving"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{PendingTransferOrder}}</h3>
+
+          <p><strong>Pending Transfer</strong> Order </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/transfer-receiving"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+
+
+    <!-- ./col -->
+
+
+    <!-- ./col -->
+  </div><br>
+  <!-- Outbound Section -->
+  <h3>Outbound</h3>
+  <div class="row">
+
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{TotalCustomerOrder}}</h3>
+
+          <p><strong>Total</strong> Customer Order</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer"></i>
+        </div>
+        <a title="All Jobs that dont have vendor quatations" routerLink="/pickup-customer-order"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{PendingPickupplans}}<sup style="font-size: 20px"></sup></h3>
+
+          <p><strong>Pending</strong> Pickup Plans</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-body"></i>
+        </div>
+        <a title="All Jobs that have vendor qoutations but still not approved" routerLink="/dispatch-customer"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>{{PendingDispatches}}</h3>
+
+          <p><strong>Pending</strong> Dispatches </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-md-speedometer"></i>
+        </div>
+        <a title="All job Services  that will be execut" routerLink="/delivers-customer" class="small-box-footer">More
+          info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{TotalCompletedOrders}}</h3>
+
+          <p><strong>Total</strong> Completed Orders </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/delivers-customer"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-green">
+        <div class="inner">
+          <h3>{{TotalTransferOrders}}</h3>
+
+          <p><strong>Total</strong> Transfer Orders </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/pickup-transfer-order"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-yellow">
+        <div class="inner">
+          <h3>{{TRPendingPickupplans}}</h3>
+
+          <p><strong>Pending</strong> Pickup Plans </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/dispatch-transfer"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-red">
+        <div class="inner">
+          <h3>{{TRPendingDispatches}}</h3>
+
+          <p><strong>Pending</strong> Dispatches </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/delivers-transfer"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <!-- ./col -->
+    <div class="col-lg-3 col-xs-6">
+      <!-- small box -->
+      <div class="small-box bg-aqua">
+        <div class="inner">
+          <h3>{{TRTotalCompletedOrders}}</h3>
+
+          <p><strong>Total</strong> Completed Orders </p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-ios-speedometer-outline"></i>
+        </div>
+        <a title="All pending Jobs that are not completely executed" routerLink="/delivers-transfer"
+          class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+
+    <!-- ./col -->
+  </div><br>
+
+</section>

@@ -1,0 +1,143 @@
+<section class="content-header">
+    <h1>
+      {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} ORDER DETAILS
+      <!-- Customer Order Detail -->
+      <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.PICKUP_ORDER_LISTING]">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Order </a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+          
+            <div class="form-group  pull-right">
+              <button type="button" (click)="redirectToListPickupOrder()" class="btn-wms">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Order Listing
+              </button>
+            </div>
+            <h3>  {{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Order Details
+
+            </h3>
+          </div>
+      
+          <form name="formGroup" [formGroup]="formGroup" novalidate>
+
+         
+          <!-- /.box-header -->
+          <div class="box-body">
+           
+            <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Customer</b><a class="pull-right">{{pickupOrder.CustomerName}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Customer Order No</b><a class="pull-right">{{pickupOrder.CustomerOrderNo}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Way Bill</b><a class="pull-right">{{pickupOrder.waybill}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Order Date</b><a class="pull-right">{{pickupOrder.OrderDate | date}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Loading Date</b><a class="pull-right">{{pickupOrder.LoadingDate | date}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>PickupMethod</b><a class="pull-right"> 
+                            <p *ngIf="pickupOrder.PickupMethod==1">FIFO</p>
+                            <p *ngIf="pickupOrder.PickupMethod==2">LIFO</p>
+                            <p *ngIf="pickupOrder.PickupMethod==3">LEFO</p>
+                            <p *ngIf="pickupOrder.PickupMethod==4">FEFO</p>
+                            <p *ngIf="pickupOrder.PickupMethod==5">Custom</p></a>
+                      </li>
+
+                    </ul>
+                </div>             
+            </div>
+
+            <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Warehouse</b><a class="pull-right">{{pickupOrder.WarehouseName}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Contact Person</b><a class="pull-right">{{pickupOrder.ContactPerson }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Telephone</b><a class="pull-right">{{pickupOrder.Telephone}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>City</b><a class="pull-right">{{pickupOrder.CityName}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Address</b><a class="pull-right">{{pickupOrder.Address}}</a>
+                        </li>
+
+                    </ul>
+                </div>             
+            </div>
+            
+           
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                         <th>
+                          System Id 
+                        </th> 
+                        <th>
+                          System Name
+                        </th>
+                        <th>
+                            Unit
+                          </th>
+                        <th>
+                           Quantity
+                        </th>
+                        <th>
+                            Remarks / Instruction
+                         </th>
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of pickupOrder.PickupOrderChilds">
+                         <td>{{item.ItemId}}</td>
+                        <td>{{item.ItemName}}</td>
+                        <td>{{item.UnitName}}</td>
+                        <td>{{item.Quantity}}</td>                                          
+                        <td>{{item.RelOrd}}</td>
+                   
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+           
+          </div>
+        </form>
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>

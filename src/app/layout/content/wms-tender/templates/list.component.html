@@ -1,0 +1,104 @@
+
+
+<section class="content">
+  <section class="content-header">
+    <h1>
+      WMS TENDER LISTING
+      <small>
+        <button class="btn-wms" (click)="redirectToCreateWmsTender()"><i class="fa fa-plus"></i> New</button>
+      </small>
+    </h1>
+    <ol class="breadcrumb">
+        <!-- <li><button
+          [printStyle]="{table : {'font-size': '10px'}}"
+           class="btn-genx hidden-print print-btn" printTitle="Fleet Services Information"
+            [useExistingCss]="true" ngxPrint printSectionId="print-section">
+            <span class="glyphicon glyphicon-print" aria-hidden="true">
+            </span></button></li> -->
+            <!-- <li><button  class="btn-info print-btn" (click)="print()"><span class="glyphicon glyphicon-print" aria-hidden="true">
+            </span></button></li>  -->
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.WMS_TENDER_LISTING]">Wms Tender</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+ <div >
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid" id="print-section">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Customer Name
+                      </th>
+                      <th>
+                        Tender No
+                      </th>
+                      <th>
+                        Issuance Date
+                      </th>
+                      <th>
+                          Expiry Date
+                        </th>
+                      <th>
+                        Tender Reference
+                      </th>
+                      <th>
+                        Tender Term
+                      </th>
+                      <th>
+                        Approval
+                      </th>
+                      <th>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let tender of tenderList">
+                      <td>{{tender.AML_Customers.Name}}</td>
+                      <td>{{tender.TenderNo}}</td>
+                    
+                      <td>{{tender.IssuanceDate | date:'dd-MM-yyyy'}}</td>
+                      <td>{{tender.TenderExpiryDate | date:'dd-MM-yyyy'}}</td>
+                      <td>{{tender.TenderReference}}</td>
+                      <td>{{tender.TenderTerm}}</td>
+                      <td>
+                        <span *ngIf="tender.ProceedStatus >= 3 && tender.ProceedStatus != 4"
+                          class="label label-success">Approved</span>
+                        <span *ngIf="tender.ProceedStatus == 4;" class="label label-danger">Cancel</span>
+                        <span *ngIf="tender.ProceedStatus <= 2" class="label label-danger">Pending</span>
+                      </td>
+                      <td>
+                        <button *ngIf="tender.ProceedStatus <= 2" type="button" id="update" class="btn-warning editBtn" (click)="Edit(tender.Id)"><i
+                            class="fa fa-edit"></i></button>
+
+                            <button *ngIf="tender.ProceedStatus >=3" type="button" id="detail" class="btn-warning editBtn" (click)="Detail(tender.Id)"><i
+                              class="fa fa-info"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  </div>
+  <!-- /.row -->
+</section>

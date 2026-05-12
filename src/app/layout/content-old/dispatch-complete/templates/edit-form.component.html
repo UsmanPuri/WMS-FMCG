@@ -1,0 +1,119 @@
+<section class="content-header">
+    <h1>
+      {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} DISPATCH PICKUP DETAILS
+     
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.DISPATCH_COMPLETE_LISTING]">Completed dispatches</a></li>
+      <li class="active">Create</li>
+    </ol>
+  </section>
+  <section class="content">
+      <div col-md-12>
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createDispatch(formGroup.value)">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <div class="form-group  pull-right">
+                  <button type="button" (click)="redirectToDispatchList()" class="btn-wms">Dispatches List</button>
+              </div>
+            </div>
+            <div class="box-body">
+                <div class="col-md-6">
+                    <div class="box-body box-profile">
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Customer</b><a class="pull-right">{{dispatch.AML_Customers.Name}}</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Pickup</b><a class="pull-right">Pickup-list-{{dispatch.DispatchId}}</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Agent</b><a class="pull-right">{{dispatch.Agent}}</a>
+                            </li>
+    
+                        </ul>
+                    </div>             
+                </div>
+    
+                <div class="col-md-6">
+                    <div class="box-body box-profile">
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Gate Pass No</b><a class="pull-right">{{dispatch.GatePassNo}}</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Phone Number</b><a class="pull-right">{{dispatch.PhoneNumber}}</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Address</b><a class="pull-right">{{dispatch.Address}}</a>
+                            </li>
+    
+                        </ul>
+                    </div>             
+                </div>
+  
+            </div>
+  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <div class="form-group">
+                      <h3 class="box-title detail-title">Item detail</h3>
+                  </div>
+                </div>
+                <div class="box-body">
+                      <div class="col-md-12">
+                          <div class="row">
+                              <div class="col-sm-12 table-responsive">
+                                <table class="table table-bordered table-hover dataTable" role="grid">
+                                  <thead>
+                                    <tr role="row">
+                                      <th>
+                                        Item Id
+                                      </th>
+                                      <th>
+                                        Item Name
+                                      </th>
+                                      <th>
+                                        Location
+                                      </th>
+                                      <th>
+                                        Pallet No
+                                      </th>
+                                      <th>
+                                        Quantity
+                                      </th>
+                                      <th>
+                                        Batch/Serial
+                                      </th>
+                                     
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr role="row" *ngFor="let item of dispatch.AML_DispatchDetail">
+                                      <td>{{item.ItemId}}</td>
+                                      <td>{{item.AML_ItemInformation.Name}}</td>
+                                      <td>{{item.Location}}</td>
+                                      <td>{{item.PalletNo}}</td>
+                                      <td>{{item.Quantity}}</td>
+                                      <td>{{item.BatchNo}}</td>
+                                      
+                                    </tr>
+                                  </tbody>  
+                                </table>
+                              </div>
+                            </div>
+                      </div>
+                     
+                </div>
+              </div>
+  
+            <div class="box-footer">
+                <!-- <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Pickup for Dispatch</button> -->
+            </div>
+          </div>
+        </form>
+        <ngx-ui-loader></ngx-ui-loader>
+      </div>
+    </section>
+   

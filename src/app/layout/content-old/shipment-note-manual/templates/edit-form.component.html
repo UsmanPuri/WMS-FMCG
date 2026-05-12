@@ -1,0 +1,576 @@
+<style>
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+</style>
+<section class="content-header">
+    <h1>
+      SHIPMENT NOTE MANUAL EDIT
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.SHIPMENT_NOTE_LISTING]">Shipment note</a></li>
+      <li class="active">Create</li>
+    </ol>
+  </section>
+  <section class="content">
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateShipmentNote(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group  pull-right">
+              <button type="button" (click)="redirectToShipmentNoteList()" class="btn-wms">Shipment Note Listing</button>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Customer</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="customerKeyPair"
+                    [settings]="customerDropdownSettings" (onDeSelect)="onDeSelect('selectedCustomer')"
+                    formControlName="CustomerId" (onSelect)="onSelect($event,'selectedCustomer')"
+                    [(ngModel)]="selectedCustomerInfo"
+                    >
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedCustomer">
+                    Required
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Warehouse</label>
+                  <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="warehouseKeyPair"
+                    [settings]="warehouseDropdownSettings" (onDeSelect)="onDeSelect('selectedWarehouse')"
+                    formControlName="WarehouseId" 
+                    (onSelect)="onSelect($event,'selectedWarehouse')"
+                    [(ngModel)]="selectedWarehouseInfo">
+                  </ng-multiselect-dropdown>
+                  <span class="help-block" *ngIf="!this.selectedWarehouse ">
+                    Required
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                 
+               
+              </div>
+            </div>
+  
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <label>Shipment Note Reference</label>
+                  <input type="text" class="form-control" placeholder="Enter Shipment Note No" formControlName="ShipmentNoteNo">
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Cargo Status</label>
+                  <input type="text" class="form-control" placeholder="Enter Cargo Status" formControlName="CargoStatus">
+                  <span class="help-block" *ngIf="formGroup.controls.CargoStatus.invalid">
+                    {{getErrorMessage('CargoStatus')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>ASN No</label>
+                  <input type="text" class="form-control" placeholder="Enter ASN No" formControlName="ASNNo">
+                  <span class="help-block" *ngIf="formGroup.controls.ASNNo.invalid">
+                    {{getErrorMessage('ASNNo')}}
+                  </span>
+                </div>
+              </div>
+            </div>
+           
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>ASN Date</label>
+                  <input type="date" formControlName="ASNDate" class="form-control" placeholder="Enter ASN Date">
+                  <span class="help-block" *ngIf="formGroup.controls.ASNDate.invalid">
+                    {{getErrorMessage('ASNDate')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Delivery No</label>
+                  <input type="text" formControlName="DeliveryNo" class="form-control" placeholder="Enter Delivery No">
+                  <span class="help-block" *ngIf="formGroup.controls.DeliveryNo.invalid">
+                    {{getErrorMessage('DeliveryNo')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <label>Remarks</label>
+                    <textarea class="form-control" placeholder="Enter Remarks" formControlName="Remarks"></textarea>
+                    <span class="help-block" *ngIf="formGroup.controls.Remarks.invalid">
+                      {{getErrorMessage('Remarks')}}
+                    </span>
+                  </div>
+            </div>
+          
+              <!-- <div class="col-md-4">
+                <div class="form-group">
+                  <label>Driver Name</label>
+                  <input type="text" formControlName="DriverName" class="form-control" placeholder="Enter Driver Name">
+                  <span class="help-block" *ngIf="formGroup.controls.DriverName.invalid">
+                    {{getErrorMessage('DriverName')}}
+                  </span>
+                </div>
+              </div> -->
+            </div>
+  
+            <div class="col-md-12">
+              <!-- <div class="col-md-4">
+                <div class="form-group">
+                  <label>Vehicle No</label>
+                  <input type="text" formControlName="VehicleNo" class="form-control" placeholder="Enter Vehicle No">
+                  <span class="help-block" *ngIf="formGroup.controls.VehicleNo.invalid">
+                    {{getErrorMessage('VehicleNo')}}
+                  </span>
+                </div>
+              </div> -->
+             
+             
+            </div>
+            
+          </div>
+         
+        </div>
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group">
+                <h3 class="box-title detail-title">SKU detail</h3>
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>SKU</label>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="itemKeyPair"
+                      [settings]="itemDropdownSettings" formControlName="ItemId"
+                       (onDeSelect)="onDeSelect('selectedItem')"
+                      (onSelect)="onSelect($event,'selectedItem')">
+                    </ng-multiselect-dropdown>
+                    <ngx-ui-loader></ngx-ui-loader>
+                    <span class="help-block" *ngIf="!this.selectedItem || !this.selectedItem['Id']">
+                      Required
+                    </span>
+                  </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <label>Item CBM</label>
+                <input class="form-control" placeholder="CBM" formControlName="CBM" type="number" disabled>
+                <span class="help-block" *ngIf="formGroup.controls.CBM.invalid">
+                  {{getErrorMessage('CBM')}}
+                </span>
+              </div>
+               
+            </div>
+             
+            </div>
+              <div class="col-md-12">
+                 
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>Quantity</label>
+                      <input class="form-control" placeholder="Qty" formControlName="Quantity" type="number">
+                      <span class="help-block" *ngIf="formGroup.controls.Quantity.invalid">
+                        {{getErrorMessage('Quantity')}}
+                      </span>
+                    </div>
+                     
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>No. Of Box</label>
+                      <input class="form-control" placeholder="Enter No. Of Box" formControlName="BoxQuantity" type="number">
+                      <span class="help-block" *ngIf="formGroup.controls.BoxQuantity.invalid">
+                        {{getErrorMessage('BoxQuantity')}}
+                      </span>
+                    </div>
+                  </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Batch/Serial</label>
+                  <input type="text" formControlName="Batch" class="form-control" placeholder="Enter Batch">
+                  <span class="help-block" *ngIf="formGroup.controls.Batch.invalid">
+                    {{getErrorMessage('Batch')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>PR No</label>
+                  <input type="text" formControlName="PRno" class="form-control" placeholder="Enter PR No">
+                  <span class="help-block" *ngIf="formGroup.controls.PRno.invalid">
+                    {{getErrorMessage('PRno')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>SN No</label>
+                  <input type="text" formControlName="SNno" class="form-control" placeholder="Enter SN No">
+                  <span class="help-block" *ngIf="formGroup.controls.SNno.invalid">
+                    {{getErrorMessage('SNno')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label>Status</label>
+                  <input type="text" formControlName="Status" class="form-control" placeholder="Enter Status">
+                  <span class="help-block" *ngIf="formGroup.controls.Status.invalid">
+                    {{getErrorMessage('Status')}}
+                  </span>
+                </div>
+              </div>
+                                        
+              </div>
+   <!-- bilal s -->
+   <div class="col-md-12">
+               
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>Gate Pass</label>
+        <input class="form-control" placeholder="GatePass" formControlName="GatePass" type="text">
+        <span class="help-block" *ngIf="formGroup.controls.GatePass.invalid">
+          {{getErrorMessage('GatePass')}}
+        </span>
+      </div>
+       
+    </div>
+    <div class="col-md-2">
+      <div class="form-group">
+        <label>Service Request</label>
+        <input class="form-control" placeholder="Enter Service Request" formControlName="ServiceRequest" type="text">
+        <span class="help-block" *ngIf="formGroup.controls.ServiceRequest.invalid">
+          {{getErrorMessage('ServiceRequest')}}
+        </span>
+      </div>
+    </div>
+<div class="col-md-2">
+  <div class="form-group">
+    <label>RMA</label>
+    <input type="text" formControlName="RMA" class="form-control" placeholder="Enter RMA">
+    <span class="help-block" *ngIf="formGroup.controls.RMA.invalid">
+      {{getErrorMessage('RMA')}}
+    </span>
+  </div>
+</div>
+<div class="col-md-2">
+  <div class="form-group">
+    <label>Recieved From</label>
+    <input type="text" formControlName="RecievedFrom" class="form-control" placeholder="Enter Recieved From">
+    <span class="help-block" *ngIf="formGroup.controls.RecievedFrom.invalid">
+      {{getErrorMessage('RecievedFrom')}}
+    </span>
+  </div>
+</div>
+<div class="col-md-2">
+  <div class="form-group">
+    <label>Consignment No</label>
+    <input type="text" formControlName="ConsignmentNo" class="form-control" placeholder="Enter Consignment No">
+    <span class="help-block" *ngIf="formGroup.controls.ConsignmentNo.invalid">
+      {{getErrorMessage('ConsignmentNo')}}
+    </span>
+  </div>
+</div>
+<div class="col-md-2">
+  <div class="form-group">
+    <label>ICare</label>
+    <input type="text" formControlName="ICare" class="form-control" placeholder="Enter ICare">
+    <span class="help-block" *ngIf="formGroup.controls.ICare.invalid">
+      {{getErrorMessage('ICare')}}
+    </span>
+  </div>
+</div>
+                          
+</div>
+<div class="col-md-12">
+  <div class="col-md-2">
+    <label>Business Type</label>
+      <input type="text" class="form-control" placeholder="Enter Business Type" formControlName="BusinessType">
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Inbound Pool</label>
+      <input type="text" class="form-control" placeholder="Enter Inbound Pool" formControlName="InboundPool">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Network</label>
+      <input type="text" class="form-control" placeholder="Enter Network" formControlName="Network">
+    </div>
+  </div>
+
+  <div class="col-md-2">
+    <label>Delivery Type</label>
+      <input type="text" class="form-control" placeholder="Enter Delivery Type" formControlName="DeliveryType">
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Received Station</label>
+      <input type="text" class="form-control" placeholder="Enter Received Station" formControlName="ReceivedStation">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Contract No</label>
+      <input type="text" class="form-control" placeholder="Enter Contract No" formControlName="ContractNo">
+    </div>
+  </div>
+</div>
+<div class="col-md-12">
+  <div class="col-md-2">
+    <label>Packing List No</label>
+      <input type="text" class="form-control" placeholder="Enter Packing List No" formControlName="PackingListNo">
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Inbound Against</label>
+      <input type="text" class="form-control" placeholder="Enter Inbound Against" formControlName="InboundAgainst">
+    </div>
+  </div>
+  <div class="col-md-2">
+    <div class="form-group">
+      <label>Handler Name</label>
+      <input type="text" class="form-control" placeholder="Enter Handler Name" formControlName="HandlerName">
+    </div>
+  </div>
+</div>
+  <!-- bilal e -->
+                <div class="col-md-12">
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>Mfg Date</label>
+                      <input type="date" formControlName="MFGDate" class="form-control" placeholder="Enter MFG Date">
+                      <span class="help-block" *ngIf="formGroup.controls.MFGDate.invalid">
+                        {{getErrorMessage('MFGDate')}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label>Expiry Date</label>
+                      <input type="date" formControlName="EXPDate" class="form-control" placeholder="Enter Expiry Date" (blur)="CheckDate()">
+                      <span class="help-block" *ngIf="formGroup.controls.EXPDate.invalid">
+                        {{getErrorMessage('EXPDate')}}
+                      </span>
+                    </div>
+                    <div>
+                      
+                    </div>
+                  </div>
+                  <div class="form-group shipment-item-add pull-right">
+                    <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addShipmentItemManualy()">
+                      Add
+                    </button>
+                  </div>
+                </div>
+  
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-sm-12 table-responsive">
+                          <table class="table table-bordered table-hover dataTable" role="grid">
+                            <thead>
+                              <tr role="row">
+                                <th style="min-width: 5%">
+                                  SKU Id
+                                </th>
+                                <th>
+                                 SKU Name
+                                </th>
+                                <!-- <th>
+                                  Pallet No
+                                </th> -->
+                                <th>
+                                  Batch
+                                </th>
+                                <th>
+                                  PR #
+                                </th>
+                                <th>
+                                  SN #
+                                </th>
+                                <th>
+                                  Status
+                                </th>
+                                <th>
+                                  Quantity
+                                </th>
+                                <th>
+                                  No Of Boxes
+                                </th>
+                                <!-- <th>
+                                  Location
+                                </th> -->
+                                <th>
+                                  Mfg Date
+                                </th>
+                               
+                                <th>
+                                  Expiry Date
+                                </th>
+                               
+                                <th>
+                                  Total CBM
+                                </th>
+                                <th>GatePass</th>
+                                <th>ServiceRequest</th>
+                                <th>RMA</th>
+                                <th>RecievedFrom</th>
+                                <th>ConsignmentNo</th>
+                                <th>ICare</th>
+                                <th>Business Type</th>
+                                <th>Inbound Pool</th>
+                                <th>Network</th>
+                                <th>Delivery Type</th>
+                                <th>Received Station</th>
+                                <th>Contract No</th>
+                                <th>Packing List No</th>
+                                <th>Inbound Against</th>
+                                <th>Handler Name</th>
+                                <th>
+                                    Actions
+                                  </th> 
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr role="row" *ngFor="let shipment of shipmentListToPost">
+                                <td>{{shipment.ItemInformationId}}</td>
+                                <td>{{shipment.Name}}</td>
+                                <!-- <td>{{shipment.PalletNo}}</td> -->
+                                <td>{{shipment.Batch}}</td>
+                                <td>{{shipment.PRno}}</td>
+                                <td>{{shipment.SNno}}</td>
+                                <td>{{shipment.Status}}</td>
+                                <td>{{shipment.Quantity}}</td>
+                                <td>{{shipment.NoOfBoxes}}</td>
+                                <!-- <td>{{shipment.Location}}</td> -->
+                                <td>{{shipment.MfgDate | date}}</td>
+                                <td>{{shipment.ExpiryDate | date}}</td>
+                                
+                                <td>{{shipment.TotalCBM}}</td>
+                                <td>{{shipment.GatePass}}</td>
+                                <td>{{shipment.ServiceRequest}}</td>
+                                <td>{{shipment.RMA}}</td>
+                                <td>{{shipment.RecievedFrom}}</td>
+                                <td>{{shipment.ConsignmentNo}}</td>
+                                <td>{{shipment.ICare}}</td>
+
+                                <td>{{shipment.BusinessType}}</td>
+                                <td>{{shipment.InboundPool}}</td>
+                                <td>{{shipment.Network}}</td>
+                                <td>{{shipment.DeliveryType}}</td>
+                                <td>{{shipment.ReceivedStation}}</td>
+                                <td>{{shipment.ContractNo}}</td>
+                                <td>{{shipment.PackingListNo}}</td>
+                                <td>{{shipment.InboundAgainst}}</td>
+                                <td>{{shipment.HandlerName}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                      (click)="deleteFromShipmentListManual(shipment)"><i class="fa fa-trash"></i></button>
+                                  </td> 
+                              </tr>
+                            </tbody>  
+                          </table>
+                        </div>
+                      </div>
+                </div>
+               
+          </div>
+          <div class="box-footer">
+              <button type="submit" [disabled]="formGroup.invalid || shipmentListToPost.length <=0" class="btn btn-success pull-right">Update Shipment</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <!-- Modal Item shipment location -->
+  <modal #modalItemLocation>
+  <modal-header>
+      <div class="box-header">
+          <div class="form-group">
+              <h3 class="box-title detail-title">
+                {{this.selectedWarehouse.Name}}
+              </h3>
+          </div>
+        </div>
+  </modal-header>
+  
+  <modal-content>
+      <div class="row">
+          <div class="col-sm-12">
+            <table class="table table-bordered table-hover dataTable" role="grid">
+              <thead>
+                <tr role="row">
+                  <th>
+                    Chamber Aisle
+                  </th>
+                  <th>
+                    Chamber Rack
+                  </th>
+                  <th>
+                    Chamber Bay
+                  </th>
+                  <th>
+                    Location
+                  </th>
+                  <th>
+                    Vacant Quantity
+                  </th>
+                  
+                  <th>
+                    Quantity
+                  </th>
+                  <th class="pallets-dropdown">
+                      Pallet
+                    </th>
+                    <th>
+                        No Of Boxes
+                      </th>
+                    <th>
+                        No Of Pallets
+                      </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" *ngFor="let godwom of shelfListForShipment">
+                  <td>{{godwom.godownRow.Name}} | {{godwom.godownRow.Alias}}</td>
+                  <td>{{godwom.godownRack.Name}} | {{godwom.godownRack.Alias}}</td>
+                  <td>{{godwom.godownShelf.Name}} | {{godwom.godownShelf.Alias}}</td>
+                  <td>{{godwom.Location}}</td>
+                  <td>{{godwom.vacantQuantity}}</td>
+                  <td><input (blur)="QuantityChange($event,godwom.vacantQuantity,godwom.Location)" value="{{godwom.Quantity}}" type="text" class="form-control"></td>
+                  <td>
+                    <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="palletKeyPair" [settings]="palletDropdownSettings"
+                        (onDeSelect)="palletDeSelect(godwom.Location)"
+                      (onSelect)="palletSelect($event,godwom.Location,0)">
+                    </ng-multiselect-dropdown>
+                  </td>
+                  <td>{{godwom.NoOfBoxes}}</td>
+                  <td>{{godwom.NoOfPallets}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+  </modal-content>
+  
+  <modal-footer>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-default" (click)="cancelItemLocationModal()">Cancel</button>
+          <button type="button" class="btn btn-wms" (click)="addShipmentItem()">Save</button>
+        </div>
+  </modal-footer>
+  </modal>

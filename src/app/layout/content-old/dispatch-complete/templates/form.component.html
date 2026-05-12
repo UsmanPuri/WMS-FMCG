@@ -1,0 +1,633 @@
+<section class="content-header">
+  <h1>
+    {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} DISPATCH PICKUP CREATE
+
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.DISPATCH_COMPLETE_LISTING]">Completed dispatches</a></li>
+    <li class="active">Create</li>
+  </ol>
+</section>
+<section class="content">
+  <div col-md-12>
+    <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createDispatch(formGroup.value)">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <div class="form-group  pull-right">
+            <button type="button" (click)="redirectToDispatchList()" class="btn-wms">Completed Dispatches</button>
+          </div>
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Customer</label>
+                <div>
+                  <input class="form-control" value=" {{dispatch.AML_Customers.Name}}" readonly>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Select Pickup</label>
+                <div>
+                  <input class="form-control" value="Pickup-{{dispatch.PickupOrderId}}" readonly>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Bilty#</label>
+                <input type="text" formControlName="Agent" class="form-control" placeholder="Enter Bilty#">
+                <span class="help-block" *ngIf="formGroup.controls.Agent.invalid">
+                  {{getErrorMessage('Agent')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Supervisor Name</label>
+                <input type="text" formControlName="SupervisorName" class="form-control"
+                  placeholder="Enter Supervisor Name">
+                <span class="help-block" *ngIf="formGroup.controls.SupervisorName.invalid">
+                  {{getErrorMessage('SupervisorName')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Delivery Date-Time</label>
+                <input type="datetime-local" formControlName="DispatchDate" class="form-control"
+                  placeholder="Enter Delivery Date">
+                <span class="help-block" *ngIf="formGroup.controls.DispatchDate.invalid">
+                  {{getErrorMessage('DispatchDate')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Vehicle No</label>
+                <input type="text" formControlName="VehicleNo" class="form-control" placeholder="Enter Vehicle No">
+                <span class="help-block" *ngIf="formGroup.controls.VehicleNo.invalid">
+                  {{getErrorMessage('VehicleNo')}}
+                </span>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Driver Name</label>
+                <input type="text" formControlName="DriverName" class="form-control" placeholder="Enter Driver Name">
+                <span class="help-block" *ngIf="formGroup.controls.DriverName.invalid">
+                  {{getErrorMessage('DriverName')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Driver Number</label>
+                <input type="text" formControlName="PhoneNumber" class="form-control" placeholder="Enter Phone Number">
+                <span class="help-block" *ngIf="formGroup.controls.PhoneNumber.invalid">
+                  {{getErrorMessage('PhoneNumber')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Manual GatePass </label>
+                <input formControlName="Address" class="form-control">
+                <span class="help-block" *ngIf="formGroup.controls.Address.invalid">
+                  {{getErrorMessage('Address')}}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Vehicle Size / Type</label>
+                <input type="text" formControlName="VehicleSize" class="form-control" placeholder="Enter Vehicle Size / Type">
+                <span class="help-block" *ngIf="formGroup.controls.VehicleSize.invalid">
+                  {{getErrorMessage('VehicleSize')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Transporter</label>
+                <input type="text" formControlName="Transporter" class="form-control" placeholder="Enter Transporter Info">
+                <span class="help-block" *ngIf="formGroup.controls.Transporter.invalid">
+                  {{getErrorMessage('Transporter')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Seal No</label>
+                <input formControlName="SealNo" class="form-control" placeholder="Enter Seal No">
+                <span class="help-block" *ngIf="formGroup.controls.SealNo.invalid">
+                  {{getErrorMessage('SealNo')}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Shift</label>
+                <input formControlName="Shift" class="form-control" placeholder="Enter Shift">
+                <span class="help-block" *ngIf="formGroup.controls.Shift.invalid">
+                  {{getErrorMessage('Shift')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Reporting Date-Time</label>
+                <input type="datetime-local" formControlName="ReportingTime"  #ReportingTime class="form-control">
+                <span class="help-block" *ngIf="formGroup.controls.ReportingTime.invalid">
+                  {{getErrorMessage('ReportingTime')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Time IN</label>
+                <input type="datetime-local" formControlName="TimeIn" class="form-control" #TimeIn>
+                <span class="help-block" *ngIf="formGroup.controls.TimeIn.invalid">
+                  {{getErrorMessage('TimeIn')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Time OUT</label>
+                <input type="datetime-local" formControlName="TimeOut" class="form-control" #TimeOut>
+                <span class="help-block" *ngIf="formGroup.controls.TimeOut.invalid">
+                  {{getErrorMessage('TimeOut')}}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Remarks/Instructions</label>
+                <textarea formControlName="Remarks" class="form-control"></textarea>
+                <span class="help-block" *ngIf="formGroup.controls.Remarks.invalid">
+                  {{getErrorMessage('Remarks')}}
+                </span>
+              </div>
+            </div>
+            <div class="col-md-4" *ngIf="pickupOrder!=null">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Warehouse</label>
+                    <p>{{pickupOrder.OriginWarehouse}}</p>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Contact Person</label>
+                    <p>{{pickupOrder.ContactPerson}}</p>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Telephone</label>
+                    <p>{{pickupOrder.Telephone}}</p>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Loading Date</label>
+                    <p>{{pickupOrder.LoadingDate | date}}</p>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Pickup Method</label>
+                    <p *ngIf="pickupOrder.PickupMethod==1">FIFO</p>
+                    <p *ngIf="pickupOrder.PickupMethod==2">LIFO</p>
+                    <p *ngIf="pickupOrder.PickupMethod==3">LEFO</p>
+                    <p *ngIf="pickupOrder.PickupMethod==4">FEFO</p>
+                    <p *ngIf="pickupOrder.PickupMethod==5">Custom</p>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Distributor Code</label>
+                    <p>{{DistCode}}</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-4" *ngIf="pickupOrder!=null">
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Order ID</label>
+                    <p>{{pickupOrder.CustomerOrderNo}}</p>
+                  </div>
+
+                </div>
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>City</label>
+                    <p>{{pickupOrder.CityName}}</p>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="form-group">
+                    <label>Distribure</label>
+                    <p>{{DistName}}</p>
+                  </div>
+
+                </div>
+                <div class="col-md-8">
+                  <div class="form-group">
+                    <label>Delivery Address</label>
+                    <p>{{DistAddress}}</p>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group">
+              <h3 class="box-title detail-title">SKU Detail</h3>
+            </div>
+          </div>
+          <div class="box-body">
+            <!-- <div class="col-md-12">
+                      <div class="col-md-5">
+                          <div class="form-group">
+                              <label>Item</label>
+                              <ng-multiselect-dropdown [placeholder]="'Select one'"
+                              [data]="itemKeyPair"
+                                [settings]="itemDropdownSettings"
+                                 formControlName="ItemId"
+                                 (onDeSelect)="itemDeSelect()"
+                                (onSelect)="itemChange($event)">
+                              </ng-multiselect-dropdown>
+                            </div>
+                      </div>
+
+                      <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Available Quantity</label>
+                         <input type="number" readonly formControlName="QtyAvailableToAdd" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                            <label>Quantity</label>
+                         <input type="number" formControlName="QtyToAdd" (blur)="quantityChange($event)" class="form-control">
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group shipment-item-add">
+                          <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemIntoItemPostList()">
+                            Add Items
+                          </button>
+                        </div>
+                      </div>
+                    </div> -->
+            <div class="col-md-12">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                        <th>SKU ID</th>
+                        <th>SKU Name</th>
+                        <!-- <th>Status</th> -->
+                        <th>Avail.Stock</th>
+                        <th>Required Quantity</th>
+                        <th>Supply Quantity</th>
+                        <!-- <th>Location</th> -->
+                        <th>Batch/Serial</th>
+                        <th>MFG Date</th>
+                        <th>Exp Date</th>
+                        <!-- <th>Pallet No</th>
+                        <th>SN No</th>
+                        <th>PR No</th>
+                        <th>SR No</th>
+                        <th>SLA Mode</th>
+                        <th>InboundPool</th> -->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of PickupOrderItemList">
+                        <td>{{item.ItemInformationId}}</td>
+                        <td>{{item.Description}} | {{item.ItemName}}</td>
+                        <!-- <td>{{item.Status}}</td> -->
+                        <td>{{item.AvailableStock}}</td>
+                        <td>{{item.RequiredQuantity}}</td>
+                        <td><input type="number" value="{{item.Quantity}}" (change)="addItemRelOrd($event,item.ItemInformationId,item.BatchNo)"></td>
+                        <!-- <td>{{item.Location}}</td> -->
+                        <td>{{item.BatchNo}}</td>
+                        <td>{{item.MfgDate | date}}</td>
+                        <td>{{item.ExpiryDate | date}}</td>
+                        <!-- <td>{{item.PalletNo}}</td>
+                        <td>{{item.SNno}}</td>
+                        <td>{{item.PRno}}</td>
+                        <td>{{item.SRno}}</td>
+                        <td>{{item.SlaMode}}</td>
+                        <td>{{item.InboundPool}}</td> -->
+                      </tr>
+                    </tbody>
+                    <tfoot>
+                      <tr>
+                        <td colspan="2"></td>
+                        <td>Total Qty :</td>
+                        <td></td>
+                        <td>{{TotalSupplyQty}}</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="box-footer">
+          <button type="submit" [disabled]="formGroup.invalid || this.FlagDispatch=='True'"
+            class="btn btn-success pull-right">Pickup for Dispatch</button>
+          <!-- <button   class="btn btn-success pull-right" (click)="openModal()">Test modal</button> -->
+
+        </div>
+        <ngx-ui-loader></ngx-ui-loader>
+      </div>
+    </form>
+  </div>
+</section>
+
+
+<modal #AllModal>
+  <!-- <modal-header>
+
+
+  </modal-header> -->
+
+  <modal-content style="padding:1px">
+    <div class="row col col-sm-12" id="print-section">
+      <div class="row">
+        <div class="col col-sm-3" style="text-align: left;">
+          <img id="logo" src={{LogoPath}} height="45" width="160" style="background-color: white;">
+        </div>
+        <div class="col col-sm-8 pull-right" style="margin-top: 10px; text-align: left;">
+          <address>
+            <strong>PEPSICO EXTERNAL WAREHOUSE</strong> <br>
+            <strong>Managed By : {{CompanyName}}</strong> <br>
+            {{CompanyAddress}}
+          </address>
+        </div>
+      </div>
+      <div class="row col-sm-12" style="text-align: center; padding-top: 30px;">
+        <h4><b><u>{{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} DELIVERY CHALLAN</u></b></h4>
+      </div>
+      <!-- info row -->
+      <div class="row col col-sm-12 table-responsive" style="min-height: 150px;">
+        <div class="col col-sm-6" id="invoice-col">
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Customer Name :</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{dispatch.AML_Customers.Name}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Auto Pickup#:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>Pickup-{{dispatch.PickupOrderId}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Auto GP#:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{dispatch.GatePassNo}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Manual GatePass#:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{Address}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Agent:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{Agent}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Supervisor Name:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{SupervisorName}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Delivery Date:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{DispatchDate | date}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Driver Name:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{DriverName}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Driver Number:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{PhoneNumber}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Vehicle Info:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{VehicleNo}} - {{VehicleSize}} <br> {{Transporter}} - {{SealNo}}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="col col-sm-6" id="invoice-col">
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Warehouse:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{OriginWarehouse}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Contact Person:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{pickupOrder.ContactPerson}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Telephone:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{pickupOrder.Telephone}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>PR / SR / PL:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{pickupOrder.CustomerOrderNo}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>City:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{pickupOrder.CityName}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Loading Date:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{pickupOrder.LoadingDate | date}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Bilty#:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{pickupOrder.waybill}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Distributor Info:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{DistCode}} - {{DistName}}</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col col-sm-6" style="text-align: left;">
+              <label><b>Address:</b></label>
+            </div>
+            <div class="col col-sm-6" style="text-align: left;">
+              <label>{{DistAddress}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+
+      <!-- Table row -->
+      <div class="row col-sm-12">
+        <div class="col-sm-12">
+          <table class="table dataTable">
+            <thead>
+              <tr role="row">
+                <th style="border: 1px solid black;">Sr.</th>
+                <th style="border: 1px solid black; width:30%">Particulars</th>
+                <th style="border: 1px solid black; width:15%">Quantity</th>
+                <th style="border: 1px solid black; width:10%">Status</th>
+                <th style="border: 1px solid black; width:10%">Batch/Serial</th>
+                <th style="border: 1px solid black; width:15%">MFG Date</th>
+                <th style="border: 1px solid black; width:15%">EXP Date</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of DispatchOrderItemList.AML_DispatchDetail; index as i">
+              <tr>
+                <td style="border: 1px solid black;">{{i+1}}</td>
+                <td style="border: 1px solid black;">{{item.AML_ItemInformation.Description}} | {{item.AML_ItemInformation.Name}}</td>
+                <td style="border: 1px solid black;">{{item.Quantity}}</td>
+                <td style="border: 1px solid black;">{{item.AML_ItemInformation.Weight * item.Quantity}}</td>
+                <td style="border: 1px solid black;">{{item.BatchNo}}</td>
+                <td style="border: 1px solid black;">{{item.MfgDate | date}}</td>
+                <td style="border: 1px solid black;">{{item.ExpiryDate | date}}</td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td></td>
+                <td>Total Qty:</td>
+                <td>{{TotalSupplyQty}}</td>
+                <td></td>
+                <!-- <td> {{TotalQtyInPacking}}</td> -->
+            </tr>
+            </tfoot>
+          </table>
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+  </modal-content>
+
+  <modal-footer>
+    <div class="row no-print" id="printButton">
+      <div class="col-sm-8">
+        <!-- <a  (click)="print()" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+        <button [printStyle]="{table : {'font-size': '10px'},body : {'font-size': '10px'}}"
+          class="btn-wms hidden-print print-btn" printTitle="DispatchOrder" [useExistingCss]="true" ngxPrint
+          printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-footer>
+</modal>

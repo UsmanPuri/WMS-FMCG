@@ -1,0 +1,92 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          SKU CATEGORY LISTING
+          <small>
+            <button class="btn-wms" (click)="redirectToCreateCategory()"><i class="fa fa-plus-circle"></i> </button>
+          </small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.ITEM_CATEGORY_LISTING]">SKU Category</a></li>
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <div class="col-md-12">
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label>Customer</label>
+                      <ng-multiselect-dropdown  
+                      [placeholder]="'Select one'"
+                      [data]="customerKeyPair"
+                      [settings]="customerDropdownSettings"
+                      (onSelect)="customerChange($event)">
+                    </ng-multiselect-dropdown>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                  <div class="pull-right">
+                    <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+                  </div>
+		  
+                  </div>
+                  
+          </div>
+        
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Sr.
+                      </th>
+                        <th>
+                            Category Id
+                          </th>
+                      <th>
+                        Name
+                      </th>
+                      <th>
+                        Description
+                      </th>
+                      <th>
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let category of categoryList; let i = index">
+                      <td>{{i+1}}</td> 
+                      <td>{{category.ItemId}}</td>
+                      <td>{{category.Name}}</td>
+                      <td>{{category.Description}}</td>
+                      <td>
+                        <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(category.ItemId)"><i
+                            class="fa fa-edit"></i></button>
+                            <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger" (click)="Delete(category.ItemId)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

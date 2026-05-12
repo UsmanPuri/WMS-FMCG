@@ -1,0 +1,452 @@
+<section class="content-header">
+    <h1>
+      {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} PICKUP PLAN EDIT
+      <!-- CUSTOM PICKUP PLAN EDIT -->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.DISPATCH_LISTING]">Pickups</a></li>
+      <li class="active">Create</li>
+    </ol>
+  </section>
+  <section class="content">
+      <div col-md-12>
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="updateDispatch(formGroup.value)">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <div class="form-group  pull-right">
+                  <button type="button" (click)="redirectToDispatchCustomList()" class="btn-wms">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Pickup Listing</button>
+              </div>
+            </div>
+            <div class="box-body">
+              <div class="col-md-8">
+                <div class="col-md-12">
+                  <div class="col-md-4">
+                      <div class="form-group">
+                          <label>Customer</label>
+                          <!-- <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                          [data]="customerKeyPair" [settings]="customerDropdownSettings"
+                          (onDeSelect)="customerDeSelect()"
+                            (onSelect)="customerChange($event)"
+                         
+                            >
+                          </ng-multiselect-dropdown>
+                          <span class="help-block" *ngIf="!this.selectedCustomer || !this.selectedCustomer['Id']">
+                            It is required
+                          </span> -->
+                          <div>
+                              <p>{{dispatch.AML_Customers.Name}}</p>
+                          </div>
+                        </div>
+                   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Customer Order</label>
+                      <!-- <ng-multiselect-dropdown [placeholder]="'Select one'"
+                       [data]="pickupOrderKeyPair"
+                        [settings]="pickupOrderDropdownSettings" 
+                        formControlName="PickupOrderId"
+                        (onDeSelect)="pickupOrderDeSelect()"
+                        (onSelect)="PickupOrderChange($event)">
+                      </ng-multiselect-dropdown>
+                      <span class="help-block" *ngIf="!this.selectedPickupOrder || !this.selectedPickupOrder['Id']">
+                        It is required
+                      </span> -->
+                      <div>
+                          <p>
+                            {{dispatch.AML_PickupOrder.CustomerOrderNo}}
+                          </p>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Agent</label>
+                      <input type="text" formControlName="Agent" class="form-control" placeholder="Enter Agent">
+                      <span class="help-block" *ngIf="formGroup.controls.Agent.invalid">
+                        {{getErrorMessage('Agent')}}
+                      </span>
+                    </div>
+                  </div> -->
+                </div>
+    
+                <div class="col-md-12">
+                  <!-- <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Gate Pass No</label>
+                      <input type="text" formControlName="GatePassNo" class="form-control" placeholder="Enter Gate Pass No">
+                      <span class="help-block" *ngIf="formGroup.controls.GatePassNo.invalid">
+                        {{getErrorMessage('GatePassNo')}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Phone Number</label>
+                      <input type="text" formControlName="PhoneNumber" class="form-control" placeholder="Enter Phone Number">
+                      <span class="help-block" *ngIf="formGroup.controls.PhoneNumber.invalid">
+                        {{getErrorMessage('PhoneNumber')}}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Address</label>
+                      <textarea formControlName="Address" class="form-control"></textarea>
+                      <span class="help-block" *ngIf="formGroup.controls.Address.invalid">
+                        {{getErrorMessage('Address')}}
+                      </span>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="col-md-4" *ngIf="pickupOrder!=null">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Warehouse</label>
+                      <p>{{pickupOrder.OriginWarehouse}}</p>
+                    </div>
+                   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Contact Person</label>
+                      <p>{{pickupOrder.ContactPerson}}</p>
+                    </div>
+                   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Telephone</label>
+                      <p>{{pickupOrder.Telephone}}</p>
+                    </div>
+                   
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Loading Date</label>
+                      <p>{{pickupOrder.LoadingDate | date}}</p>
+                    </div>
+                   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>PickupMethod</label>
+                      <p *ngIf="pickupOrder.PickupMethod==1">FIFO</p>
+                      <p *ngIf="pickupOrder.PickupMethod==2">LIFO</p>
+                      <p *ngIf="pickupOrder.PickupMethod==3">LEFO</p>
+                      <p *ngIf="pickupOrder.PickupMethod==5">Custom</p>
+                    </div>
+                   
+                  </div>
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <label>WayBill No</label>
+                      <p>{{pickupOrder.waybill}}</p>
+                    </div>
+                   
+                  </div>
+                </div>
+              
+              </div>
+             
+  
+            </div>
+  
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                  <div class="form-group">
+                      <h3 class="box-title detail-title">SKU detail</h3>
+                  </div>
+                </div>
+                <div class="box-body">
+                    <div class="col-md-12">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>SKU</label>
+                                <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                                [data]="itemKeyPair"
+                                  [settings]="itemDropdownSettings"
+                                   formControlName="ItemId"
+                                   (onDeSelect)="itemDeSelect()"
+                                  (onSelect)="itemChange($event)">
+                                </ng-multiselect-dropdown>
+                              </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>Required Quantity</label>
+                           <input type="number" readonly value={{RequiredQuantity}} class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Locations</label>
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                              [data]="locationKeyPair"
+                                [settings]="locationDropdownSettings"
+                                 formControlName="LocationId"
+                                 (onDeSelect)="locationDeSelect()"
+                                (onSelect)="locationChange($event)">
+                              </ng-multiselect-dropdown>
+                            </div>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Batch/Serial No</label>
+                            <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                            [data]="batchKeyPair"
+                              [settings]="batchDropdownSettings"
+                               formControlName="BatchId"
+                               (onDeSelect)="batchDeSelect()"
+                              (onSelect)="batchChange($event)">
+                            </ng-multiselect-dropdown>
+                          </div>
+                    </div>
+                  
+                       
+                       
+                      
+                      </div>
+                      <div class="col-md-12">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Pallet No</label>
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" 
+                              [data]="palletKeyPair"
+                                [settings]="palletDropdownSettings"
+                                 formControlName="PalletId"
+                                 (onDeSelect)="palletDeSelect()"
+                                (onSelect)="palletChange($event)">
+                              </ng-multiselect-dropdown>
+                            </div>
+                      </div>
+                        <div class="col-md-2">
+                          <div class="form-group">
+                              <label>Available Quantity</label>
+                           <input type="number" readonly formControlName="QtyAvailableToAdd" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                              <label>Quantity</label>
+                           <input type="number" formControlName="QtyToAdd" (blur)="quantityChange($event)" class="form-control">
+                          </div>
+                        </div>
+                        <div class="col-md-2">
+                          <div class="form-group shipment-item-add">
+                            <button type="button" id="add" class="btn btn-sm btn-wms" (click)="addItemIntoItemPostList()">
+                              Add Items
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                       <div class="col-md-12">
+                          <div class="row">
+                              <div class="col-sm-12 table-responsive">
+                                <table class="table table-bordered table-hover dataTable" role="grid">
+                                  <thead>
+                                    <tr role="row">
+                                      <th>
+                                        SKU Id
+                                      </th>
+                                      <th>
+                                        SKU Name
+                                      </th>
+                                      <th>
+                                        Location
+                                      </th>
+                                      <th>
+                                        Pallet No
+                                      </th>
+                                     
+                                      <th>
+                                        Quantity
+                                      </th>
+                                      <th>
+                                        Batch/Serial
+                                      </th>
+                                     <th>
+                                       Action
+                                     </th>
+                                     
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr role="row" *ngFor="let item of itemListToPost">
+                                      <td>{{item.ItemId}}</td>
+                                      <td>{{item.Name}}</td>
+                                      <td>{{item.Location}}</td>
+                                      <td>{{item.PalletNo}}</td>
+                                    
+                                      <td>{{item.Quantity}}</td>
+                                      <td>{{item.Batch}}</td>
+                                      <td>
+                                        <button type="button" class="btn btn-sm btn-danger"
+                                          (click)="deleteFromitemListToPost(item)"><i class="fa fa-trash"></i></button>
+                                      </td> 
+                                     
+                                    </tr>
+                                  </tbody>  
+                                </table>
+                              </div>
+                            </div>
+                      </div>
+                     
+                </div>
+              </div>
+  
+            <div class="box-footer">
+                <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Update Pickup for Dispatch</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+    <modal #AllModal>
+      <modal-header>
+         
+        
+      </modal-header>
+    
+      <modal-content style="padding:20px">
+        <div class="box box-primary" id="print-section">
+          <div class="box-header with-border">
+            <h3 class="box-title detail-title">Dispatch</h3>
+            <div class="form-group  pull-right">
+  
+            </div>
+          </div>
+          <section class="invoice">
+            <!-- title row -->
+        
+            <!-- info row -->
+            <div class="col-sm-6 invoice-col">
+              <div class="col-xs-12">
+                <h2 class="page-header">
+                  <img id="logo" src={{LogoPath}} height="70" width="160" style="background-color: white;">
+                  <!-- <small id="date" class="pull-right">Date: {{dateInvoice}} </small> -->
+                </h2>
+              </div>
+            </div>
+            <div class="row invoice-info">
+              <div class="col-sm-6 invoice-col pull-right" id="invoice-col">
+            
+                <address>
+                  <strong>{{CompanyName}}</strong>
+                  {{CompanyAddress}}
+                
+                </address>
+              </div>
+              <!-- /.col -->
+            
+              <!-- /.col -->
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <h4><u>Dispatch Pick List With Pallet No</u></h4>
+              </div>
+          </div>
+       <!-- info row -->
+       <div class="row invoice-info">
+        <div class="col-lg-6 invoice-col" id="invoice-col">
+          <div class="col-xs-12 table-responsive" style="min-height: 150px;">
+            <table class="table">
+              <tr>
+                <td><b>Customer Name :</b></td>
+                <td>{{selectedCustomer.Name}}</td>
+              </tr>
+              <tr>
+                <td><b>Agent :</b></td>
+                <td>{{Agent}}</td>
+              </tr>
+              <tr>
+                <td><b>Address :</b></td>
+                <td>{{Address}}</td>
+              </tr>
+              <tr>        
+                <td><b>Phone No :</b></td>
+                <td>{{PhoneNumber}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- /.col -->
+        <div class="col-lg-6 invoice-col">
+          <div class="col-xs-12 table-responsive" style="min-height: 150px;">
+            <table class="table">
+              <tr>
+                <td><b>Gate Pass No :</b></td>
+                <td>{{GatePassNo}}</td>
+              </tr>
+              <tr>
+                <td><b>Customer Order Ref :</b></td>
+                <td>{{selectedPickupOrder.Name}}</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <!-- /.col -->
+       
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    
+            <!-- Table row -->
+            <div class="row">
+              <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>Sr.</th>
+                    <th>Pallet#</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Boxes</th>
+                    <th>Batch#</th>
+                  </tr>
+                  </thead>
+                  <tbody *ngFor="let item of itemListToPost; index as i">
+                    <tr><td colspan="11" align="center"><b>{{item.Name}}</b></td></tr>
+                  <tr>               
+                    <td> {{i+1}}</td>
+                  
+                    <td>{{item.PalletNo}}</td>
+                    <td>{{item.Location}}</td>
+                    <td>Ok</td>
+                    <td>{{item.Quantity}}</td>
+                    <td>Price</td>
+                    <td>No. Of Boxes</td>
+                    <td>{{item.Batch}}</td>
+                  </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.col -->
+            </div>
+          </section>
+        </div>
+      </modal-content>
+      <modal-footer>
+        <div class="row no-print" id="printButton">
+          <div class="col-xs-12">
+            <!-- <a  (click)="print()" class="btn btn-default"><i class="fa fa-print"></i> Print</a> -->
+            <button
+            [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+             class="btn-wms hidden-print print-btn" printTitle="Job Execution Information"
+              [useExistingCss]="true" ngxPrint printSectionId="print-section">
+              <span aria-hidden="true"><i class="fa fa-print"></i>
+              </span></button>
+          </div>
+        </div>
+      </modal-footer>
+    </modal>
+  

@@ -1,0 +1,313 @@
+<section class="content">
+  <section class="content-header">
+    <h1>
+      ANS PLACING ACTIVITY
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#home">ANS Placing Location Details </a></li>
+    <li (click)="summaryInfo()"><a data-toggle="tab" href="#menu1">ANS Placing Location Summary</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <style>
+      table {
+        display: block;
+        height: 600px;
+        overflow-y: scroll;
+      }
+    </style>
+    <div id="home" class="tab-pane fade in active">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-solid">
+            <div class="box-header">
+              <!-- <h3 class="box-title">Hover Data Table</h3> -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                  <div class="col-sm-12 table-responsive" id="myTable1">
+                    <nav>
+                      <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                                          background-color: #6c757d;">
+                        <li class="breadcrumb-item">
+                          <a (click)="downloadCSV(this.listAnsPlacing, 'ans-placing-location-details-list.csv')"
+                            style="color: white;">
+                            Download CSV</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          <a (click)="exportExcel('ans-placing-location-details.xlsx', 'tbl1', 'ANS Placing Activity Location Details')"
+                            style="color: white;">
+                            Download Excel</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          <a (click)="createPdf('ans-placing-location-details.pdf', '#tbl1')"
+                            style="color: white;">Export To PDF</a>
+                        </li>
+                        <li>
+                          <button
+                            [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                            class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                            ngxPrint printSectionId="myTable2">
+                            Print
+                          </button>
+                        </li>
+                        <li class="breadcrumb-item dropdown">
+                          <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                            Column Hidden
+                          </a>
+                          <div class="dropdown-menu"
+                            style="background-color: #007bff; 
+                                              width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                            <a class="dropdown-item" (click)="HideShow1('0')" data-column="0" style="color: white;">
+                              ASN No
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow1('1')" style="color: white;">
+                              SKU Name
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow1('2')" style="color: white;">
+                              Parking Stage
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow1('3')" style="color: white;">
+                              Status
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('4')" style="color: white; text-align: center">
+                              Gate Pass
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('5')" style="color: white; text-align: center">
+                              PalletNo
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('6')" style="color: white; text-align: center">
+                              SNno
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('7')" style="color: white;">
+                              PRno
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow1('8')" style="color: white;">
+                              Service Request
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow1('9')" style="color: white;">
+                              RMA
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('10')" style="color: white; text-align: center">
+                              ICare
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('11')" style="color: white; text-align: center">
+                              Batch Code
+                            </a>
+                            <a class="dropdown-item" (click)="HideShow1('12')" style="color: white; text-align: center">
+                              Balance
+                            </a>
+                          </div>
+                        </li>
+                      </ol>
+                    </nav>
+                    <table class="table table-bordered table-hover dataTable" role="grid" id="tbl1">
+                      <thead>
+                        <tr role="row">
+                          <th class="col-sm-1" *ngIf="!hideShowList1[0].status">
+                            ASN No
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[1].status">
+                            SKU Name
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[2].status">
+                            Parking Stage
+                          </th>
+
+                          <th class="col-sm-1" *ngIf="!hideShowList1[3].status">
+                            Status
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[4].status">
+                            Gate Pass
+                          </th>
+
+                          <th class="col-sm-2" *ngIf="!hideShowList1[5].status">
+                            PalletNo
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[6].status">
+                            SNno
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[7].status">
+                            PRno
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[8].status">
+                            Service Request
+                          </th>
+                          <th class="col-sm-1" *ngIf="!hideShowList1[9].status">
+                            RMA
+                          </th>
+
+                          <th class="col-sm-1" *ngIf="!hideShowList1[10].status">
+                            ICare
+                          </th>
+
+                          <th class="col-sm-1" *ngIf="!hideShowList1[11].status">
+                            Batch Code
+                          </th>
+
+                          <th class="col-sm-1" *ngIf="!hideShowList1[12].status">
+                            Balance
+                          </th>
+
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr role="row" *ngFor="let Item of listAnsPlacing">
+                          <td *ngIf="!hideShowList1[0].status">{{Item.ASNNo}}</td>
+                          <td *ngIf="!hideShowList1[1].status">{{Item.SKUName}}</td>
+                          <td *ngIf="!hideShowList1[2].status">{{Item.Name}}</td>
+                          <td *ngIf="!hideShowList1[3].status">{{Item.Status}}</td>
+                          <td *ngIf="!hideShowList1[4].status">{{Item.GatePass}}</td>
+                          <td *ngIf="!hideShowList1[5].status">{{Item.PalletNo}}</td>
+                          <td *ngIf="!hideShowList1[6].status">{{Item.SNno}}</td>
+                          <td *ngIf="!hideShowList1[7].status">{{Item.PRno}}</td>
+                          <td *ngIf="!hideShowList1[8].status">{{Item.ServiceRequest}}</td>
+                          <td *ngIf="!hideShowList1[9].status">{{Item.RMA}}</td>
+                          <td *ngIf="!hideShowList1[10].status">{{Item.ICare}}</td>
+                          <td *ngIf="!hideShowList1[11].status">{{Item.Batch}}</td>
+                          <td *ngIf="!hideShowList1[12].status">{{Item.Balance}}</td>
+                        </tr>
+                      </tbody>
+                      <ngx-ui-loader></ngx-ui-loader>
+                    </table>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                          <div class="col-md-1">
+                            <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export</button>
+                          </div>
+                          <div class="col-md-2">
+                            <button
+                            [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                          class="btn-genx hidden-print print-btn" printTitle="Sales Invoice"
+                                          [useExistingCss]="true" ngxPrint printSectionId="tbl">
+                                 <span aria-hidden="true"><i class="fa fa-print"></i>
+                                     </span></button> 
+                          </div>
+                        </div>
+                  -->
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+    <div id="menu1" class="tab-pane fade">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="box box-solid">
+            <div class="box-header">
+              <!-- <h3 class="box-title">Hover Data Table</h3> -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+                <div class="row">
+                  <div class="table-responsive" id="myTable2">
+                    <nav>
+                      <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                                          background-color: #6c757d;">
+                        <li class="breadcrumb-item">
+                          <a (click)="downloadCSV(this.listAnsPlacingSummary, 'ans-placing-location-summary-list.csv')"
+                            style="color: white;">
+                            Download CSV</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          <a (click)="exportExcel('ans-placing-location-summary.xlsx', 'tbl2', 'ANS Placing Activity Location Summary')"
+                            style="color: white;">
+                            Download Excel</a>
+                        </li>
+                        <li class="breadcrumb-item">
+                          <a (click)="createPdf('ans-placing-location-summary.pdf', '#tbl2')"
+                            style="color: white;">Export To PDF</a>
+                        </li>
+                        <li>
+                          <button
+                            [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                            class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                            ngxPrint printSectionId="myTable2">
+                            Print
+                          </button>
+                        </li>
+                        <li class="breadcrumb-item dropdown">
+                          <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                            Column Hidden
+                          </a>
+                          <div class="dropdown-menu"
+                            style="background-color: #007bff; 
+                                              width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                            <a class="dropdown-item" (click)="HideShow2('0')" data-column="0" style="color: white;">
+                              ASN No
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow2('1')" style="color: white;">
+                              SKU Name
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow2('2')" style="color: white;">
+                              Parking Stage
+                            </a>
+                            <a class="dropdown-item ml-3" (click)="HideShow2('3')" style="color: white;">
+                              Balance
+                            </a>
+
+                          </div>
+                        </li>
+                      </ol>
+                    </nav>
+                    <table class="table table-bordered table-hover dataTable" role="grid" id="tbl2">
+                      <thead>
+                        <tr role="row">
+                          <th *ngIf="!hideShowList2[0].status">ASN No</th>
+                          <th *ngIf="!hideShowList2[1].status">SKU Name</th>
+                          <th *ngIf="!hideShowList2[2].status">Parking Stage</th>
+                          <th *ngIf="!hideShowList2[3].status">Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr role="row" *ngFor="let Item of listAnsPlacingSummary">
+                          <td style="width: 15%;" *ngIf="!hideShowList2[0].status">{{Item.ASNNo}}</td>
+                          <td style="width: 25%;" *ngIf="!hideShowList2[1].status">{{Item.SKUName}}</td>
+                          <td style="width: 40%;" *ngIf="!hideShowList2[2].status">{{Item.Name}}</td>
+                          <td style="width: 20%;" *ngIf="!hideShowList2[3].status">{{Item.Balance}}</td>
+                        </tr>
+                      </tbody>
+                      <ngx-ui-loader></ngx-ui-loader>
+                    </table>
+                  </div>
+                </div>
+                <!-- <div class="row">
+                          <div class="col-md-1">
+                            <button type="button" class="btn-genx" (click)="exportServiceAsExcel()"> Export</button>
+                          </div>
+                          <div class="col-md-2">
+                            <button
+                            [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                          class="btn-genx hidden-print print-btn" printTitle="Sales Invoice"
+                                          [useExistingCss]="true" ngxPrint printSectionId="tbl">
+                                 <span aria-hidden="true"><i class="fa fa-print"></i>
+                                     </span></button> 
+                          </div>
+                        </div>
+                  -->
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+    </div>
+  </div>
+
+</section>

@@ -1,0 +1,145 @@
+<header class="main-header">
+  <!-- Logo -->
+  <a class="logo header-wms">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini"><b>GENX-WMS</b></span>
+    <!-- logo for regular state and mobile devices -->
+    <!-- <span class="logo-lg"><b>GENX-WMS</b></span> -->
+    <div class="logoImg">
+      <img [src]="LogoPath" class="img-fluid myImg" alt="Comapny Logo">
+    </div>
+  </a>
+  <!-- Header Navbar: style can be found in header.less -->
+  <nav class="navbar navbar-static-top header-wms d-block py-0">
+    <!-- Sidebar toggle button-->
+    <div class="float-left">
+      <a class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <span class="sr-only">Toggle navigation</span>
+      </a>
+      <div class="cont">
+        <span class="" id="companyName"></span>
+        <span class="bcrums" id="businessUnitName"></span>
+      </div>
+    </div>
+    <div class="navbar-custom-menu float-right">
+      <ul class="nav navbar-nav flex-row">
+        <li>
+          <a href="#" (click)="OpenCompanyBusinessModal();" data-toggle="control-sidebar"><i
+              class="fa fa-gears"></i></a>
+        </li>
+        <li class="dropdown user user-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="assets/images/avatar5.png" class="user-image" alt="User Image">
+            <span class="hidden-xs" id="username">Alexander Pierce</span>
+          </a>
+          <ul class="dropdown-menu">
+
+            <!-- User image -->
+            <li class="user-header">
+              <img src="assets/images/avatar5.png" class="img-circle" alt="User Image">
+
+              <p>
+                <span class="hidden-xs" id="username2">Member AML</span>
+                <small>Member GENX-WMS </small>
+              </p>
+            </li>
+            <!-- Menu Body -->
+            <li class="user-body">
+              <div class="row">
+                <!-- <div class="col-xs-4 text-center">
+                  <a href="#">Followers</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                  <a href="#">Sales</a>
+                </div>
+                <div class="col-xs-4 text-center">
+                  <a href="#">Friends</a>
+                </div> -->
+              </div>
+            </li>
+            <!-- Menu Footer-->
+            <li class="user-footer">
+              <!-- <div class="pull-left">
+                <a href="#" class="btn btn-default btn-flat">Profile</a>
+              </div> -->
+              <div class="pull-right">
+                <a href="#" (click)="SignOut()" class="btn btn-success btn-flat">Sign out</a>
+              </div>
+            </li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </nav>
+
+  <!-- The Modal -->
+  <div class="modal" id="CompanyBusinessUnitModal">
+    <div class="modal-dialog" st>
+      <div class="modal-content">
+        <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="selectStartUpKeyPair(formGroup.value)">
+          <!-- Modal Header -->
+          <div class="modal-header" style="background-color: #b79d06">
+            <h2 class="modal-title" style="color: white;">COMPANY SELECTION</h2>
+          </div>
+          <!-- Modal body -->
+          <div class="modal-body">
+
+            <div class="box-body">
+              <div class="col-md-12">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label style="color: white;">Company</label>
+                    <select formControlName="CompanyId" (change)="onCompanyChangeEvent($event)" class="form-control">
+                      <option value="">Select one</option>
+                      <option *ngFor="let company of CompanyKeyPair" [value]="company.Value">
+                        {{company.Text}}
+                      </option>
+                    </select>
+                    <span class="help-block required" *ngIf="formGroup.controls.CompanyId.invalid">
+                      {{getErrorMessage('CompanyId')}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label style="color: white;">Business Unit</label>
+                    <select formControlName="BusinessUnitId" class="form-control">
+                      <option value="">Select one</option>
+                      <option *ngFor="let businessUnit of BusinessUnitKeyPairForTamplete" [value]="businessUnit.Value">
+                        {{businessUnit.Text}}
+                      </option>
+                    </select>
+                    <span class="help-block required" *ngIf="formGroup.controls.BusinessUnitId.invalid">
+                      {{getErrorMessage('BusinessUnitId')}}
+                    </span>
+                  </div>
+                </div>
+                <!-- <div class="col-md-6">
+                  <div class="form-group">
+                    <label style="color: white;">Financial year</label>
+                    <select formControlName="FinancialYearId" class="form-control">
+                      <option value="">Select one</option>
+                      <option *ngFor="let financialYear of FinancialYearKeyPairForTemplete"
+                        [value]="financialYear.Value">
+                        {{financialYear.Text}}
+                      </option>
+                    </select>
+                    <span class="help-block required" *ngIf="formGroup.controls.FinancialYearId.invalid">
+                      {{getErrorMessage('FinancialYearId')}}
+                    </span>
+                  </div>
+                </div> -->
+              </div>
+            </div>
+
+          </div>
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success"
+              style="background-color: #605ca8; border:none; color: white;">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

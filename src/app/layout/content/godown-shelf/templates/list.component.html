@@ -1,0 +1,214 @@
+<section class="content">
+    <section class="content-header">
+        <h1>
+          CHAMBER BAY LISTING
+          <small>
+            <button class="btn-wms" (click)="redirectToCreateGodownShelf()"><i class="fa fa-plus-circle"></i> </button>
+          </small>
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.GODOWN_SHELF_LISTING]">Chamber Bay</a></li>
+          <li class="active">Listing</li>
+        </ol>
+      </section>
+      <div class="pull-right">
+        <button type="submit" [disabled]="formGroup.invalid" (click)="openModal()" class="btn btn-default">Print</button>
+        <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
+      </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-solid">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>Sr.</th>
+                      <th>Warehouse</th>
+                      <th>Chamber</th>
+                      <th>Aisle</th>
+                      <th>Rack</th>
+                      <th>Height</th>
+                      <th>Width</th>
+                      <th>Depth</th>
+                      <th>Bay Name</th>
+                      <th>Alias</th>
+                      <th>Location</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let godwom of godownShelfList; let i = index">
+                      <td>{{i+1}}</td> 
+                      <td>{{godwom.AML_Warehouse.Name}}</td>
+                      <td>{{godwom.GodwomId}} - {{godwom.AML_Godwom.Name}}</td>
+                      <td>{{godwom.GodownRowId}} - {{godwom.AML_GodownRack.AML_GodownRow.Name}}</td>
+                      <td>{{godwom.GodownRackId}} - {{godwom.AML_GodownRack.Alias}}</td>
+                      <td>{{godwom.Height}}</td>
+                      <td>{{godwom.Width}}</td>
+                      <td>{{godwom.Depth}}</td>
+                      <td>{{godwom.GodownShelfId}} - {{godwom.Name}}</td>
+                      <td>{{godwom.Alias}}</td>
+                      <td>{{godwom.AML_Godwom.Abbreviation}}{{godwom.AML_GodownRack.AML_GodownRow.Alias}}{{godwom.AML_GodownRack.Alias}}{{godwom.Alias}}</td>
+                      <td>
+                        <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(godwom.GodownShelfId)"><i
+                            class="fa fa-edit"></i></button>
+                            <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger" (click)="Delete(godwom)"><i class="fa fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <ngx-ui-loader></ngx-ui-loader>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
+<modal #AllModal>
+  <modal-header>
+     
+    <div class="row no-print" id="printButton">
+      <div class="col-xs-12">
+        <button
+        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+         class="btn-wms hidden-print pull-right print-btn" printTitle="Customer"
+          [useExistingCss]="true" ngxPrint printSectionId="print-section">
+          <span aria-hidden="true"><i class="fa fa-print"></i>
+          </span></button>
+      </div>
+    </div>
+  </modal-header>
+
+  <modal-content style="padding:20px">
+    <div class="box box-primary" id="print-section">
+      <div class="box-header with-border">
+        <h3 class="box-title detail-title">Bay</h3>
+        <div class="form-group  pull-right">
+
+        </div>
+      </div>
+      <section class="invoice">
+        <!-- title row -->
+    
+        <!-- info row -->
+        <div class="col-sm-6 invoice-col">
+          <div class="col-xs-12">
+            <h2 class="page-header">
+              <img id="logo" src="assets/images/aml-png-logo-web-1.png" height="70" width="160" style="background-color: white;">
+              <!-- <small id="date" class="pull-right">Date: {{dateInvoice}} </small> -->
+            </h2>
+          </div>
+        </div>
+        <div class="row invoice-info">
+          <div class="col-sm-6 invoice-col pull-right" id="invoice-col">
+        
+            <address>
+              <strong>AML,Logistics</strong>
+              Head Office Address: Plot No. 193, 1st Floor, 
+              Street No.1, Sector I/10,
+              Industrial Area, Islamabad. 
+              Phone: +92-51-4102361-62
+            
+            </address>
+          </div>
+          <!-- /.col -->
+        
+          <!-- /.col -->
+          <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        <div class="row">
+          <div class="col-sm-12" style="text-align: center;">
+            <h4><u>Locations</u></h4>
+          </div>
+      </div>
+   <!-- info row -->
+ 
+  <!-- /.row -->
+
+        <!-- Table row -->
+        <div class="row">
+          <div class="col-xs-12 table-responsive">
+            <table class="table table-bordered table-hover dataTable" role="grid">
+              <thead>
+                <tr role="row">
+                  <th>
+                    Sr.
+                  </th>
+                  <th>
+                    Bay Name
+                  </th>
+                  <th>
+                    Warehouse
+                  </th>
+                  <th>
+                    Chamber
+                  </th>
+                  <th>
+                    Chamber Aisle
+                  </th>
+                  <th>
+                    Rack
+                  </th>
+                  <th>
+                    Height
+                  </th>
+                  <th>
+                    Width
+                  </th>
+                  <th>
+                    Depth
+                  </th>
+                  <th>
+                    Alias
+                  </th>
+                 
+                </tr>
+              </thead>
+              <tbody>
+                <tr role="row" *ngFor="let godwom of godownShelfList; let i = index">
+                  <td>{{i+1}}</td> 
+                  <td>{{godwom.Name}}</td>
+                  <td>{{godwom.AML_Warehouse.Name}}</td>
+                  <td>{{godwom.AML_Godwom.Name}}</td>
+                  <td>{{godwom.AML_GodownRack.AML_GodownRow.Name}}</td>
+                  <td>{{godwom.AML_GodownRack.Alias}}</td>
+                  <td>{{godwom.Height}}</td>
+                  <td>{{godwom.Width}}</td>
+                  <td>{{godwom.Depth}}</td>
+                  <td>{{godwom.Alias}}</td>
+                 
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.col -->
+        </div>
+      
+        
+      </section>
+     
+
+     
+    </div>
+  </modal-content>
+
+  <modal-footer>
+  
+  </modal-footer>
+</modal>

@@ -1,0 +1,75 @@
+<section class="content-header">
+  <h1>
+    SHIPMENT NOTE LISTING
+    <small>
+      <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+    </small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.SHIPMENT_NOTE_LISTING]">Shipment Note</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header">
+          <!-- <h3 class="box-title">Hover Data Table</h3> -->
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive">
+                <table class="table table-bordered table-hover dataTable" role="grid">
+                  <thead>
+                    <tr role="row">
+                      <th>
+                        Customer Name
+                      </th>
+                      <th>
+                        ASN No
+                      </th>
+                      <th>
+                        ASN Date
+                      </th>
+                      <th>
+                        Delivery No
+                      </th> 
+                      <th>
+                        Driver Name
+                      </th>
+                      <th>
+                        
+                        Vehical No
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let godwom of shipmentNoteList">
+                      <td>{{godwom.Name}}</td>
+                     
+                      <td>{{godwom.ASNNo}}</td>
+                      <td>{{godwom.ASNDate}}</td>
+                      <td>{{godwom.DeliveryNo}}</td>
+                      <td>{{godwom.DriverName}}</td>
+                      <td>{{godwom.VehicleNo}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>

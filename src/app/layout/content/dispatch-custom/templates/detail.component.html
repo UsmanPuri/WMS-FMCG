@@ -1,0 +1,149 @@
+<section class="content-header">
+    <h1>
+      {{dropdownHideShow == true ? 'CUSTOMER' : 'TRANSFER'}} DISPATCH DETAILS
+      <!-- Dispatch Detail -->
+      <!-- <small>
+        <button class="btn-wms" (click)="redirectToCreateShipmentNote()"><i class="fa fa-plus"></i> New</button>
+      </small> -->
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li><a routerLink="[this.routesList.DISPATCH_CUSTOM_LISTING]">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Pickup Listing</a></li>
+      <li class="active">Listing</li>
+    </ol>
+  </section>
+  
+  <section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+          
+            <div class="form-group  pull-right">
+              <button type="button" (click)="redirectToListDispatch()" class="btn-wms">{{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Pickup Listing</button>
+            </div>
+            <h3> 
+              {{dropdownHideShow == true ? 'Customer' : 'Transfer'}} Dispatch Detail
+
+            </h3>
+          </div>
+      
+          <form name="formGroup" [formGroup]="formGroup" novalidate>
+
+         
+          <!-- /.box-header -->
+          <div class="box-body">
+           
+            <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Customer</b><a class="pull-right">{{dispatch.AML_Customers.Name}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Customer Order No</b><a class="pull-right">{{dispatch.AML_PickupOrder.CustomerOrderNo}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Way Bill</b><a class="pull-right">{{dispatch.AML_PickupOrder.waybill}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Order Date</b><a class="pull-right">{{dispatch.AML_PickupOrder.OrderDate | date}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Loading Date</b><a class="pull-right">{{dispatch.AML_PickupOrder.LoadingDate | date}}</a>
+                        </li>
+                      
+
+                    </ul>
+                </div>             
+            </div>
+
+            <div class="col-md-6">
+                <div class="box-body box-profile">
+                    <ul class="list-group list-group-unbordered">
+                        <li class="list-group-item">
+                            <b>Warehouse</b><a class="pull-right">{{dispatch.AML_Warehouse.Name}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Contact Person</b><a class="pull-right">{{dispatch.AML_PickupOrder.ContactPerson }}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Telephone</b><a class="pull-right">{{dispatch.PhoneNumber}}</a>
+                        </li>
+                      
+                        <li class="list-group-item">
+                            <b>Address</b><a class="pull-right">{{dispatch.AML_PickupOrder.Address}}</a>
+                        </li>
+                        <li class="list-group-item">
+                          <b>PickupMethod</b><a class="pull-right"> 
+                            <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==1">FIFO</p>
+                            <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==2">LIFO</p>
+                            <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==3">LEFO</p>
+                            <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==4">FEFO</p>
+                            <p *ngIf="dispatch.AML_PickupOrder.PickupMethod==5">Custom</p></a>
+                      </li>
+
+                    </ul>
+                </div>             
+            </div>
+            
+           
+            <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+              <div class="row">
+                <div class="col-sm-12 table-responsive">
+                  <table class="table table-bordered table-hover dataTable" role="grid">
+                    <thead>
+                      <tr role="row">
+                         <th>
+                          SKU 
+                        </th> 
+                        <th>
+                          SKU Name
+                        </th>
+                        <th>
+                            Unit
+                          </th>
+                        <th>
+                           Quantity
+                        </th>
+                        <th>
+                            Location
+                         </th>
+                         <th>
+                          Batch/Serial
+                       </th>
+                       <th>
+                        Pallet No
+                     </th>
+                       
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr role="row" *ngFor="let item of dispatch.AML_DispatchDetail">
+                         <td>{{item.ItemId}}</td>
+                        <td>{{item.AML_ItemInformation.Description}} | {{item.AML_ItemInformation.Name}}</td>
+                        <td>{{item.AML_ItemInformation.AML_Units.Title}}</td>
+                        <td>{{item.Quantity}}</td>                                          
+                        <td>{{item.Location}}</td>
+                        <td>{{item.BatchNo}}</td>
+                        <td>{{item.PalletNo}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+       
+            </div>
+          </div>
+          <!-- /.box-body -->
+          <div class="box-footer">
+           
+          </div>
+        </form>
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </section>

@@ -1,0 +1,82 @@
+
+<section class="content">
+    <section class="content-header">
+        <h1>
+          PALLET CREATE
+         
+        </h1>
+        <ol class="breadcrumb">
+          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a routerLink="[this.routesList.PALLET_LISTING]">Pallets</a></li>
+          <li class="active">Create</li>
+        </ol>
+      </section>
+    <div col-md-12>
+      <form name="formGroup" [formGroup]="formGroup" novalidate (ngSubmit)="createPallet(formGroup.value)">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <div class="form-group  pull-right">
+                <button type="button" (click)="redirectToPalletList()" class="btn-wms">Pallet Listing</button>
+
+            </div>
+          </div>
+          <div class="box-body">
+            <div class="col-md-12">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Title</label>
+                  <input type="text" formControlName="Title" class="form-control input-sm" placeholder="Enter unit tile">
+                  <span class="help-block" *ngIf="formGroup.controls.Title.invalid">
+                    {{getErrorMessage('Title')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Size</label>
+                  <select class="form-control input-sm" formControlName="Size">
+                    <option *ngFor="let c of constantList.PALLET_SIZES" [ngValue]="c.value">{{ c.name }}</option>
+                  </select>
+                  <span class="help-block" *ngIf="formGroup.controls.Size.invalid">
+                    {{getErrorMessage('Size')}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label>Width</label>
+                  <input type="text" (blur)="numberOnly($event, 'Width')" formControlName="Width" class="form-control input-sm" placeholder="Enter Width">
+                  <span class="help-block" *ngIf="formGroup.controls.Width.invalid">
+                    {{getErrorMessage('Width')}}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <div class="form-group">
+                      <label>Length</label>
+                      <input type="text" (blur)="numberOnly($event, 'Length')" formControlName="Length" class="form-control input-sm" placeholder="Enter Length">
+                      <span class="help-block" *ngIf="formGroup.controls.Length.invalid">
+                        {{getErrorMessage('Length')}}
+                      </span>
+                    </div>
+                  </div>
+              <div class="col-md-4">
+                
+              </div>
+              <div class="col-md-4">
+               
+              </div>
+             
+            </div>
+
+          </div>
+          <div class="box-footer">
+              <button type="submit" [disabled]="formGroup.invalid" class="btn btn-success pull-right">Add</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>

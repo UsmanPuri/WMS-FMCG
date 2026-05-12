@@ -1,0 +1,188 @@
+<section class="content-header">
+  <h1>
+    Stock Movement Listing
+    <small>
+      <button class="btn-wms" (click)="redirectToCreateStockMovement()"><i class="fa fa-plus-circle"></i></button>
+    </small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li><a routerLink="[this.routesList.STOCK_MOVEMENT_LISTING]">Stock Movement</a></li>
+    <li class="active">Listing</li>
+  </ol>
+</section>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box box-primary">
+        <div class="box-header">
+        </div>
+        <div class="box-body">
+          <div class="col-md-12">
+            <form name="formGroup" [formGroup]="formGroup" novalidate >
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Transaction Date From</label>
+                <input type="date" formControlName="DateFrom" class="form-control" placeholder="Select Date">
+                <span class="help-block" *ngIf="formGroup.controls.DateFrom.invalid">
+                  {{getErrorMessage('DateFrom')}}
+                </span>
+              </div>
+            </div> 
+
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Transaction Date To</label>
+                <input type="date" formControlName="DateTo" class="form-control" placeholder="Select Date">
+                <span class="help-block" *ngIf="formGroup.controls.DateTo.invalid">
+                  {{getErrorMessage('DateTo')}}
+                </span>
+              </div>
+            </div> 
+            </form>       
+          </div>
+
+          <div id="example2_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+              <div class="col-sm-12 table-responsive" id="myTable">
+                <nav>
+                  <ol class="breadcrumb" style="font-size: 1.3em; width: 58%; 
+                      background-color: #6c757d;">
+                    <li class="breadcrumb-item">
+                      <a (click)="downloadCSV(this.stockMovementlist, 'stock-movement-list.csv')" style="color: white;">
+                        Download CSV</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="exportExcel('stock-movement-list.xlsx', 'tbl', 'Stock Movement List')" style="color: white;">
+                        Download Excel</a>
+                    </li>
+                    <li class="breadcrumb-item">
+                      <a (click)="createPdf('stock-movement-list.pdf', '#tbl')" style="color: white;">Export To PDF</a>
+                    </li>
+                    <li>
+                      <button
+                        [printStyle]="{table : {'font-size': '10px'},body : {'padding': '20px','font-size': '12px'}}"
+                        class="btn-genx hidden-print print-btn" printTitle="Sales Invoice" [useExistingCss]="true"
+                        ngxPrint printSectionId="myTable">
+                        Print
+                      </button>
+                    </li>
+                    <li class="breadcrumb-item dropdown">
+                      <a href="" class="dropdown-toggle" data-toggle="dropdown" style="color: white;">
+                        Column Hidden
+                      </a>
+                      <div class="dropdown-menu" style="background-color: #007bff; 
+                          width: 200px !important; min-width: 200px; max-width: 200px; text-align: center">
+                        <a class="dropdown-item ml-3" (click)="HideShow('0')" data-column="1" style="color: white;">
+                          Transaction Date
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('1')" data-column="1" style="color: white;">
+                          Warehouse Name
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('2')" data-column="2" style="color: white;">
+                          Location From
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('3')" data-column="3"
+                          style="color: white; text-align: center">
+                          Location To
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('4')" data-column="0" style="color: white;">
+                          SKU Code
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('5')" data-column="1" style="color: white;">
+                          SKU Name
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('6')" data-column="3"
+                          style="color: white; text-align: center">
+                          Status
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('7')" data-column="3"
+                          style="color: white; text-align: center">
+                          SN No.
+                        </a>
+                        <a class="dropdown-item ml-3" (click)="HideShow('8')" data-column="1" style="color: white;">
+                          Batch
+                        </a>
+                        <a class="dropdown-item" (click)="HideShow('9')" data-column="3"
+                          style="color: white; text-align: center">
+                          Quantity Move
+                        </a>
+                      </div>
+                    </li>
+                  </ol>
+                </nav>
+                <table class="table table-bordered table-hover dataTable" role="grid" id="tbl">
+                  <thead>
+                    <tr role="row">
+                      <th *ngIf="!hideShowList[0].status">
+                        Transaction Date
+                      </th>
+                      <th *ngIf="!hideShowList[1].status">
+                        Warehouse Name
+                      </th>
+                      <th *ngIf="!hideShowList[2].status">
+                        Location From
+                      </th> 
+                      <th *ngIf="!hideShowList[3].status">
+                        Location To
+                      </th>
+                      <th *ngIf="!hideShowList[4].status">
+                        SKU Code
+                      </th> 
+                      <th *ngIf="!hideShowList[5].status">
+                       SKU Name
+                      </th>
+                      <th *ngIf="!hideShowList[6].status">
+                        Status
+                      </th>
+                      <th *ngIf="!hideShowList[7].status">
+                        SN No.
+                      </th>
+                      <th *ngIf="!hideShowList[8].status">
+                        Batch
+                      </th>
+                      <th *ngIf="!hideShowList[9].status">
+                        Quantity Move
+                      </th>
+                      <!-- <th>
+                        Action 
+                      </th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr role="row" *ngFor="let Item of stockMovementlist">
+                      <td *ngIf="!hideShowList[0].status">{{Item.TransctionDate  | date}}</td>
+                      <td *ngIf="!hideShowList[1].status">{{Item.warehouseName}}</td>
+                      <td *ngIf="!hideShowList[2].status"> {{Item.Debit == 0 ? Item.Location : ""}}</td>
+                      <td *ngIf="!hideShowList[3].status"> {{Item.Credit == 0 ? Item.Location : ""}}</td>
+                      <td *ngIf="!hideShowList[4].status"> {{Item.ItemId}}</td>
+                      <td *ngIf="!hideShowList[5].status"> {{Item.itemName}}</td>
+                      <td *ngIf="!hideShowList[6].status"> {{Item.Status}}</td>
+                      <td *ngIf="!hideShowList[7].status"> {{Item.SNno}}</td>
+                      <td *ngIf="!hideShowList[8].status"> {{Item.BatchCode}}</td>
+                      <td *ngIf="!hideShowList[9].status"> {{Item.Debit == 0 ? Item.Credit : Item.Debit}}</td>
+                        <!-- <td>
+                          <button type="button" id="update" class="editBtn btn-warning" [disabled] (click)="Detail(pickupOrder.PickupOrderId)"><i
+                            class="fa fa-info"></i></button>
+                          <button type="button" id="update" class="editBtn btn-warning" [disabled] (click)="Edit(pickupOrder.PickupOrderId)"><i
+                              class="fa fa-edit"></i></button>
+                        </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+     
+          </div>
+        </div>
+        <!-- /.box-body -->
+      </div>
+      <ngx-ui-loader></ngx-ui-loader>
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+</section>
