@@ -20,6 +20,10 @@ import { ModalManager } from "ngb-modal";
 })
 export class ItemListComponent extends BaseComponent {
 
+
+  selectedBarcodeValue: string = '';
+@ViewChild('BarcodeModal') BarcodeModal: any;
+
   public itemList: ItemInformation[];
   // Our future instance of DataTable
   dataTable: any;
@@ -31,8 +35,8 @@ export class ItemListComponent extends BaseComponent {
   CustomerId: any;
   @ViewChild('AllModal') AllModal;
   private modalRef;
-  constructor(injector: Injector, private _itemService: ItemService,private chRef: ChangeDetectorRef,
-    private exporterService: ExporterService,
+  constructor(injector: Injector, private _itemService: ItemService,
+    private chRef: ChangeDetectorRef, private exporterService: ExporterService,
     private modalService: ModalManager, private ngxService: NgxUiLoaderService
   ) {
     super(injector);
@@ -54,7 +58,14 @@ export class ItemListComponent extends BaseComponent {
     this._itemService.getAll(apiAddress, companyBusinessUnitInfo)
       .subscribe(res => {
         this.itemList = res as ItemInformation[];
-        
+        this.chRef.detectChanges();
+
+        // Now you can use jQuery DataTables :
+        const table: any = $('table');
+        this.dataTable = table.DataTable({
+          lengthMenu: [5, 10, 50, 100, 500],
+          "iDisplayLength": 500
+        });
 
       },
         (error) => {
@@ -164,7 +175,7 @@ export class ItemListComponent extends BaseComponent {
       )
   }
 
-  getItems(item: any) {
+ getItems(item: any) {
     let companyBusinessUnitInfo: any = {
       CustomerId: item
     }
@@ -173,17 +184,6 @@ export class ItemListComponent extends BaseComponent {
     this._itemService.getKeyPair(apiAddress, companyBusinessUnitInfo)
       .subscribe(res => {
         this.ItemList = res as any[];
-        this.chRef.detectChanges();
-       this.chRef.reattach();
-
-        // Now you can use jQuery DataTables :
-        const table: any = $('table');
-        this.dataTable = table.DataTable({
-          lengthMenu: [500, 1000, 2000],
-          "iDisplayLength": 1000,
-          retrieve: true
-        });
-
         this.ngxService.stop();
       },
         (error) => {
@@ -191,7 +191,7 @@ export class ItemListComponent extends BaseComponent {
           this.errorHandler.handleError(error);
           this.errorMessage = this.errorHandler.errorMessage;
         });
-  }
+  } 
 
   openModal() {
     this.modalRef = this.modalService.open(this.AllModal, {
@@ -205,7 +205,26 @@ export class ItemListComponent extends BaseComponent {
       closeOnOutsideClick: true,
       backdropClass: "modal-backdrop",
       windowClass: 'modal-dialog'
-    })
+    });
   }
 
-}
+ 
+  openBarcodeModal(systemCode: string) {
+    
+    this.selectedBarcodeValue = systemCode; 
+    
+    
+    this.modalRef = this.modalService.open(this.BarcodeModal, {
+      size: "md",
+      hideCloseButton: true,
+      centered: true,
+      backdrop: true,
+      animation: true,
+      keyboard: false,
+      closeOnOutsideClick: true,
+      backdropClass: "modal-backdrop",
+      windowClass: 'modal-dialog'
+    });
+  }
+
+} 

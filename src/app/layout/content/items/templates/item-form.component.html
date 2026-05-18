@@ -15,7 +15,7 @@ table.mytbl tr.border_bottom td {
         </h1>
         <ol class="breadcrumb">
           <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li><a routerLink="[this.routesList.ITEM_LISTING]">SKU Information</a></li>
+          <li><a routerLink="[this.routesList.ITEM_LISTING]">Sku Information</a></li>
           <li class="active">Create</li>
         </ol>
       </section>
@@ -83,14 +83,10 @@ table.mytbl tr.border_bottom td {
                       <div class="col-md-4">
                           <div class="form-group">
                               <label>Unit of Measure</label>
-                              <ng-multiselect-dropdown [placeholder]="'Select one'" formControlName="UOMId"
-                              [data]="unitOfMeasureKeyPair"
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="unitOfMeasureKeyPair"
                                 [settings]="unitOfMeasureBrandDropdownSettings" (onDeSelect)="onDropDownDeSelect($event,'selectedUnitOfMeasure')"
                                 (onSelect)="onDropDownSelect($event,'selectedUnitOfMeasure')">
                               </ng-multiselect-dropdown>
-                              <span class="help-block" *ngIf="formGroup.controls.UOMId.invalid">
-                                {{getErrorMessage('UOMId')}}
-                              </span>
                             </div>
                       </div>
                       <div class="col-md-2">
@@ -217,13 +213,14 @@ table.mytbl tr.border_bottom td {
                       <div class="col-md-4">
                         <div class="form-group">
                           <label>Customer SKU Code </label>
-                          <input type="text" formControlName="Description" (change)="ValidateCustomerSKUCODE(formGroup.value)" class="form-control input-sm" placeholder="Enter Description">
-                          <span class="help-block" *ngIf="formGroup.controls.Description.invalid">
-                            {{getErrorMessage('Description')}}
-                          </span>
-                          <span class="help-block" *ngIf="isCheckSKUCODE">
-                            <!-- SKU Code already exist in Selected Category. -->
-                          </span>
+<div class="input-group">
+  <input type="text" formControlName="Description" (change)="ValidateCustomerSKUCODE(formGroup.value)" class="form-control input-sm" placeholder="Enter Description">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-info btn-sm" (click)="openScanner()">
+      <i class="fa fa-camera"></i> Scan
+    </button>
+  </span>
+</div>
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -238,13 +235,10 @@ table.mytbl tr.border_bottom td {
                       <div class="col-md-4">
                           <div class="form-group">
                               <label>Unit of Measure</label>
-                              <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="unitOfMeasureKeyPair" 
+                              <ng-multiselect-dropdown [placeholder]="'Select one'" [data]="unitOfMeasureKeyPair"
                                 [settings]="unitOfMeasureBrandDropdownSettings" (onDeSelect)="onDropDownDeSelect($event,'selectedUnitOfMeasure')"
                                 (onSelect)="onDropDownSelect($event,'selectedUnitOfMeasure')">
                               </ng-multiselect-dropdown>
-                              <span class="help-block" *ngIf="!this.selectedUnitOfMeasure || !this.selectedUnitOfMeasure['Id']">
-                                Required
-                              </span>
                             </div>
                       </div>
                     </div>
@@ -352,12 +346,13 @@ table.mytbl tr.border_bottom td {
                             <div class="col-md-4">
                             </div>
                           </div>
+                          
           
                   </div>
           
                 </div>
                 <div class="box-footer">
-                  <button type="submit" [disabled]="formGroup.invalid || isCheckSKUCODE || !this.selectedUnitOfMeasure['Id']" class="btn btn-success pull-right">Add</button>
+                  <button type="submit" [disabled]="formGroup.invalid || isCheckSKUCODE" class="btn btn-success pull-right">Add</button>
                 </div>
             </form>
             </div>
@@ -365,3 +360,26 @@ table.mytbl tr.border_bottom td {
         </div>
   
 </section>
+<modal #CameraModal>
+  <modal-header>
+    <h4 class="modal-title">Scan QR / Barcode</h4>
+  </modal-header>
+  <modal-content>
+    <div style="width: 100%; height: 300px; overflow: hidden; border: 2px solid #3c8dbc; background: #000;">
+      
+      <zxing-scanner 
+        *ngIf="isScannerOpen"
+        [formats]="['QR_CODE', 'EAN_13', 'CODE_128', 'DATA_MATRIX']"
+        (scanSuccess)="onCodeResult($event)" 
+        (permissionResponse)="onHasPermission($event)">
+      </zxing-scanner>
+
+    </div>
+    <p class="text-center text-muted" style="margin-top: 10px;">
+      Align the QR or Barcode inside the camera view to scan automatically.
+    </p>
+  </modal-content>
+  <modal-footer>
+    <button class="btn btn-default" (click)="closeScanner()">Cancel</button>
+  </modal-footer>
+</modal>
