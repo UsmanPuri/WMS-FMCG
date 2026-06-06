@@ -19,9 +19,12 @@ import { ModalManager } from "ngb-modal";
 export class GodownShelfListComponent extends BaseComponent {
 
   public godownShelfList: GodownShelf[];
+  @ViewChild('AllBarcodesModal') AllBarcodesModal: any;
    // Our future instance of DataTable
    dataTable: any;
   GodownShelfListToPost: any=[];
+  @ViewChild('BarcodeModal') BarcodeModal: any;
+  selectedBarcodeValue: string = '';
   @ViewChild('AllModal') AllModal;
   private modalRef;
   constructor(injector: Injector, private _godownRowService: GodownShelfService,private chRef: ChangeDetectorRef,
@@ -147,6 +150,24 @@ export class GodownShelfListComponent extends BaseComponent {
   redirectToCreateGodownShelf(){
     this.router.navigate([this.routesList.GODOWN_SHELF_CREATE]);
   }
+  // Barcode Modal Open karne ka function
+  openBarcodeModal(locationText: string) {
+    this.selectedBarcodeValue = locationText; 
+    
+    this.modalRef = this.modalService.open(this.BarcodeModal, {
+      size: "md",
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
 
+  // Sab Barcodes ek sath open karne ka function
+  openAllBarcodesModal() {
+    this.modalRef = this.modalService.open(this.AllBarcodesModal, {
+      size: "lg", // 'lg' yani Large modal kyunke barcodes zyada hongy
+      backdrop: 'static',
+      keyboard: false
+    });
+  }
 
 }

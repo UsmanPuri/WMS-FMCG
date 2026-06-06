@@ -12,6 +12,7 @@ import { ExporterService } from "src/app/helpers/services/excel-file.service";
 import { ModalModule } from "ngb-modal";
 import { NgxPrintModule } from "ngx-print";
 import { NgxUiLoaderModule } from "ngx-ui-loader";
+import { NgxBarcodeModule } from 'ngx-barcode';
 const routes: Routes = [
   {
     path: "",
@@ -45,7 +46,8 @@ const routes: Routes = [
     NgMultiSelectDropDownModule,
     ModalModule,
     NgxPrintModule,
-    NgxUiLoaderModule
+    NgxUiLoaderModule,
+    NgxBarcodeModule
   ],
   declarations: [
     GodownShelfFormComponent, GodownShelfListComponent,GodownShelfEditFormComponent

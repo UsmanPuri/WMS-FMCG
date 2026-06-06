@@ -13,7 +13,11 @@
         </ol>
       </section>
       <div class="pull-right">
-        <button type="submit" [disabled]="formGroup.invalid" (click)="openModal()" class="btn btn-default">Print</button>
+        <button type="button" class="btn btn-info" style="margin-right: 5px;" (click)="openAllBarcodesModal()">
+          <i class="fa fa-barcode"></i> Print All Barcodes
+        </button>
+        
+        <button type="submit" [disabled]="formGroup.invalid" (click)="openModal()" class="btn btn-default">Print List</button>
         <button class="btn-excel" (click)="exportServiceAsExcel()"><i class="fa fa-file-excel-o"></i></button>
       </div>
   <div class="row">
@@ -58,6 +62,9 @@
                       <td>{{godwom.Alias}}</td>
                       <td>{{godwom.AML_Godwom.Abbreviation}}{{godwom.AML_GodownRack.AML_GodownRow.Alias}}{{godwom.AML_GodownRack.Alias}}{{godwom.Alias}}</td>
                       <td>
+                        <button type="button" tooltip="Barcode" class="editBtn btn-info" (click)="openBarcodeModal(godwom.AML_Godwom.Abbreviation + godwom.AML_GodownRack.AML_GodownRow.Alias + godwom.AML_GodownRack.Alias + godwom.Alias)">
+    <i class="fa fa-barcode"></i>
+  </button>
                         <button type="button" id="update" class="editBtn btn-warning" (click)="Edit(godwom.GodownShelfId)"><i
                             class="fa fa-edit"></i></button>
                             <button type="button" id="delete" tooltip="Delete" class="editBtn btn-danger" (click)="Delete(godwom)"><i class="fa fa-trash"></i></button>
@@ -210,5 +217,79 @@
 
   <modal-footer>
   
+  </modal-footer>
+</modal>
+
+<!-- openAllBarcodesModal -->
+ <modal #AllBarcodesModal>
+  <modal-header>
+    <h4 class="modal-title">All Location Barcodes</h4>
+  </modal-header>
+  
+ <modal-content>
+    <div id="print-all-barcodes-section" style="padding: 10px;">
+      
+      <div style="display: flex; flex-direction: column; align-items: flex-start;">
+        
+        <div *ngFor="let godwom of godownShelfList" 
+             style="width: 4in; height: 2in; margin-bottom: 15px; border: 1px dashed #ccc; padding: 10px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+          
+          <ngx-barcode 
+            [bc-value]="godwom.AML_Godwom.Abbreviation + godwom.AML_GodownRack.AML_GodownRow.Alias + godwom.AML_GodownRack.Alias + godwom.Alias" 
+            [bc-display-value]="true" 
+            [bc-format]="'CODE128'"
+            [bc-height]="45" 
+            [bc-width]="1.5">
+          </ngx-barcode>
+          
+          <p style="margin-top: 5px; font-size: 16px; font-weight: bold; letter-spacing: 2px;">
+            {{godwom.AML_Godwom.Abbreviation}}{{godwom.AML_GodownRack.AML_GodownRow.Alias}}{{godwom.AML_GodownRack.Alias}}{{godwom.Alias}}
+          </p>
+
+        </div>
+        
+      </div>
+    </div>
+  </modal-content>
+  
+  <modal-footer>
+    <button
+      [printStyle]="{body : {'text-align': 'center'}}"
+      class="btn btn-primary"
+      printTitle="All Location Barcodes"
+      [useExistingCss]="true"
+      ngxPrint
+      printSectionId="print-all-barcodes-section">
+      <i class="fa fa-print"></i> Print All
+    </button>
+    <button class="btn btn-default" (click)="AllBarcodesModal.close()">Close</button>
+  </modal-footer>
+</modal>
+
+
+
+
+<modal #BarcodeModal>
+  <modal-header>
+    <h4 class="modal-title">Location Barcode</h4>
+  </modal-header>
+  
+  <modal-content>
+    <div id="print-barcode-section" style="padding: 30px; text-align: center;">
+      <ngx-barcode [bc-value]="selectedBarcodeValue" [bc-display-value]="true" [bc-format]="'CODE128'"></ngx-barcode>
+    </div>
+  </modal-content>
+  
+  <modal-footer>
+    <button
+      [printStyle]="{body : {'text-align': 'center', 'margin-top': '50px'}}"
+      class="btn btn-primary"
+      printTitle="Location Barcode"
+      [useExistingCss]="true"
+      ngxPrint
+      printSectionId="print-barcode-section">
+      <i class="fa fa-print"></i> Print
+    </button>
+    <button class="btn btn-default" (click)="BarcodeModal.close()">Close</button>
   </modal-footer>
 </modal>
