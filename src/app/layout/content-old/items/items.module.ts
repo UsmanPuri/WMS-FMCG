@@ -11,6 +11,7 @@ import { ItemEditFormComponent } from "./components/item-edit-form.component";
 import { ExporterService } from "src/app/helpers/services/excel-file.service";
 import { ModalModule } from "ngb-modal";
 import { NgxPrintModule } from "ngx-print";
+import { NgxBarcodeModule } from 'ngx-barcode';
 import { NgxUiLoaderModule } from "ngx-ui-loader";
 
 const routes: Routes = [
@@ -46,7 +47,8 @@ const routes: Routes = [
     NgMultiSelectDropDownModule,
     NgxPrintModule,
     ModalModule,
-    NgxUiLoaderModule
+    NgxUiLoaderModule,
+    NgxBarcodeModule
   ],
   declarations: [
     ItemFormComponent, ItemListComponent,ItemEditFormComponent

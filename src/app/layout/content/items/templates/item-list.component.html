@@ -271,24 +271,28 @@
   </modal-header>
   
   <modal-content>
-     <!-- Yeh wo hissa hai jo print hoga -->
-     <div id="print-barcode-section" style="padding: 30px; text-align: center;">
-        <ngx-barcode [bc-value]="selectedBarcodeValue" [bc-display-value]="true" [bc-format]="'CODE128'"></ngx-barcode>
-     </div>
+    <div id="print-item-barcode" style="padding: 20px; text-align: center;">
+        <h5 style="margin-bottom: 5px; font-weight: bold;">System Code</h5>
+        
+        <ngx-barcode 
+            [bc-value]="selectedBarcodeValue" 
+            [bc-display-value]="true" 
+            [bc-format]="'CODE128'">
+        </ngx-barcode>
+        
+    </div>
   </modal-content>
   
   <modal-footer>
-     <!-- Print Button -->
-     <button
-        [printStyle]="{body : {'text-align': 'center', 'margin-top': '50px'}}"
-        class="btn btn-primary"
-        printTitle="System Barcode"
-        [useExistingCss]="true"
-        ngxPrint
-        printSectionId="print-barcode-section">
-        <i class="fa fa-print"></i> Print
+     <button class="btn btn-primary" 
+            [printStyle]="{body : {'text-align': 'center', 'margin-top': '50px'}}"
+            printTitle="System Barcode" 
+            [useExistingCss]="true" 
+            ngxPrint 
+            printSectionId="print-item-barcode">
+      <i class="fa fa-print"></i> Print
      </button>
      
-     <button class="btn btn-default" (click)="BarcodeModal.close()">Close</button>
+     <button type="button" class="btn btn-default" (click)="closeBarcodeModal()">Close</button>
   </modal-footer>
 </modal>

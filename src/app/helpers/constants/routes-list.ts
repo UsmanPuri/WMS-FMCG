@@ -145,6 +145,11 @@ export const PICKUP_TRANSFER_ORDER_CREATE = '/pickup-transfer-order/create';
 export const PICKUP_TRANSFER_ORDER_EDIT = '/pickup-transfer-order/edit';
 export const PICKUP_TRANSFER_ORDER_DETAIL = '/pickup-transfer-order/detail';
 
+// Shipment Note Warehouse Locator
+export const SHIPMENT_NOTE_WAREHOUSE_LOCATOR_LISTING = 'shipment-note-warehouse-locator';
+export const SHIPMENT_NOTE_WAREHOUSE_LOCATOR_CREATE = '/shipment-note-warehouse-locator/create';
+export const SHIPMENT_NOTE_WAREHOUSE_LOCATOR_EDIT = '/shipment-note-warehouse-locator/edit';
+
 // Customer Pickup order
 export const PICKUP_ORDER_LISTING = 'pickup-customer-order';
 export const PICKUP_ORDER_CREATE = '/pickup-customer-order/create';

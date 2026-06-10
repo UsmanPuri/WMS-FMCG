@@ -226,5 +226,11 @@ export class ItemListComponent extends BaseComponent {
       windowClass: 'modal-dialog'
     });
   }
+  closeBarcodeModal() {
+    if (this.modalRef) {
+      this.modalService.close(this.modalRef);
+      this.selectedBarcodeValue = ''; // Box wapis khali kar do
+    }
+  }
 
 } 

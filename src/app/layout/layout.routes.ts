@@ -105,6 +105,10 @@ const protectedRoutes: Routes = [
         loadChildren: "./content/shipment-note-moving-warehouse/shipment-note-moving-warehouse.module#ShipmentNoteMovingWarehouseModule"
       },
       {
+        path: ROUTE_LIST.SHIPMENT_NOTE_WAREHOUSE_LOCATOR_LISTING,
+        loadChildren: "./content/shipment-note-warehouse-locator/shipment-note-warehouse-locator.module#ShipmentNoteWarehouseLocatorModule"
+      },
+      {
         path: ROUTE_LIST.PALLET_LISTING,
         loadChildren: "./content/pallet/pallets.module#PalletsModule"
       },

@@ -80,6 +80,7 @@ export const LOCATION_KEYPAIR_BY_WAREHOUSE=`/Warehouse/LocationGetKeyPairByWareh
 export const LOCATION_BYView_BYWarehouse=`/Warehouse/LocationByViewByWarehouse`;
 export const LOCATION_SPACE_STATUS=`/Warehouse/LocationSpaceStatus/`;
 
+export const WAREHOUSE_GET_ASNID=`/Warehouse/WarehouseASNPallette`;
 export const STOCK_MOVEMENT_CREATE=`/Warehouse/CreateStockMovement`;
 export const STOCK_MOVEMENT_LIST=`/Warehouse/GetAllMovementStock`;
 export const WAREHOUSE_DELETE=`/Warehouse/DeleteWarehouse`;
@@ -166,6 +167,7 @@ export const SHIPMENT_NOTE_GET_ONE=`/ShipmentNote/GetById/`;
 export const SHIPMENT_NOTE_UPDATE=`/ShipmentNote/UpdateASN`;
 export const SHIPMENT_NOTE_MOVE=`/ShipmentNote/MoveASN`;
 export const SHIPMENT_NOTE_MOVE_WAREHOUSE=`/ShipmentNote/MoveASNWarehouse`;
+export const SHIPMENT_NOTE_LOCATOR_WAREHOUSE=`/ShipmentNote/LocatorASNWarehouse`;
 export const SHIPMENT_NOTE_BY_PARKING_ID=`/ShipmentNote/GetAllShipmentNotesByParkingingId`;
 export const CHECK_DUPLICATE_SN=`/ShipmentNote/CheckDuplicateSN`;
 export const CHECK_DUPLICATE_ASN=`/ShipmentNote/CheckDuplicateASN`;

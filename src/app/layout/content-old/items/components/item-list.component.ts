@@ -24,6 +24,7 @@ export class ItemListComponent extends BaseComponent {
   // Our future instance of DataTable
   dataTable: any;
   customerDropdownSettings = {};
+
   customerKeyPair: DropdownListDto[];
   selectedCustomer = {};
   public ItemList: any[] = [];
@@ -207,5 +208,12 @@ export class ItemListComponent extends BaseComponent {
       windowClass: 'modal-dialog'
     })
   }
-
+ 
+  
+// closeBarcodeModal() {
+//     if (this.modalRef) {
+//       this.modalService.close(this.modalRef);
+//       this.selectedBarcodeValue = ''; // Modal band hone par value clear kar dein
+//     }
+//   }
 }
